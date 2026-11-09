@@ -1,0 +1,23 @@
+[project]
+name = "f1-fantasy"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "requests",
+    "pandas",
+    "pyarrow",
+    "numpy",
+    "pyyaml",
+]
+
+[dependency-groups]
+dev = ["pytest"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+markers = [
+    "data: needs real data in data/raw",
+]
