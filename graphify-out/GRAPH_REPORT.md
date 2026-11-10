@@ -1,17 +1,17 @@
 # Graph Report - f1-fantasy  (2026-11-10)
 
 ## Corpus Check
-- 36 files · ~24,782 words
+- 43 files · ~32,657 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 3 file(s) not represented in the graph (top: (none) 1, .enc 1, .lock 1)
 
 ## Summary
-- 639 nodes · 1558 edges · 44 communities (40 shown, 4 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 12 edges (avg confidence: 0.94)
+- 801 nodes · 2071 edges · 46 communities (42 shown, 4 thin omitted)
+- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 36 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `af82835b`
+- Built from commit: `cb9ca845`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -22,8 +22,8 @@
 - test_scoring_gate.py
 - test_walkforward.py
 - vault.py
-- test_jolpica_pull.py
-- baseline_mu
+- test_kalman.py
+- pandas
 - json
 - constructor
 - constructor
@@ -49,7 +49,7 @@
 - transfers
 - teamwork
 - transfers
-- model.yaml
+- kalman
 - driver
 - driver
 - driver
@@ -57,20 +57,24 @@
 - disqualified
 - disqualified
 - f1-fantasy
+- test_tracks.py
+- build_sessions
 
 ## God Nodes (most connected - your core abstractions)
 1. `load_rules()` - 53 edges
 2. `build_races()` - 31 edges
 3. `optimize()` - 24 edges
-4. `write_jolpica()` - 22 edges
-5. `DriverLine` - 22 edges
-6. `_round_gate()` - 22 edges
+4. `DriverLine` - 22 edges
+5. `_round_gate()` - 22 edges
+6. `write_jolpica()` - 22 edges
 7. `schedule()` - 21 edges
-8. `gate_mismatches()` - 20 edges
-9. `run_season()` - 19 edges
-10. `build_prices_points()` - 18 edges
+8. `build_sessions()` - 20 edges
+9. `StrengthFilter` - 20 edges
+10. `run_practice()` - 20 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `predictor()` --calls--> `baseline_mu()`  [EXTRACTED]
+  tests/test_walkforward.py → src/features/rolling.py
 - `test_slugify_strips_accents()` --calls--> `slugify()`  [EXTRACTED]
   tests/test_build_tables.py → src/ingest/build_tables.py
 - `test_infeasible_raises()` --uses--> `InfeasibleTeam`  [INFERRED]
@@ -79,49 +83,47 @@
   tests/test_scoring.py → src/sim/scoring.py
 - `test_driver_line_real_shaped_race_row()` --calls--> `DriverLine`  [EXTRACTED]
   tests/test_ti_lines.py → src/sim/scoring.py
-- `test_qualifying_line_has_no_race_fields()` --calls--> `DriverLine`  [EXTRACTED]
-  tests/test_ti_lines.py → src/sim/scoring.py
 
 ## Import Cycles
 - None detected.
 
-## Communities (44 total, 4 thin omitted)
+## Communities (46 total, 4 thin omitted)
 
 ### Community 0 - "load_rules"
-Cohesion: 0.10
-Nodes (48): Asset, Decision, InfeasibleTeam, next_state(), optimize(), TeamState, _tenths(), _driver_points() (+40 more)
+Cohesion: 0.08
+Nodes (55): _actual_points(), main(), _max_solve(), RoundResult, SeasonResult, write_report(), Asset, Decision (+47 more)
 
 ### Community 1 - "crosscheck.py"
 Cohesion: 0.07
-Nodes (43): driver_code(), _blank_zero(), _constructor_lines(), finish_mismatches(), _jolpica_finishes(), _load(), _official_inconsistent(), _official_index() (+35 more)
+Nodes (42): driver_code(), _blank_zero(), _constructor_lines(), _jolpica_finishes(), _load(), _official_inconsistent(), _official_index(), _official_parts() (+34 more)
 
 ### Community 2 - "test_build_tables.py"
-Cohesion: 0.12
-Nodes (48): main(), _asset(), build_all(), build_prices_points(), build_races(), build_results(), _dedupe(), _load() (+40 more)
+Cohesion: 0.11
+Nodes (50): main(), _asset(), build_all(), build_prices_points(), build_races(), build_results(), _dedupe(), _known_after_delays() (+42 more)
 
 ### Community 3 - "test_scoring_gate.py"
 Cohesion: 0.13
-Nodes (35): gate_mismatches(), totals_mismatches(), official_row(), _points(), _races(), test_2023_sprint_withdrawal_excluded_from_constructor(), test_2025_phantom_row_under_other_team_excluded_from_constructor(), test_2026_asset_missing_from_official_feed_has_none_expected() (+27 more)
+Nodes (36): finish_mismatches(), gate_mismatches(), totals_mismatches(), official_row(), _points(), _races(), test_2023_sprint_withdrawal_excluded_from_constructor(), test_2025_phantom_row_under_other_team_excluded_from_constructor() (+28 more)
 
 ### Community 4 - "test_walkforward.py"
-Cohesion: 0.13
-Nodes (26): _actual_points(), main(), _max_solve(), RoundResult, run_season(), SeasonResult, write_report(), _frame() (+18 more)
+Cohesion: 0.22
+Nodes (20): run_season(), _frame(), _full_tables(), _kind(), _lock(), _mus(), _prices(), rules() (+12 more)
 
 ### Community 5 - "vault.py"
+Cohesion: 0.07
+Nodes (30): _get(), _rows(), snapshot_official(), _key(), main(), MissingKeyError, _openssl(), _openssl_enc() (+22 more)
+
+### Community 6 - "test_kalman.py"
 Cohesion: 0.13
-Nodes (16): _key(), main(), MissingKeyError, _openssl(), _openssl_enc(), seal(), _swap_in(), unseal() (+8 more)
+Nodes (25): _apply_grouped(), run_season(), StrengthFilter, constructor_level(), entity_var(), lock_of(), make_params(), make_races() (+17 more)
 
-### Community 6 - "test_jolpica_pull.py"
-Cohesion: 0.16
-Nodes (14): _fetch(), _get_page(), pull_jolpica(), empty_routes(), FakeResponse, FakeSession, page(), race() (+6 more)
-
-### Community 7 - "baseline_mu"
-Cohesion: 0.19
-Nodes (20): assert_known_before_lock(), LeakageError, baseline_mu(), frame(), test_guard_passes_at_lock(), test_guard_raises_after_lock(), lock(), mu_of() (+12 more)
+### Community 7 - "pandas"
+Cohesion: 0.10
+Nodes (53): assert_known_before_lock(), LeakageError, _compound_deltas(), _fit_stints(), _gap_pct(), _green_clean_mask(), _long_run(), _params() (+45 more)
 
 ### Community 8 - "json"
 Cohesion: 0.08
-Nodes (26): _check_member(), pull_mzafram(), pull_tracing_insights(), _get(), _rows(), snapshot_official(), _write(), body() (+18 more)
+Nodes (26): _check_member(), pull_mzafram(), pull_tracing_insights(), _write(), _fetch(), _get_page(), pull_jolpica(), body() (+18 more)
 
 ### Community 10 - "constructor"
 Cohesion: 0.20
@@ -219,9 +221,9 @@ Nodes (6): teamwork, both_q2, both_q3, neither_q2, one_q2, one_q3
 Cohesion: 0.33
 Nodes (6): transfers, carry_max, free, max_free, net, penalty
 
-### Community 34 - "model.yaml"
-Cohesion: 0.40
-Nodes (4): backtest, seasons, baseline, rolling_window
+### Community 34 - "kalman"
+Cohesion: 0.07
+Nodes (26): backtest, seasons, baseline, rolling_window, kalman, p0_car, p0_driver, prior_2025_weight (+18 more)
 
 ### Community 35 - "driver"
 Cohesion: 0.40
@@ -247,25 +249,33 @@ Nodes (4): disqualified, qualifying, race, sprint
 Cohesion: 0.50
 Nodes (4): disqualified, qualifying, race, sprint
 
+### Community 43 - "test_tracks.py"
+Cohesion: 0.17
+Nodes (20): blank_ratings(), _clean(), load_tracks(), main(), _parse_overtaking(), write_template(), _csv(), _races() (+12 more)
+
+### Community 44 - "build_sessions"
+Cohesion: 0.35
+Nodes (14): build_sessions(), by_code(), schedule(), test_fp1_before_sprint_qualifying_is_usable(), test_known_at_is_start_plus_configured_delay(), test_known_at_uses_config_delays_when_not_passed(), test_missing_time_raises_value_error_naming_round(), test_output_columns_and_season() (+6 more)
+
 ## Knowledge Gaps
 - **1 isolated node(s):** `f1-fantasy`
-  These have ≤1 connection - possible missing edges. (Counts symbols only; 248 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+  These have ≤1 connection - possible missing edges. (Counts symbols only; 288 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `load_rules()` connect `load_rules` to `test_scoring_gate.py`, `test_walkforward.py`?**
-  _High betweenness centrality (0.032) - this node is a cross-community bridge._
+  _High betweenness centrality (0.024) - this node is a cross-community bridge._
 - **What connects `f1-fantasy` to the rest of the system?**
   _1 weakly-connected nodes found - possible missing edges._
 - **Should `load_rules` be split into smaller, more focused modules?**
-  _Cohesion score 0.09995477159656264 - nodes in this community are weakly interconnected._
-- **Why does `build_races()` connect `test_build_tables.py` to `crosscheck.py`, `test_scoring_gate.py`?**
-  _High betweenness centrality (0.014) - this node is a cross-community bridge._
+  _Cohesion score 0.07784810126582278 - nodes in this community are weakly interconnected._
+- **Why does `build_races()` connect `test_build_tables.py` to `crosscheck.py`, `test_scoring_gate.py`, `pandas`?**
+  _High betweenness centrality (0.011) - this node is a cross-community bridge._
 - **Should `crosscheck.py` be split into smaller, more focused modules?**
-  _Cohesion score 0.07377049180327869 - nodes in this community are weakly interconnected._
-- **Why does `_write()` connect `json` to `vault.py`, `test_jolpica_pull.py`?**
+  _Cohesion score 0.07481005260081823 - nodes in this community are weakly interconnected._
+- **Why does `run_season()` connect `test_kalman.py` to `pandas`?**
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **Should `test_build_tables.py` be split into smaller, more focused modules?**
-  _Cohesion score 0.12404371584699453 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.11162314388120839 - nodes in this community are weakly interconnected._

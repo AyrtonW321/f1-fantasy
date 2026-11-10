@@ -22,3 +22,5 @@ Format: date, decision. Why.
 - 2026-11-09 Phase 2 tasks 6-8 were built in parallel with Phase 1 to save time, against the hard rule; recorded as a process breach.
 - 2026-11-10 graphify installed as a uv tool, not a project dependency, and the graph built code-only. No pyproject change, and no repo data goes to an LLM. graphify-out/ is committed; its per-session hook state (graphify-out/cache/hook_sessions/) is gitignored.
 - 2026-11-10 snapshot_official raises when the schedule feed fails instead of returning []. A silent empty run looked like success.
+- 2026-11-10 Phase 3 defaults chosen: laps stay out of the encrypted archive (re-downloadable, size); practice long-run uses a per-stint single-slope fit with session-wide compound offsets (spec's lap_number + tyre_age terms are collinear within a stint); Phase 3 tunes nothing and never touches 2026; fastf1 added as a dependency. Why: smaller archive, an identifiable fit, an untouched hold-out, and fastf1 is on the spec's list.
+- 2026-11-10 Adding fastf1 moved pandas from 3.1.1 to 2.3.3 (fastf1 3.9.2 needs pandas < 3). Existing suite passes unchanged. Revisit if a later dependency needs pandas 3.

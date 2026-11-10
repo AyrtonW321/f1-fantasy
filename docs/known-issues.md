@@ -21,3 +21,11 @@
 - True sprint-weekend lock time unverified; cutoff uses the first competitive session.
 - graphify hooks in .claude/settings.json call /root/.local/bin/graphify; on another machine install graphify (uv tool install graphifyy) or the hooks do nothing useful.
 - The cloud session has no F1_DATA_KEY and cannot reach fantasy.formula1.com, so data tests (-m data) and re-snapshots must run elsewhere.
+- Phase 3 (built 2026-11-10, fixtures only, never run on real data): build_sessions assumes real Jolpica races.json carries FirstPractice/SecondPractice/ThirdPractice with times (Task 9 step 1 not done: needs F1_DATA_KEY). build_all now calls it, so a practice entry without `time` raises ValueError and stops the table build.
+- build_sessions would emit two SQ rows if a schedule listed both SprintQualifying and SprintShootout; untested, not expected in 2023-2026.
+- tracks.csv does not exist yet: the template needs data/processed/races.parquet (run `python -m src.ingest.tracks --template` after build_data), then the user fills the ratings.
+- Kalman: q_first_round_multiplier has no effect at round 1 because no entities exist before the first update (new entities enter with p0). p0_car is the season-start uncertainty knob. Decide in Phase 5 whether to move the bump.
+- Kalman: with two drivers per car only the within-team phi gap is identified; the shared part sits in theta, so phi values are not absolute (phi of a lone driver near 0.25-0.3 when truth is 0.5 in the team-move test).
+- pace: the practice long-run alpha is the pace at the first kept lap of a stint; stints on a compound no other driver ran are dropped (no estimable offset). Sprint weekends have no FP2, so long-run values are NaN there by design.
+- pace: a driver's practice known_at is the max over every usable practice session carrying his laps, even one that contributed nothing (conservative, never earlier than the data used).
+- Phase 3 Task 10 (FastF1 laps ingest) and Task 14 (acceptance) are not built; both need network and F1_DATA_KEY.

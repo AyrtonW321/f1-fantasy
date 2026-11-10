@@ -9,6 +9,7 @@ dependencies = [
     "numpy",
     "pyyaml",
     "pulp>=3.3.2,<4",
+    "fastf1>=3.9.2",
 ]
 
 [dependency-groups]

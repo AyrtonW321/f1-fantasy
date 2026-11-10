@@ -7,9 +7,11 @@ from collections.abc import Sequence
 from pathlib import Path
 
 import pandas as pd
+import yaml
 
 from src.ingest.codes import driver_code
 
+MODEL_CONFIG = Path(__file__).resolve().parents[2] / "config" / "model.yaml"
 SLUG_ALIASES = {
     "bahrain-grand-prix-in-malaysia": "bahrain-grand-prix",
     "brazilian-grand-prix": "sao-paulo-grand-prix",
@@ -26,6 +28,17 @@ RACE_COLS = ["season", "round", "slug", "ti_slug_round", "sprint", "lock_utc", "
 PRICE_COLS = ["season", "round", "asset_id", "kind", "price", "known_at", "source"]
 POINT_COLS = ["season", "round", "asset_id", "kind", "qualifying", "sprint", "race", "total", "known_at", "source"]
 RESULT_COLS = ["season", "round", "session", "driver_code", "constructor_id", "position", "grid", "status", "known_at"]
+SESSION_CODES = {
+    "FirstPractice": "FP1",
+    "SecondPractice": "FP2",
+    "ThirdPractice": "FP3",
+    "Qualifying": "Q",
+    "SprintQualifying": "SQ",
+    "SprintShootout": "SQ",
+    "Sprint": "S",
+}
+SESSION_TYPES = {"FP1": "practice", "FP2": "practice", "FP3": "practice", "Q": "qualifying", "SQ": "qualifying", "S": "sprint", "R": "race"}
+SESSION_COLS = ["season", "round", "session", "start_utc", "known_at", "usable_pre_lock"]
 PARTICIPATION_FIELDS = ("racePosition", "qualifyingPosition", "sprintPosition")
 
 
@@ -225,9 +238,54 @@ def build_results(season: int, raw_dir: Path) -> pd.DataFrame:
     return results
 
 
+def _session_start_utc(season: int, round_no: int, name: str, session: dict) -> pd.Timestamp:
+    if "time" not in session:
+        raise ValueError(f"{season} round {round_no} {name} has no time on the schedule")
+    return _utc(session)
+
+
+def _known_after_delays(path: Path = MODEL_CONFIG) -> dict[str, int]:
+    model = yaml.safe_load(path.read_text(encoding="utf-8"))
+    return model["sessions"]["known_after_start_minutes"]
+
+
+def build_sessions(season: int, raw_dir: Path, delays: dict[str, int] | None = None) -> pd.DataFrame:
+    """One row per scheduled session. known_at = start + delay by type; usable_pre_lock = known_at <= round lock."""
+    if delays is None:
+        delays = _known_after_delays()
+    rows = []
+    for race in _load(raw_dir / "jolpica" / str(season) / "races.json"):
+        round_no = int(race["round"])
+        starts = [
+            (SESSION_CODES[key], _session_start_utc(season, round_no, key, race[key]))
+            for key in SESSION_CODES if key in race
+        ]
+        starts.append(("R", _session_start_utc(season, round_no, "race", race)))
+        locks = [_lock_utc(season, round_no, key, race[key]) for key in LOCK_SESSIONS if key in race]
+        if not locks:
+            raise ValueError(f"{season} round {round_no} has no lock session on the schedule")
+        lock = min(locks)
+        for code, start in starts:
+            known_at = start + pd.Timedelta(minutes=delays[SESSION_TYPES[code]])
+            rows.append({
+                "season": season,
+                "round": round_no,
+                "session": code,
+                "start_utc": start,
+                "known_at": known_at,
+                "usable_pre_lock": known_at <= lock,
+            })
+    sessions = pd.DataFrame(rows, columns=SESSION_COLS).astype({"usable_pre_lock": bool})
+    sessions = sessions.assign(
+        start_utc=lambda df: pd.to_datetime(df["start_utc"], utc=True),
+        known_at=lambda df: pd.to_datetime(df["known_at"], utc=True),
+    )
+    return sessions.sort_values(["round", "start_utc"], ignore_index=True)
+
+
 def build_all(raw_dir: Path, out_dir: Path, seasons: Sequence[int]) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
-    tables: dict[str, list[pd.DataFrame]] = {"races": [], "prices": [], "fantasy_points": [], "results": []}
+    tables: dict[str, list[pd.DataFrame]] = {"races": [], "prices": [], "fantasy_points": [], "results": [], "sessions": []}
     for season in seasons:
         races = build_races(season, raw_dir)
         prices, points = build_prices_points(season, races, raw_dir)
@@ -235,5 +293,6 @@ def build_all(raw_dir: Path, out_dir: Path, seasons: Sequence[int]) -> None:
         tables["prices"].append(prices)
         tables["fantasy_points"].append(points)
         tables["results"].append(build_results(season, raw_dir))
+        tables["sessions"].append(build_sessions(season, raw_dir))
     for name, frames in tables.items():
         pd.concat(frames, ignore_index=True).to_parquet(out_dir / f"{name}.parquet", index=False)

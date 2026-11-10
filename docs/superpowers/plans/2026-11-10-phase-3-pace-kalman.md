@@ -13,12 +13,12 @@
 - Tasks 9 (offline parts), 11, 12, 13 are fully testable with hand-written fixtures. They run anywhere, including the cloud container.
 - Task 10 (real pull) and Task 14 (acceptance) need network access to the FastF1 backend and `F1_DATA_KEY` to unseal `data/raw`. The cloud container has neither; run them on the user's machine or a session with the key and open network.
 
-## Decisions to confirm before Task 9 (recommended default first)
+## Decisions (confirmed 2026-11-10: user chose the recommended default for all four)
 
 1. **Laps are not put in the encrypted archive.** FastF1 laps for 2023-2026 are re-downloadable and large; the archive must stay under 95 MB and every re-seal adds a full blob to history. Keep the FastF1 cache outside the repo (`FASTF1_CACHE`, outside OneDrive) and `laps.parquet` in gitignored `data/processed/`. Cost: reproducibility depends on FastF1's backend staying available.
 2. **Practice long-run pace deviates from the spec's literal formula.** Spec: `lap_time = alpha + beta*lap_number + gamma_compound*tyre_age` per stint. Inside one stint on a fresh set, `lap_number` and `tyre_age` move together, so beta and gamma cannot be separated. Plan: per stint fit `lap_time = alpha + beta*lap_in_stint` (beta absorbs fuel burn plus degradation), use alpha as the pace, and correct compounds with session-wide offsets `delta_compound` estimated from drivers who ran two or more compounds. Test checks the fit is full rank.
 3. **2026 is not touched.** Phase 3 tunes nothing and evaluates on 2023-2025 only. Parameters are fixed starting values; tuning is Phase 5.
-4. **`fastf1` is added as a dependency now.** It is on the spec's list, so no extra approval is needed; `uv.lock` changes. No `scipy` or `statsmodels`: the filter and regressions use numpy only.
+4. **`fastf1` is added as a dependency now.** It is on the spec's list, so no extra approval is needed; `uv.lock` changes. No `scipy` or `statsmodels`: the filter and regressions use numpy only. Side effect seen on 2026-11-10: `fastf1` 3.9.2 requires pandas below 3, so pandas moved from 3.1.1 to 2.3.3. The 141 existing tests still pass.
 
 ## Facts the design rests on
 
@@ -66,6 +66,7 @@ pace:
 kalman:
   q_car: 0.0225                # per-round random-walk variance of car strength, pct^2
   q_driver: 0.0001
+  q_first_round_multiplier: 1.0   # manual bump of q_car at the first round of a season
   p0_car: 1.0
   p0_driver: 0.04
   sigma: {race: 0.25, qualifying: 0.20, practice_long_run: 0.50, practice_short_run: 0.60}

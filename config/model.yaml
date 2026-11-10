@@ -1,2 +1,16 @@
 baseline: {rolling_window: 5}
 backtest: {seasons: [2023, 2024, 2025, 2026]}
+sessions:
+  known_after_start_minutes: {practice: 120, qualifying: 120, sprint: 120, race: 360}
+pace:
+  long_run_min_laps: 6
+  slow_lap_cutoff: 1.07        # drop laps slower than 107% of the driver's median in the stint
+  race_clean_laps_min: 15
+kalman:
+  q_car: 0.0225                # per-round random-walk variance of car strength, pct^2
+  q_driver: 0.0001
+  q_first_round_multiplier: 1.0
+  p0_car: 1.0
+  p0_driver: 0.04
+  sigma: {race: 0.25, qualifying: 0.20, practice_long_run: 0.50, practice_short_run: 0.60}
+  prior_2025_weight: 0.0       # off by default; enabled only if Phase 5 shows it helps on 2023-2025

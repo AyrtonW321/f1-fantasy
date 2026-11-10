@@ -5,8 +5,8 @@
   "3": "test_scoring_gate.py",
   "4": "test_walkforward.py",
   "5": "vault.py",
-  "6": "test_jolpica_pull.py",
-  "7": "baseline_mu",
+  "6": "test_kalman.py",
+  "7": "pandas",
   "8": "json",
   "9": "Session",
   "10": "constructor",
@@ -33,7 +33,7 @@
   "31": "transfers",
   "32": "teamwork",
   "33": "transfers",
-  "34": "model.yaml",
+  "34": "kalman",
   "35": "driver",
   "36": "driver",
   "37": "driver",
@@ -42,5 +42,7 @@
   "40": "disqualified",
   "41": "test_smoke.py",
   "42": "f1-fantasy",
-  "43": "DataFrame"
+  "43": "test_tracks.py",
+  "44": "build_sessions",
+  "45": "DataFrame"
 }
