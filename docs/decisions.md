@@ -20,3 +20,5 @@ Format: date, decision. Why.
 - 2026-11-09 mzafram totals are joined by Jolpica round, not TI roundNumber (TI runs one ahead in 2023 from Monaco).
 - 2026-11-09 Baseline reports (reports/baseline_*.md) are gitignored: they are derived from fantasy data that must not appear in git as plaintext.
 - 2026-11-09 Phase 2 tasks 6-8 were built in parallel with Phase 1 to save time, against the hard rule; recorded as a process breach.
+- 2026-11-10 graphify installed as a uv tool, not a project dependency, and the graph built code-only. No pyproject change, and no repo data goes to an LLM. graphify-out/ is committed; its per-session hook state (graphify-out/cache/hook_sessions/) is gitignored.
+- 2026-11-10 snapshot_official raises when the schedule feed fails instead of returning []. A silent empty run looked like success.

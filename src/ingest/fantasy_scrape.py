@@ -45,7 +45,9 @@ def snapshot_official(out_dir: Path, http: requests.Session) -> list[Path]:
     raceday = _get(http, "schedule/raceday_en.json")
     rows = _rows(raceday)
     if not rows:
-        return []
+        raise RuntimeError(
+            "schedule feed could not be fetched (schedule/raceday_en.json failed or empty); nothing was snapshotted"
+        )
     season = max(int(r["Season"]) for r in rows)
     last_gameday = max(int(r["GamedayId"]) for r in rows)
     base = out_dir / "official" / str(season)

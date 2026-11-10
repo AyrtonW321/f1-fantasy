@@ -169,6 +169,17 @@ def test_missing_session_time_raises(tmp_path):
         build_races(2026, tmp_path)
 
 
+def test_missing_race_time_raises(tmp_path):
+    # Lock sessions have full times, but the race entry has a date and no time.
+    race = schedule(1, "Australian Grand Prix", "2026-03-08", "04:00:00Z",
+                    Qualifying=("2026-03-07", "05:00:00Z"))
+    del race["time"]
+    write_jolpica(tmp_path, 2026, [race], results={})
+    with pytest.raises(ValueError, match="round 1") as excinfo:
+        build_races(2026, tmp_path)
+    assert "race" in str(excinfo.value)
+
+
 def test_unplayed_round_has_no_points_rows(tmp_path):
     write_jolpica(tmp_path, 2026, [
         schedule(1, "Bahrain Grand Prix", "2026-04-12", "15:00:00Z", Qualifying=("2026-04-11", "15:00:00Z")),

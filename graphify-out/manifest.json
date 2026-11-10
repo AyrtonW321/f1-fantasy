@@ -60,10 +60,10 @@
     "semantic_hash": "4f8b3a179eb8a40a72b2573f1ba4dcd5"
   },
   "src/ingest/build_tables.py": {
-    "mtime": 1794319138.2389517,
-    "seen": 1794319213.0743234,
-    "ast_hash": "a1e916c178f3ee148e5c48ad2063faca",
-    "semantic_hash": "a1e916c178f3ee148e5c48ad2063faca"
+    "mtime": 1794333897.0568342,
+    "seen": 1794333933.3933325,
+    "ast_hash": "2f4320bd783babdc0b14ab2f5ac80afd",
+    "semantic_hash": ""
   },
   "src/ingest/codes.py": {
     "mtime": 1794319138.2390728,
@@ -84,10 +84,10 @@
     "semantic_hash": "3559142160d8345416ef254c69c3cf34"
   },
   "src/ingest/fantasy_scrape.py": {
-    "mtime": 1794319138.2390728,
-    "seen": 1794319213.0743296,
-    "ast_hash": "60ccfe78919a203d8d99e889bca916b3",
-    "semantic_hash": "60ccfe78919a203d8d99e889bca916b3"
+    "mtime": 1794333894.180834,
+    "seen": 1794333933.393339,
+    "ast_hash": "41752036c80ab24675305d7ed3d63aac",
+    "semantic_hash": ""
   },
   "src/ingest/jolpica_pull.py": {
     "mtime": 1794319138.2390728,
@@ -126,10 +126,10 @@
     "semantic_hash": "ea409807f8cf9d233c592ca8133f2a3a"
   },
   "tests/test_build_tables.py": {
-    "mtime": 1794319138.2395256,
-    "seen": 1794319213.0743406,
-    "ast_hash": "5e404533baf0932e1a8b3fd75c06b174",
-    "semantic_hash": "5e404533baf0932e1a8b3fd75c06b174"
+    "mtime": 1794333680.5008214,
+    "seen": 1794333933.3933485,
+    "ast_hash": "154b7f0caecff58f27c13ce589cb58cf",
+    "semantic_hash": ""
   },
   "tests/test_codes.py": {
     "mtime": 1794319138.2395256,
@@ -144,10 +144,10 @@
     "semantic_hash": "9d6796abf2b1ed2b058af33edcc3b5a6"
   },
   "tests/test_fantasy_scrape.py": {
-    "mtime": 1794319138.2395256,
-    "seen": 1794319213.074345,
-    "ast_hash": "1a3aa819a573c278bdd2adecc63db304",
-    "semantic_hash": "1a3aa819a573c278bdd2adecc63db304"
+    "mtime": 1794333681.1048212,
+    "seen": 1794333933.3933523,
+    "ast_hash": "6a6a6f55419e864fd408a2864a8e8726",
+    "semantic_hash": ""
   },
   "tests/test_guard.py": {
     "mtime": 1794319138.2395256,
@@ -208,5 +208,65 @@
     "seen": 1794319213.0743585,
     "ast_hash": "fccd623101aebbe41c869ccaaa98ae36",
     "semantic_hash": "fccd623101aebbe41c869ccaaa98ae36"
+  },
+  ".claude/settings.json": {
+    "mtime": 1794325916.6389568,
+    "seen": 1794333933.3933022,
+    "ast_hash": "8eafe95f2f857d090df6c04324b234d1",
+    "semantic_hash": ""
+  },
+  ".claude/agents/builder.md": {
+    "mtime": 1794319138.2346609,
+    "seen": 1794333933.3933668,
+    "ast_hash": "dc4f171d76b3ae10430a43bd1a003c46",
+    "semantic_hash": ""
+  },
+  ".claude/agents/reviewer.md": {
+    "mtime": 1794319138.2347744,
+    "seen": 1794333933.393368,
+    "ast_hash": "dc7db91eaf41d15be020947e700491c5",
+    "semantic_hash": ""
+  },
+  ".claude/skills/reflect/SKILL.md": {
+    "mtime": 1794319138.2348378,
+    "seen": 1794333933.3933687,
+    "ast_hash": "9d83e8bae4d86b744ba36a117bfca22b",
+    "semantic_hash": ""
+  },
+  "CLAUDE.md": {
+    "mtime": 1794325916.6389568,
+    "seen": 1794333933.39337,
+    "ast_hash": "83ec9283146be62e20082d63b487f2be",
+    "semantic_hash": ""
+  },
+  "docs/decisions.md": {
+    "mtime": 1794333691.6577823,
+    "seen": 1794333933.3933709,
+    "ast_hash": "38cc5859d728be12de2d1e9cb0aacc6a",
+    "semantic_hash": ""
+  },
+  "docs/known-issues.md": {
+    "mtime": 1794333691.6586823,
+    "seen": 1794333933.3933718,
+    "ast_hash": "68ce9d38250256b4a3e7192863208822",
+    "semantic_hash": ""
+  },
+  "docs/progress.md": {
+    "mtime": 1794333691.6569653,
+    "seen": 1794333933.3933733,
+    "ast_hash": "3ed2450f4c27579b877e0e6d3c216ca1",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/plans/2026-11-09-f1-fantasy-optimizer.md": {
+    "mtime": 1794319138.2384667,
+    "seen": 1794333933.3933752,
+    "ast_hash": "9e8558bc39042cbefc8d0d00bd4489ad",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/specs/2026-11-09-f1-fantasy-optimizer.md": {
+    "mtime": 1794319138.2384667,
+    "seen": 1794333933.393376,
+    "ast_hash": "8c76081db5e23a674af98f2ca55a96ad",
+    "semantic_hash": ""
   }
 }

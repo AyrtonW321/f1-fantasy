@@ -7,7 +7,7 @@
 - TracingInsights 2023 roundNumber is one ahead of Jolpica from Monaco on; join on slug.
 - TI lists non-participants (2026 Mexico: TSU under VRB); count only drivers in Jolpica results.
 - Official 2026 feeds may vanish when the 2027 game launches: snapshot first.
-- snapshot_official returns nothing silently when the schedule feed fails on a network error; check the printed "wrote N files" line (61 on a good run).
+- snapshot_official now raises if the schedule feed fails; a partial run (some per-player feeds skipped) is still silent, so check the printed "wrote N files" line (61 on a good run).
 - Official feed lists 37 players in the latest gameday, 33 in gameday 1; the extra rows are not yet explained.
 - Gate exception: 2025 Spanish GP race, AST. TI's team total includes a withdrawn driver's -20 there; the 2023 Azerbaijan sprint WIL row has the same shape and TI excludes it. Pinned in KNOWN_SOURCE_EXCEPTIONS (tests/test_scoring_gate.py); the data test fails if any other row mismatches or this one stops.
 - Official 2026 round 6 (Monaco): for 9 assets the official session points do not add up to the feed's own GamedayPoints. build_tables uses the TI row (which matches GamedayPoints); the gate records them as anomalies. If no TI row matches, the official row is kept unflagged.
@@ -16,7 +16,8 @@
 - mzafram cross-check (report-only): 2023 round 4 SAR (ours -20, mzafram 0, the WD sprint line) and round 13 ALT (ours 36, mzafram 40) differ; 2024-2026 match exactly. mzafram files are numbered by Jolpica round, not TI roundNumber.
 - Finish positions differ between TI and Jolpica for 2023 Qatar sprint (ZHO, STR, MAG) and 2025 Emilia-Romagna qualifying (BEA), likely post-race penalty reclassification. The data test allows at most 10 per season and writes data/processed/finish_mismatches.csv.
 - Fallback to a TI row also takes TI's price; in the real data all nine prices equal the official ones.
-- A race entry missing its `time` raises a plain KeyError in build_races (only lock sessions raise a clear ValueError).
 - pulp is pinned below 4: version 4 drops the bundled CBC solver and the LpVariable API.
 - Process: Phase 2 was committed before the Phase 1 gate passed (see progress log).
 - True sprint-weekend lock time unverified; cutoff uses the first competitive session.
+- graphify hooks in .claude/settings.json call /root/.local/bin/graphify; on another machine install graphify (uv tool install graphifyy) or the hooks do nothing useful.
+- The cloud session has no F1_DATA_KEY and cannot reach fantasy.formula1.com, so data tests (-m data) and re-snapshots must run elsewhere.
