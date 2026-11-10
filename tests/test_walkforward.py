@@ -2,6 +2,7 @@ import pandas as pd
 import pytest
 
 from src.backtest.walkforward import SeasonResult, run_season, write_report
+from src.features.rolling import baseline_mu
 from src.sim.scoring import _rule, load_rules
 
 SEASON = 2026
@@ -152,3 +153,51 @@ def test_report_prints_assumptions(tmp_path):
     assert "Assumed rules:" in text
     for rule in assumed:
         assert rule in text
+
+
+WINDOW = 5
+LOCK_0 = pd.Timestamp("2026-03-01T12:00:00Z")
+
+
+def _lock(r):
+    return LOCK_0 + pd.Timedelta(days=7 * (r - 1))
+
+
+def _full_tables():
+    # Every round completed. Points are known one day after each lock, so they are
+    # known before the next round's lock only.
+    races = pd.DataFrame({"season": SEASON, "round": ROUNDS, "completed": True,
+                          "lock_utc": [_lock(r) for r in ROUNDS]})
+    prices = pd.DataFrame([{"season": SEASON, "round": r, "asset_id": a, "kind": _kind(a), "price": p}
+                           for r in ROUNDS for a, p in _prices(r).items()])
+    points = pd.DataFrame([{"season": SEASON, "round": r, "asset_id": a, "kind": _kind(a),
+                            "total": _total(r, a), "known_at": _lock(r) + pd.Timedelta(days=1)}
+                           for r in ROUNDS for a in _prices(r)])
+    return {"races": races, "prices": prices, "fantasy_points": points}
+
+
+def test_earlier_decisions_ignore_later_data(rules):
+    def predictor(tables):
+        return lambda season, r: baseline_mu(tables["prices"], tables["fantasy_points"],
+                                             tables["races"], season, r, WINDOW)
+
+    tables = _full_tables()
+    first = run_season(SEASON, tables, rules, predictor(tables))
+
+    # Wild round-5 values: points for a driver picked in round 5, and a price for another driver.
+    scored = first.rounds[4].decision.drivers[0]
+    priced = next(d for d in DRIVERS if d != scored)
+    changed = _full_tables()
+    fp = changed["fantasy_points"]
+    fp.loc[(fp["round"] == 5) & (fp["asset_id"] == scored), "total"] = 9999.0
+    pr = changed["prices"]
+    pr.loc[(pr["round"] == 5) & (pr["asset_id"] == priced), "price"] = 999.0
+    second = run_season(SEASON, changed, rules, predictor(changed))
+
+    for before, after in zip(first.rounds[:4], second.rounds[:4]):
+        assert after.round == before.round
+        assert after.decision == before.decision
+        assert after.actual_points == before.actual_points
+    # The wild values reached round 5, so the comparison above is not vacuous.
+    assert ((second.rounds[4].decision, second.rounds[4].actual_points)
+            != (first.rounds[4].decision, first.rounds[4].actual_points))

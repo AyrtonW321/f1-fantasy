@@ -182,3 +182,17 @@ def test_infeasible_raises():
     field += [Asset("C0", "constructor", 5.0, 1.0), Asset("C1", "constructor", 5.0, 1.0)]
     with pytest.raises(InfeasibleTeam):
         optimize(field, None, load_rules(2026))
+
+
+def test_results_repeatable():
+    rules = load_rules(2026)
+    field = make_field()
+    first = optimize(field, None, rules)
+    assert optimize(field, None, rules) == first
+    assert optimize(list(reversed(field)), None, rules) == first
+    # Tied field: many equal optima, so the answer must come from the fixed id order alone.
+    tied = [Asset(f"T{i:02d}", "driver", 8.0, 10.0) for i in range(10)]
+    tied += [Asset(f"U{j:02d}", "constructor", 10.0, 5.0) for j in range(4)]
+    first_tied = optimize(tied, None, rules)
+    assert optimize(tied, None, rules) == first_tied
+    assert optimize(list(reversed(tied)), None, rules) == first_tied

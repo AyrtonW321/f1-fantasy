@@ -98,7 +98,7 @@ def test_ti_2023_round_offset_joins_on_slug(tmp_path):
     write_jolpica(tmp_path, 2023, [
         schedule(6, "Monaco Grand Prix", "2023-05-28", "13:00:00Z", Qualifying=("2023-05-27", "14:00:00Z")),
     ], results={6: []})
-    write_ti(tmp_path, 2023, "monaco-grand-prix", 7, race_all=[ti_driver("MCL", "NOR", 20.0, 10)])
+    write_ti(tmp_path, 2023, "monaco-grand-prix", 7, race_all=[ti_driver("TMA", "ZZA", 14.3, 10)])
     races = build_races(2023, tmp_path)
     prices, _ = build_prices_points(2023, races, tmp_path)
     assert races.loc[0, "ti_slug_round"] == 7
@@ -158,14 +158,25 @@ def test_race_without_lock_session_raises(tmp_path):
         build_races(2026, tmp_path)
 
 
+def test_missing_session_time_raises(tmp_path):
+    # Every lock session has a date but no time, so no lock can be computed.
+    race = schedule(1, "Australian Grand Prix", "2026-03-08", "04:00:00Z")
+    race["Qualifying"] = {"date": "2026-03-07"}
+    race["SprintQualifying"] = {"date": "2026-03-06"}
+    race["Sprint"] = {"date": "2026-03-07"}
+    write_jolpica(tmp_path, 2026, [race], results={})
+    with pytest.raises(ValueError, match="round 1"):
+        build_races(2026, tmp_path)
+
+
 def test_unplayed_round_has_no_points_rows(tmp_path):
     write_jolpica(tmp_path, 2026, [
         schedule(1, "Bahrain Grand Prix", "2026-04-12", "15:00:00Z", Qualifying=("2026-04-11", "15:00:00Z")),
         schedule(2, "Saudi Arabian Grand Prix", "2026-04-19", "17:00:00Z", Qualifying=("2026-04-18", "17:00:00Z")),
         schedule(3, "Japanese Grand Prix", "2026-03-29", "05:00:00Z", Qualifying=("2026-03-28", "06:00:00Z")),
     ], results={1: []})
-    write_ti(tmp_path, 2026, "bahrain-grand-prix", 1, race_all=[ti_driver("RED", "VER", 20.0, 25)])
-    write_ti(tmp_path, 2026, "saudi-arabian-grand-prix", 2, race_all=[ti_driver("RED", "VER", 20.0, 0)])
+    write_ti(tmp_path, 2026, "bahrain-grand-prix", 1, race_all=[ti_driver("TMA", "ZZA", 14.3, 25)])
+    write_ti(tmp_path, 2026, "saudi-arabian-grand-prix", 2, race_all=[ti_driver("TMA", "ZZA", 14.3, 0)])
     races = build_races(2026, tmp_path)
     prices, points = build_prices_points(2026, races, tmp_path)
     by_round = races.set_index("round")
@@ -180,13 +191,13 @@ def test_team_change_is_one_asset(tmp_path):
         schedule(2, "Chinese Grand Prix", "2025-03-23", "07:00:00Z", Qualifying=("2025-03-22", "07:00:00Z")),
         schedule(3, "Japanese Grand Prix", "2025-04-06", "05:00:00Z", Qualifying=("2025-04-05", "06:00:00Z")),
     ], results={2: [], 3: []})
-    write_ti(tmp_path, 2025, "chinese-grand-prix", 2, race_all=[ti_driver("RED", "LAW", 7.8, 4)])
-    write_ti(tmp_path, 2025, "japanese-grand-prix", 3, race_all=[ti_driver("VRB", "LAW", 7.8, 6)])
+    write_ti(tmp_path, 2025, "chinese-grand-prix", 2, race_all=[ti_driver("TMA", "ZZB", 6.1, 4)])
+    write_ti(tmp_path, 2025, "japanese-grand-prix", 3, race_all=[ti_driver("TMB", "ZZB", 6.1, 6)])
     races = build_races(2025, tmp_path)
     prices, points = build_prices_points(2025, races, tmp_path)
-    assert set(prices["asset_id"]) == {"LAW"}
+    assert set(prices["asset_id"]) == {"ZZB"}
     assert points["round"].tolist() == [2, 3]
-    assert set(points["asset_id"]) == {"LAW"}
+    assert set(points["asset_id"]) == {"ZZB"}
 
 
 def test_duplicate_driver_keeps_row_with_points(tmp_path):
@@ -194,15 +205,15 @@ def test_duplicate_driver_keeps_row_with_points(tmp_path):
         schedule(5, "Miami Grand Prix", "2026-05-03", "20:00:00Z", Qualifying=("2026-05-02", "20:00:00Z")),
     ], results={5: []})
     write_ti(tmp_path, 2026, "miami-grand-prix", 5, race_all=[
-        ti_driver("FER", "BEA", 5.0, 0),
-        ti_driver("HAA", "BEA", 5.5, 12),
+        ti_driver("TMA", "ZZC", 3.3, 0),
+        ti_driver("TMB", "ZZC", 4.4, 13),
     ])
     races = build_races(2026, tmp_path)
     prices, points = build_prices_points(2026, races, tmp_path)
-    bea = points[points["asset_id"] == "BEA"]
-    assert len(bea) == 1
-    assert bea["total"].tolist() == [12.0]
-    assert prices.loc[prices["asset_id"] == "BEA", "price"].tolist() == [5.5]
+    zzc = points[points["asset_id"] == "ZZC"]
+    assert len(zzc) == 1
+    assert zzc["total"].tolist() == [13.0]
+    assert prices.loc[prices["asset_id"] == "ZZC", "price"].tolist() == [4.4]
 
 
 def test_duplicate_tie_keeps_last_row(tmp_path):
@@ -210,8 +221,8 @@ def test_duplicate_tie_keeps_last_row(tmp_path):
         schedule(5, "Miami Grand Prix", "2026-05-03", "20:00:00Z", Qualifying=("2026-05-02", "20:00:00Z")),
     ], results={5: []})
     write_ti(tmp_path, 2026, "miami-grand-prix", 5, race_all=[
-        ti_driver("RED", "XXX", 4.0, 5),
-        ti_driver("VRB", "XXX", 6.0, 5),
+        ti_driver("TMA", "ZZD", 4.0, 5),
+        ti_driver("TMB", "ZZD", 6.0, 5),
     ])
     races = build_races(2026, tmp_path)
     prices, points = build_prices_points(2026, races, tmp_path)
@@ -220,84 +231,86 @@ def test_duplicate_tie_keeps_last_row(tmp_path):
 
 
 def test_phantom_row_loses_to_participating_row(tmp_path):
-    # 2025 Bahrain shape: RED_LAW is a phantom (-25, no positions); VRB_LAW raced (11, P16).
+    # RED_LAW shape: phantom row with a large negative total and no positions.
+    # VRB_LAW shape: real row with a small positive total and a race position.
     write_jolpica(tmp_path, 2025, [
         schedule(4, "Bahrain Grand Prix", "2025-04-13", "15:00:00Z", Qualifying=("2025-04-12", "15:00:00Z")),
     ], results={4: []})
     write_ti(tmp_path, 2025, "bahrain-grand-prix", 4, race_all=[
-        ti_driver("RED", "LAW", 16.8, -25),
-        ti_driver("VRB", "LAW", 7.8, 11, position="16"),
+        ti_driver("TMA", "ZZE", 9.9, -31),
+        ti_driver("TMB", "ZZE", 3.7, 7, position="16"),
     ])
     races = build_races(2025, tmp_path)
     prices, points = build_prices_points(2025, races, tmp_path)
-    law = points.set_index("asset_id").loc["LAW"]
-    assert law["total"] == 11.0
-    assert law["source"] == "tracinginsights"
-    assert prices["price"].tolist() == [7.8]
+    zze = points.set_index("asset_id").loc["ZZE"]
+    assert zze["total"] == 7.0
+    assert zze["source"] == "tracinginsights"
+    assert prices["price"].tolist() == [3.7]
 
 
 def test_official_active_row_wins_unplayed_duplicate(tmp_path):
-    # Round 21 shape: both LAW rows total 0. The active row (IsActive "1") must win over the last row.
+    # Both rows total 0. The active row (IsActive "1") must win over the last row.
     write_jolpica(tmp_path, 2026, [
         schedule(21, "Las Vegas Grand Prix", "2026-11-22", "04:00:00Z", Qualifying=("2026-11-21", "04:00:00Z")),
     ], results={})
     write_official(tmp_path, 2026, 21, [
-        off_row("LAW", "DRIVER", 11.7, quali="", sprint="", race="", is_active="1"),
-        off_row("LAW", "DRIVER", 15.1, quali="", sprint="", race="", is_active="0"),
+        off_row("ZZJ", "DRIVER", 5.5, quali="", sprint="", race="", is_active="1"),
+        off_row("ZZJ", "DRIVER", 6.6, quali="", sprint="", race="", is_active="0"),
     ])
     races = build_races(2026, tmp_path)
     prices, _ = build_prices_points(2026, races, tmp_path)
-    assert prices["price"].tolist() == [11.7]
+    assert prices["price"].tolist() == [5.5]
 
 
 def test_official_inconsistency_uses_agreeing_tracinginsights_row(tmp_path):
-    # Round 6 shape: official components do not sum to its own GamedayPoints.
-    # GAS: TI row sums to GamedayPoints, so TI wins. ALB: TI also disagrees, so official stays.
+    # Official components do not sum to its own GamedayPoints.
+    # ZZK: TI row sums to GamedayPoints, so TI wins. ZZL: TI also disagrees, so official stays.
     write_jolpica(tmp_path, 2026, [
         schedule(6, "Monaco Grand Prix", "2026-06-07", "13:00:00Z", Qualifying=("2026-06-06", "13:00:00Z")),
     ], results={6: []})
     write_ti(tmp_path, 2026, "monaco-grand-prix", 6,
-             race_all=[ti_driver("ALP", "GAS", 12.5, 10), ti_driver("WIL", "ALB", 4.0, 10)],
-             qualifying_all=[ti_driver("ALP", "GAS", 12.5, 2)])
+             race_all=[ti_driver("TMA", "ZZK", 7.5, 10), ti_driver("TMB", "ZZL", 4.0, 10)],
+             qualifying_all=[ti_driver("TMA", "ZZK", 7.5, 2)])
     write_official(tmp_path, 2026, 6, [
-        off_row("GAS", "DRIVER", 12.8, quali="2", race="23", gameday="12"),
-        off_row("ALB", "DRIVER", 4.0, quali="2", race="23", gameday="12"),
+        off_row("ZZK", "DRIVER", 8.1, quali="2", race="23", gameday="12"),
+        off_row("ZZL", "DRIVER", 4.0, quali="2", race="23", gameday="12"),
     ])
     races = build_races(2026, tmp_path)
     prices, points = build_prices_points(2026, races, tmp_path)
     pts = points.set_index("asset_id")
-    assert pts.loc["GAS", "total"] == 12.0
-    assert pts.loc["GAS", "source"] == "tracinginsights"
-    assert prices.set_index("asset_id").loc["GAS", "price"] == 12.5
-    assert pts.loc["ALB", "total"] == 25.0
-    assert pts.loc["ALB", "source"] == "official"
+    assert pts.loc["ZZK", "total"] == 12.0
+    assert pts.loc["ZZK", "source"] == "tracinginsights"
+    assert prices.set_index("asset_id").loc["ZZK", "price"] == 7.5
+    assert pts.loc["ZZL", "total"] == 25.0
+    assert pts.loc["ZZL", "source"] == "official"
 
 
 def test_official_overrides_2026_and_maps_constructors(tmp_path):
+    # RBR and RBS are the real official codes that CONSTRUCTOR_ALIASES maps to RED and VRB.
     write_jolpica(tmp_path, 2026, [
         schedule(1, "Australian Grand Prix", "2026-03-08", "04:00:00Z", Qualifying=("2026-03-07", "05:00:00Z")),
     ], results={1: []})
     write_ti(tmp_path, 2026, "australian-grand-prix", 1, race_all=[
-        ti_driver("ALP", "GAS", 12.0, 0),
-        ti_constructor("RED", 10.0, 0),
-        ti_constructor("VRB", 4.0, 0),
+        ti_driver("TMC", "ZZF", 19.5, 0),
+        ti_constructor("RED", 10.6, 0),
+        ti_constructor("VRB", 4.1, 0),
     ])
     write_official(tmp_path, 2026, 1, [
-        off_row("GAS", "DRIVER", 12.8, quali="0", sprint="3", race="13"),
-        off_row("ALB", "DRIVER", 4.0, quali="2", sprint="", race="5"),
-        off_row("RBR", "CONSTRUCTOR", 11.5, quali="3", sprint="", race="20"),
-        off_row("RBS", "CONSTRUCTOR", 4.5, quali="0", sprint="", race="1"),
+        off_row("ZZF", "DRIVER", 21.3, quali="2", sprint="3", race="13"),
+        off_row("ZZG", "DRIVER", 4.7, quali="2", sprint="", race="5"),
+        off_row("RBR", "CONSTRUCTOR", 11.9, quali="3", sprint="", race="20"),
+        off_row("RBS", "CONSTRUCTOR", 4.2, quali="0", sprint="", race="1"),
     ])
     races = build_races(2026, tmp_path)
     prices, points = build_prices_points(2026, races, tmp_path)
     pts = points.set_index("asset_id")
-    assert pts.loc["GAS", ["qualifying", "sprint", "race", "total"]].tolist() == [0.0, 3.0, 13.0, 16.0]
-    assert pts.loc["GAS", "source"] == "official"
-    assert pts.loc["ALB", ["sprint", "total"]].tolist() == [0.0, 7.0]
+    assert pts.loc["ZZF", ["qualifying", "sprint", "race", "total"]].tolist() == [2.0, 3.0, 13.0, 18.0]
+    assert pts.loc["ZZF", "source"] == "official"
+    assert pts.loc["ZZG", ["sprint", "total"]].tolist() == [0.0, 7.0]
     assert pts.loc["RED", "kind"] == "constructor"
     assert pts.loc["RED", "source"] == "official"
-    assert prices.set_index("asset_id").loc["RED", "price"] == 11.5
-    assert prices.set_index("asset_id").loc["VRB", "price"] == 4.5
+    assert prices.set_index("asset_id").loc["RED", "price"] == 11.9
+    assert prices.set_index("asset_id").loc["VRB", "price"] == 4.2
     assert not {"RBR", "RBS"} & set(pts.index)
 
 
@@ -305,7 +318,7 @@ def test_price_known_at_equals_lock_and_points_after_race(tmp_path):
     write_jolpica(tmp_path, 2026, [
         schedule(1, "Australian Grand Prix", "2026-03-08", "04:00:00Z", Qualifying=("2026-03-07", "05:00:00Z")),
     ], results={1: []})
-    write_ti(tmp_path, 2026, "australian-grand-prix", 1, race_all=[ti_driver("MER", "RUS", 30.0, 25)])
+    write_ti(tmp_path, 2026, "australian-grand-prix", 1, race_all=[ti_driver("TMC", "ZZH", 23.4, 25)])
     races = build_races(2026, tmp_path)
     prices, points = build_prices_points(2026, races, tmp_path)
     assert prices["known_at"].iloc[0] == pd.Timestamp("2026-03-07T05:00:00Z")
@@ -317,27 +330,27 @@ def test_absent_session_rows_score_zero(tmp_path):
         schedule(1, "Australian Grand Prix", "2026-03-08", "04:00:00Z", Qualifying=("2026-03-07", "05:00:00Z")),
     ], results={1: []})
     write_ti(tmp_path, 2026, "australian-grand-prix", 1,
-             race_all=[ti_driver("MER", "RUS", 30.0, 25)],
-             qualifying_all=[ti_driver("MER", "ANT", 20.0, 9)])
+             race_all=[ti_driver("TMC", "ZZH", 23.4, 25)],
+             qualifying_all=[ti_driver("TMC", "ZZI", 20.0, 9)])
     races = build_races(2026, tmp_path)
     _, points = build_prices_points(2026, races, tmp_path)
-    rus = points.set_index("asset_id").loc["RUS"]
-    assert [rus["qualifying"], rus["sprint"], rus["race"], rus["total"]] == [0.0, 0.0, 25.0, 25.0]
+    zzh = points.set_index("asset_id").loc["ZZH"]
+    assert [zzh["qualifying"], zzh["sprint"], zzh["race"], zzh["total"]] == [0.0, 0.0, 25.0, 25.0]
 
 
 def test_results_rows_map_session_fields(tmp_path):
     write_jolpica(tmp_path, 2026, [
         schedule(1, "Australian Grand Prix", "2026-03-08", "04:00:00Z", Qualifying=("2026-03-07", "05:00:00Z")),
-    ], results={1: [jrow("ANT", "mercedes", 2, grid=2),
+    ], results={1: [jrow("ZZI", "team-x", 2, grid=2),
                     {"position": "3", "grid": "0", "status": "Retired",
-                     "Driver": {"familyName": "Camara"}, "Constructor": {"constructorId": "alpine"}}]},
-       qualifying={1: [jrow("ANT", "mercedes", 1)]})
+                     "Driver": {"familyName": "Zorbo"}, "Constructor": {"constructorId": "team-y"}}]},
+       qualifying={1: [jrow("ZZI", "team-x", 1)]})
     res = build_results(2026, tmp_path)
     race = res[res["session"] == "race"].set_index("driver_code")
-    assert race.loc["ANT", "position"] == 2
-    assert race.loc["ANT", "grid"] == 2
-    assert race.loc["CAM", "constructor_id"] == "alpine"
-    assert race.loc["CAM", "status"] == "Retired"
+    assert race.loc["ZZI", "position"] == 2
+    assert race.loc["ZZI", "grid"] == 2
+    assert race.loc["ZOR", "constructor_id"] == "team-y"  # no code given: driver_code falls back to familyName[:3]
+    assert race.loc["ZOR", "status"] == "Retired"
     quali = res[res["session"] == "qualifying"].iloc[0]
     assert pd.isna(quali["grid"]) and pd.isna(quali["status"])
     assert res["known_at"].iloc[0] == pd.Timestamp("2026-03-08T10:00:00Z")
@@ -347,8 +360,8 @@ def test_build_all_writes_four_tables(tmp_path):
     raw = tmp_path / "raw"
     write_jolpica(raw, 2026, [
         schedule(1, "Australian Grand Prix", "2026-03-08", "04:00:00Z", Qualifying=("2026-03-07", "05:00:00Z")),
-    ], results={1: [jrow("RUS", "mercedes", 1)]}, qualifying={1: [jrow("RUS", "mercedes", 1)]})
-    write_ti(raw, 2026, "australian-grand-prix", 1, race_all=[ti_driver("MER", "RUS", 30.0, 25)])
+    ], results={1: [jrow("ZZH", "team-x", 1)]}, qualifying={1: [jrow("ZZH", "team-x", 1)]})
+    write_ti(raw, 2026, "australian-grand-prix", 1, race_all=[ti_driver("TMC", "ZZH", 23.4, 25)])
     out = tmp_path / "processed"
     build_all(raw, out, [2026])
     for name in ("races", "prices", "fantasy_points", "results"):

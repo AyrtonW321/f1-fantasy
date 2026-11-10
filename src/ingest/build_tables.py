@@ -42,6 +42,12 @@ def _utc(session: dict) -> pd.Timestamp:
     return pd.to_datetime(f"{session['date']}T{session['time']}", utc=True)
 
 
+def _lock_utc(season: int, round_no: int, name: str, session: dict) -> pd.Timestamp:
+    if "time" not in session:
+        raise ValueError(f"{season} round {round_no} {name} has no time on the schedule")
+    return _utc(session)
+
+
 def _points(value: str) -> float:
     # Official blanks mark sessions with no points (inactive rows, non-sprint weekends).
     return float(value) if value.strip() else 0.0
@@ -143,7 +149,7 @@ def build_races(season: int, raw_dir: Path) -> pd.DataFrame:
         round_no = int(race["round"])
         base = slugify(race["raceName"])
         slug = SLUG_ALIASES.get(base, base)
-        locks = [_utc(race[key]) for key in LOCK_SESSIONS if key in race]
+        locks = [_lock_utc(season, round_no, key, race[key]) for key in LOCK_SESSIONS if key in race]
         if not locks:
             raise ValueError(f"{season} round {round_no} has no lock session on the schedule")
         ti_race = ti_root / slug / "race.json"
