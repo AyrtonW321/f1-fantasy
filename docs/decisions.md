@@ -14,3 +14,9 @@ Format: date, decision. Why.
 - 2026-11-09 Leakage cutoff = first competitive session of the weekend. True sprint-weekend lock could not be verified; this cannot leak.
 - 2026-11-09 One public repo; raw data committed only as an encrypted archive (F1_DATA_KEY). TracingInsights has no licence; user wants public code.
 - 2026-11-09 Execution: orchestrator on the main session, Haiku builder and reviewer workers, every check re-run by the orchestrator. Cheap workers stay reliable only if checks are re-run.
+- 2026-11-09 pulp pinned below 4. Version 4.2 has no bundled CBC and a different API; 3.3.2 matches the plan and needs no new dependency.
+- 2026-11-09 Gate participation rule: a driver row counts only if Jolpica lists him that weekend and TI gives a position other than WD. TI lists phantom rows for drivers who changed team, and these distorted team totals.
+- 2026-11-09 Gate pins one genuine source inconsistency (2025 Spanish GP AST) instead of adding a rule that would break the 2023 case. Any other mismatch fails the test.
+- 2026-11-09 mzafram totals are joined by Jolpica round, not TI roundNumber (TI runs one ahead in 2023 from Monaco).
+- 2026-11-09 Baseline reports (reports/baseline_*.md) are gitignored: they are derived from fantasy data that must not appear in git as plaintext.
+- 2026-11-09 Phase 2 tasks 6-8 were built in parallel with Phase 1 to save time, against the hard rule; recorded as a process breach.
