@@ -77,15 +77,15 @@ def _driver_points(rules: dict, line: DriverLine, *, as_constructor: bool) -> in
 
 
 def _pit_points(rules: dict, pit: PitResult) -> int:
-    c = rules["constructor"]
-    if c["pit_scoring"] not in ("rank", "time_bands"):
-        raise UnknownRuleError(f"constructor.pit_scoring {c['pit_scoring']!r} is not rank or time_bands")
+    mode = rules["constructor"]["pit_scoring"]
+    if mode not in ("rank", "time_bands"):
+        raise UnknownRuleError(f"constructor.pit_scoring {mode!r} is not rank or time_bands")
     total = 0
-    if c["pit_scoring"] == "rank":
+    if mode == "rank" and pit.ranks:
         # Ranks outside the table (4th and lower) score 0.
-        total += sum(c["pit_ranks"].get(r, 0) for r in pit.ranks)
-    elif c["pit_scoring"] == "time_bands" and pit.seconds is not None:
-        for upper, points in c["pit_bands"]:
+        total += sum(_rule(rules, "constructor.pit_ranks").get(r, 0) for r in pit.ranks)
+    elif mode == "time_bands" and pit.seconds is not None:
+        for upper, points in _rule(rules, "constructor.pit_bands"):
             if pit.seconds < upper:
                 total += points
                 break

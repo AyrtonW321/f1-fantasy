@@ -71,3 +71,55 @@ def test_all_seasons_load_with_same_keys():
     shapes = {season: _structure(rules) for season, rules in loaded.items()}
     assert shapes[2023] == shapes[2024] == shapes[2025] == shapes[2026]
     assert loaded[2023]["assumed"] == ["transfers.carry_max"]
+
+
+def test_pit_points_only_count_in_race_sessions():
+    from src.sim.scoring import DriverLine, PitResult, load_rules, score_constructor
+
+    lines = [DriverLine("A", "qualifying"), DriverLine("B", "qualifying")]
+    assert score_constructor(load_rules(2024), lines, pit=PitResult(ranks=(1,))) == 0
+    sprint = [DriverLine("A", "sprint"), DriverLine("B", "sprint")]
+    assert score_constructor(load_rules(2026), sprint, pit=PitResult(seconds=1.9)) == 0
+
+
+def test_null_pit_table_raises_unknown_rule_error():
+    import pytest
+
+    from src.sim.scoring import DriverLine, PitResult, UnknownRuleError, load_rules, score_constructor
+
+    race = [DriverLine("A", "race")]
+    rules = load_rules(2026)
+    rules["constructor"]["pit_bands"] = None
+    with pytest.raises(UnknownRuleError):
+        score_constructor(rules, race, pit=PitResult(seconds=2.1))
+    rules = load_rules(2024)
+    rules["constructor"]["pit_ranks"] = None
+    with pytest.raises(UnknownRuleError):
+        score_constructor(rules, race, pit=PitResult(ranks=(1,)))
+
+
+# season-to-season differences from the spec table: values the YAML files must hold exactly
+_SPEC = {
+    2023: dict(q_dsq=-15, s_nc=-20, s_dsq=None, r_dsq=-25, c_q=-15, c_s=None, c_r=-25, pit="rank", overall=None, penalty=4, net=False),
+    2024: dict(q_dsq=-15, s_nc=-20, s_dsq=None, r_dsq=-25, c_q=-15, c_s=None, c_r=-25, pit="rank", overall=None, penalty=10, net=False),
+    2025: dict(q_dsq=-5, s_nc=-20, s_dsq=None, r_dsq=-20, c_q=-10, c_s=None, c_r=-30, pit="time_bands", overall=5, penalty=10, net=False),
+    2026: dict(q_dsq=-5, s_nc=-10, s_dsq=-10, r_dsq=None, c_q=-10, c_s=-20, c_r=None, pit="time_bands", overall=5, penalty=10, net=True),
+}
+
+
+def test_season_values_match_spec():
+    from src.sim.scoring import load_rules
+
+    for season, e in _SPEC.items():
+        r = load_rules(season)
+        d, c, t = r["driver"], r["constructor"], r["transfers"]
+        got = dict(
+            q_dsq=d["qualifying"]["disqualified"], s_nc=d["sprint"]["not_classified"], s_dsq=d["sprint"]["disqualified"],
+            r_dsq=d["race"]["disqualified"], c_q=c["disqualified"]["qualifying"], c_s=c["disqualified"]["sprint"],
+            c_r=c["disqualified"]["race"], pit=c["pit_scoring"], overall=c["overall_fastest_stop"],
+            penalty=t["penalty"], net=t["net"],
+        )
+        assert got == e, season
+        assert c["world_record_stop"] is None
+        assert (t["free"], t["carry_max"], t["max_free"]) == (2, 1, 3)
+        assert r["team"] == {"budget": 100.0, "drivers": 5, "constructors": 2, "boost_multiplier": 2}
