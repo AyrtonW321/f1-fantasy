@@ -1,0 +1,2 @@
+baseline: {rolling_window: 5}
+backtest: {seasons: [2023, 2024, 2025, 2026]}
