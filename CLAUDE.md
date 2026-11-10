@@ -32,15 +32,16 @@ Python system that reproduces official F1 Fantasy scoring for 2023-2026, predict
 
 ```
 config/         rules_2023..2026.yaml, model.yaml
-data/           raw.tar.gz.enc (committed); raw/ and processed/ (gitignored)
+data/           raw.tar.gz.enc (committed); static/tracks.csv (hand-built, committed); raw/ and processed/ (gitignored)
 docs/           progress.md, decisions.md, known-issues.md, superpowers/{specs,plans}
 pipelines/      build_data.py
 reports/
-src/ingest/     vault, fantasy_scrape, community_pull, jolpica_pull, build_tables, ti_lines, crosscheck
+src/ingest/     vault, fantasy_scrape, community_pull, jolpica_pull, build_tables, ti_lines, crosscheck, tracks (fastf1_pull planned)
 src/sim/        scoring.py
-src/features/   rolling.py, guard.py
+src/features/   rolling.py, guard.py, pace.py
+src/models/     kalman.py
 src/optimize/   ilp.py
-src/backtest/   walkforward.py
+src/backtest/   walkforward.py (phase3_check.py planned)
 tests/
 .claude/        agents/{builder,reviewer}.md, skills/reflect/SKILL.md
 ```

@@ -36,9 +36,9 @@
     "semantic_hash": "47dcbd2782afdc28cd53a0388fae559c"
   },
   "pyproject.toml": {
-    "mtime": 1794345618.182815,
-    "seen": 1794345946.2157521,
-    "ast_hash": "4999687b4b4f6acba7fe8cbf52f67edc",
+    "mtime": 1794346819.819798,
+    "seen": 1794346853.0369556,
+    "ast_hash": "c585bdfa60512d489ba943ff325bedee",
     "semantic_hash": ""
   },
   "src/backtest/walkforward.py": {
@@ -234,27 +234,27 @@
     "semantic_hash": ""
   },
   "CLAUDE.md": {
-    "mtime": 1794325916.6389568,
-    "seen": 1794333933.39337,
-    "ast_hash": "83ec9283146be62e20082d63b487f2be",
+    "mtime": 1794346844.1068535,
+    "seen": 1794346853.0370085,
+    "ast_hash": "f2af94c7281f2c1ce70949a5d6d888a6",
     "semantic_hash": ""
   },
   "docs/decisions.md": {
-    "mtime": 1794345748.6523147,
-    "seen": 1794345946.2157893,
-    "ast_hash": "4564a1f6d1fe3813e1cc5bf61075ab31",
+    "mtime": 1794346844.10717,
+    "seen": 1794346853.0370097,
+    "ast_hash": "2bbf8ba6e84f593bd6665d6eb07a3eb0",
     "semantic_hash": ""
   },
   "docs/known-issues.md": {
-    "mtime": 1794333691.6586823,
-    "seen": 1794333933.3933718,
-    "ast_hash": "68ce9d38250256b4a3e7192863208822",
+    "mtime": 1794346852.4108593,
+    "seen": 1794346853.0370107,
+    "ast_hash": "72928e2cb61c600bb0e2a7c1fdbc86d7",
     "semantic_hash": ""
   },
   "docs/progress.md": {
-    "mtime": 1794345237.240356,
-    "seen": 1794345946.215791,
-    "ast_hash": "0e9ac9a0c7b5b20a250c2d05717c87f5",
+    "mtime": 1794345981.7459722,
+    "seen": 1794346853.0370119,
+    "ast_hash": "241f31b388fc84fc493403ef98ef7efd",
     "semantic_hash": ""
   },
   "docs/superpowers/plans/2026-11-09-f1-fantasy-optimizer.md": {
@@ -270,8 +270,8 @@
     "semantic_hash": ""
   },
   "src/features/pace.py": {
-    "mtime": 1794345926.0998888,
-    "seen": 1794345946.215756,
+    "mtime": 1794345947.2420926,
+    "seen": 1794346853.0369606,
     "ast_hash": "925cd9e26e8c37b87c8b477100a5c83e",
     "semantic_hash": ""
   },

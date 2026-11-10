@@ -29,3 +29,5 @@
 - pace: the practice long-run alpha is the pace at the first kept lap of a stint; stints on a compound no other driver ran are dropped (no estimable offset). Sprint weekends have no FP2, so long-run values are NaN there by design.
 - pace: a driver's practice known_at is the max over every usable practice session carrying his laps, even one that contributed nothing (conservative, never earlier than the data used).
 - Phase 3 Task 10 (FastF1 laps ingest) and Task 14 (acceptance) are not built; both need network and F1_DATA_KEY.
+- src/features/rolling.py:32 `fillna(0)` on an object-dtype frame raises a pandas FutureWarning (downcasting) when an asset has no history; harmless now, cast form_sum/k to float when next touching the baseline.
+- 20 lines across src, tests and pipelines exceed 120 characters and no formatter or linter (ruff) is configured; none of the Phase 3 files is checked by one.
