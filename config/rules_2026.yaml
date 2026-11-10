@@ -1,0 +1,16 @@
+season: 2026
+driver:
+  qualifying: {position: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1], not_classified: -5, disqualified: -5}
+  sprint: {position: [8, 7, 6, 5, 4, 3, 2, 1], gained: 1, overtake: 1, fastest_lap: 5, not_classified: -10, disqualified: -10}
+  race: {position: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], gained: 1, overtake: 1, fastest_lap: 10, driver_of_the_day: 10, not_classified: -20, disqualified: null}
+constructor:
+  disqualified: {qualifying: -10, sprint: -20, race: null}
+  teamwork: {neither_q2: -1, one_q2: 1, both_q2: 3, one_q3: 5, both_q3: 10}
+  pit_scoring: time_bands
+  pit_bands: [[2.00, 20], [2.20, 10], [2.50, 5], [3.01, 2]]   # [upper bound in seconds (exclusive), points]; at or above the last bound scores 0
+  pit_ranks: null
+  overall_fastest_stop: 5
+  world_record_stop: null
+team: {budget: 100.0, drivers: 5, constructors: 2, boost_multiplier: 2}
+transfers: {free: 2, carry_max: 1, max_free: 3, penalty: 10, net: true}
+assumed: []

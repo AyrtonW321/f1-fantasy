@@ -1,0 +1,16 @@
+season: 2023
+driver:
+  qualifying: {position: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1], not_classified: -5, disqualified: -15}
+  sprint: {position: [8, 7, 6, 5, 4, 3, 2, 1], gained: 1, overtake: 1, fastest_lap: 5, not_classified: -20, disqualified: null}
+  race: {position: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], gained: 1, overtake: 1, fastest_lap: 10, driver_of_the_day: 10, not_classified: -20, disqualified: -25}
+constructor:
+  disqualified: {qualifying: -15, sprint: null, race: -25}
+  teamwork: {neither_q2: -1, one_q2: 1, both_q2: 3, one_q3: 5, both_q3: 10}
+  pit_scoring: rank
+  pit_bands: null
+  pit_ranks: {1: 10, 2: 5, 3: 3}   # ranks held by this team's stops; points are summed
+  overall_fastest_stop: null
+  world_record_stop: null
+team: {budget: 100.0, drivers: 5, constructors: 2, boost_multiplier: 2}
+transfers: {free: 2, carry_max: 1, max_free: 3, penalty: 4, net: false}
+assumed: [transfers.carry_max]    # no source confirms 2023 carry-over
