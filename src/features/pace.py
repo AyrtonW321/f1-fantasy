@@ -1,9 +1,13 @@
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
+import yaml
 
 from src.features.guard import assert_known_before_lock
 
-DEFAULTS = {"long_run_min_laps": 6, "slow_lap_cutoff": 1.07, "race_clean_laps_min": 15}
+MODEL_CONFIG = Path(__file__).resolve().parents[2] / "config" / "model.yaml"
+REQUIRED = ("long_run_min_laps", "slow_lap_cutoff", "race_clean_laps_min")
 PRACTICE = ["FP1", "FP2", "FP3"]
 PRACTICE_COLS = [
     "season", "round", "driver_code", "constructor_id", "long_run_alpha_s",
@@ -14,7 +18,13 @@ QUALI_COLS = ["driver_code", "constructor_id", "quali_gap_pct", "known_at"]
 
 
 def _params(params: dict | None) -> dict:
-    return {**DEFAULTS, **(params or {})}
+    """Pace parameters: config/model.yaml `pace` block, overridden by `params`. A missing or null value raises."""
+    config = yaml.safe_load(MODEL_CONFIG.read_text(encoding="utf-8")).get("pace") or {}
+    merged = {**config, **(params or {})}
+    bad = [k for k in REQUIRED if merged.get(k) is None]
+    if bad:
+        raise ValueError(f"pace parameter(s) missing or null in config/model.yaml: {bad}")
+    return merged
 
 
 def _green_clean_mask(laps: pd.DataFrame) -> pd.Series:

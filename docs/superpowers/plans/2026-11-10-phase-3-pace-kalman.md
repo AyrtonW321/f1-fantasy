@@ -165,7 +165,7 @@ def test_bad_circuit_type_raises(): ...
 - Produces `practice_pace(laps, sessions, races, season, round_) -> pd.DataFrame`: columns `season, round, driver_code, constructor_id, long_run_alpha_s, long_run_gap_pct, long_run_laps, short_run_gap_pct, known_at`. Long run from FP2 only; short run (best lap gap to fastest, in percent) from all practice sessions with `usable_pre_lock`.
 - Produces `race_pace(laps, season, round_) -> pd.DataFrame`: `driver_code, constructor_id, race_gap_pct, clean_laps, known_at`.
 - Produces `quali_pace(laps, season, round_) -> pd.DataFrame`: `driver_code, constructor_id, quali_gap_pct, known_at` (best lap, percent over pole).
-- All three call `assert_known_before_lock` against the lock of the round they are used for; race and quali pace are used for later rounds, so `known_at` is the session's own `known_at` and the check runs at use time (Task 13).
+- `practice_pace` calls `assert_known_before_lock` (it takes `races`). `race_pace` and `quali_pace` are used for later rounds and have no `races` argument: `known_at` is the session's own, and the lock check is enforced at use time by `run_season` (Task 13), which applies only observations with `known_at <= lock_utc`.
 
 Rules: long-run stints need at least `long_run_min_laps` laps after dropping in/out laps, non-green `track_status`, and laps slower than `slow_lap_cutoff` times the stint median. Race pace uses green-flag laps after lap 1, excluding in/out laps, and needs `race_clean_laps_min`; otherwise NaN.
 

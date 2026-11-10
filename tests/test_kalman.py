@@ -314,3 +314,11 @@ def test_observation_after_lock_used_in_next_round_once_known():
     round3_with = with_obs[with_obs["round"] == 3].set_index("driver_code")["strength"]
     round3_without = without[without["round"] == 3].set_index("driver_code")["strength"]
     assert not np.allclose(round3_with.loc[list(DRIVERS)], round3_without.loc[list(DRIVERS)])
+
+
+def test_null_prior_weight_raises():
+    from src.models.kalman import StrengthFilter
+    params = {"q_car": 0.0225, "q_driver": 0.0001, "q_first_round_multiplier": 1.0, "p0_car": 1.0,
+              "p0_driver": 0.04, "sigma": {"race": 0.25}, "prior_2025_weight": None, "prior_theta": {"A": 0.5}}
+    with pytest.raises(ValueError, match="prior_2025_weight"):
+        StrengthFilter(params).add_entities(["A"], [])

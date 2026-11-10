@@ -31,3 +31,5 @@
 - Phase 3 Task 10 (FastF1 laps ingest) and Task 14 (acceptance) are not built; both need network and F1_DATA_KEY.
 - src/features/rolling.py:32 `fillna(0)` on an object-dtype frame raises a pandas FutureWarning (downcasting) when an asset has no history; harmless now, cast form_sum/k to float when next touching the baseline.
 - 20 lines across src, tests and pipelines exceed 120 characters and no formatter or linter (ruff) is configured; none of the Phase 3 files is checked by one.
+- Kalman run_season emits a row only for drivers observed before that round's lock (no row for a driver with no pre-lock observation), and batches observations per (weekend round, kind), so FP1 and FP3 short-run laps update together.
+- Pace and Kalman parameters are read from config/model.yaml; a missing or null pace value or prior_2025_weight raises ValueError.

@@ -119,7 +119,7 @@ def test_stint_without_estimable_offset_is_dropped():
     assert pd.isna(out.loc["HAM", "long_run_laps"])
 
 
-def test_fit_is_full_rank_for_fresh_tyre_stint():
+def test_fresh_tyre_stint_fit_is_finite():
     # Fresh tyre: tyre_life rises with lap_number. The fit must still give a finite alpha.
     rows = make_stint("VER", 1, 1, 90.0, 8, slope=0.05)
     out = run_practice(rows).set_index("driver_code")
@@ -239,3 +239,17 @@ def test_short_run_ignores_in_and_out_laps():
     out = run_practice(rows, sessions=sessions).set_index("driver_code")
     assert out.loc["VER", "short_run_gap_pct"] == pytest.approx(0.0)
     assert out.loc["HAM", "short_run_gap_pct"] == pytest.approx(100 * (96.0 - 95.0) / 95.0)
+
+
+def test_null_or_missing_pace_parameter_raises():
+    rows = make_stint("VER", 1, 1, 90.0, 8, slope=0.05)
+    with pytest.raises(ValueError, match="long_run_min_laps"):
+        run_practice(rows, params={"long_run_min_laps": None})
+
+
+def test_pace_defaults_come_from_config():
+    from src.features.pace import _params
+    import yaml
+    from src.features.pace import MODEL_CONFIG
+    cfg = yaml.safe_load(MODEL_CONFIG.read_text(encoding="utf-8"))["pace"]
+    assert {k: _params(None)[k] for k in cfg} == cfg

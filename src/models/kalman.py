@@ -38,8 +38,11 @@ class StrengthFilter:
 
     def _prior_mean(self, constructor: str) -> float:
         weight = self.params.get("prior_2025_weight")
+        if weight is None:
+            raise ValueError("kalman parameter prior_2025_weight is missing or null (use 0.0 for a flat start)")
         prior = self.params.get("prior_theta")
-        if weight is None or prior is None or constructor not in prior:
+        # A constructor with no prior (a new team) starts flat; that is not a missing parameter.
+        if not prior or constructor not in prior:
             return 0.0
         return float(weight) * float(prior[constructor])
 
