@@ -1,6 +1,6 @@
 # Progress
 
-Branches: phase-1-ingest-scoring is on GitHub. claude/graphify-setup-status-zfpzg5 and a local-only `main` (both at the graphify commit and later) are committed locally, not pushed: GitHub returns 403 (Claude GitHub App not installed on the repo).
+Branches on GitHub: main, claude/graphify-setup-status-zfpzg5 (working branch), phase-1-ingest-scoring.
 
 ## Done
 - Spec and plan written (docs/superpowers/).
@@ -19,13 +19,12 @@ Branches: phase-1-ingest-scoring is on GitHub. claude/graphify-setup-status-zfpz
   Every round valid (5 drivers, 2 constructors), max solve 0.18 s. Reports in reports/baseline_{season}.md (gitignored).
 
 ## Next
-- Install the Claude GitHub App on AyrtonW321/f1-fantasy, then push claude/graphify-setup-status-zfpzg5 and main (GitHub has no main yet).
+- Set `main` as the repo's default branch on GitHub (user setting).
+- Phase 3: plan written (docs/superpowers/plans/2026-11-10-phase-3-pace-kalman.md). User to answer its four decisions, then build Tasks 9-14. Tasks 10 and 14 need network and F1_DATA_KEY.
 - Investigate the extra players in the latest official gameday (37 vs 33); needs F1_DATA_KEY to unseal data/raw.
-- Phase 3 (FastF1 laps, pace features, Kalman) needs its own task-level plan; none written yet.
 - Rerun the official snapshot after the final 2026 race, before the 2027 game launches, then reseal.
 
 ## Blocked
-- Pushing: GitHub 403, app not installed on the repo.
 - Official-feed player investigation: needs F1_DATA_KEY (not set in cloud sessions).
 
 ## Log
@@ -33,3 +32,4 @@ Branches: phase-1-ingest-scoring is on GitHub. claude/graphify-setup-status-zfpz
 - 2026-11-09: Task 1 built by Haiku builders, re-run and reviewed by orchestrator; real snapshot sealed.
 - 2026-11-09: Tasks 2-8 built in parallel batches. Process breach: Phase 2 tasks were committed before the Phase 1 gate passed (done for speed). The gate has since passed and no Phase 2 code changed because of it.
 - 2026-11-10: set up graphify (code-only graph in graphify-out/, hooks in .claude/settings.json, rule in CLAUDE.md); created local main (fast-forward of Phase 1-2 plus graphify); small fixes: clear ValueError for a race entry without `time`, snapshot_official raises when the schedule feed fails.
+- 2026-11-10: pushed branch and main after the GitHub App was installed; wrote the Phase 3 plan (pace extraction + Kalman).
