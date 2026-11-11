@@ -90,3 +90,27 @@ def test_empty_driver_feed_keeps_existing_file(tmp_path):
     written = snapshot_official(tmp_path, http)
     assert existing.read_text(encoding="utf-8") == '{"good": 1}'
     assert existing not in written
+
+
+def test_schedule_404_raises_and_writes_nothing(tmp_path):
+    http = FakeSession({})
+    try:
+        snapshot_official(tmp_path, http)
+    except RuntimeError as e:
+        assert "schedule feed could not be fetched" in str(e)
+    else:
+        raise AssertionError("expected RuntimeError")
+    assert not any(p.is_file() for p in tmp_path.rglob("*"))
+
+
+def test_schedule_empty_value_raises(tmp_path):
+    http = FakeSession({
+        url("schedule/raceday_en.json"): (200, {"Data": {"Value": []}}),
+    })
+    try:
+        snapshot_official(tmp_path, http)
+    except RuntimeError as e:
+        assert "schedule feed could not be fetched" in str(e)
+    else:
+        raise AssertionError("expected RuntimeError")
+    assert not any(p.is_file() for p in tmp_path.rglob("*"))

@@ -6,4 +6,7 @@ __pycache__/
 .claude/settings.local.json
 reports/baseline_*.md
 *.original.md
-graphify-out/
+graphify-out/cache/hook_sessions/
+graphify-out/.graphify_*
+graphify-out/2026-*/
+graphify-out/cache/ast/v0.9.17/

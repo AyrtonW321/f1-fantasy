@@ -153,6 +153,8 @@ def build_races(season: int, raw_dir: Path) -> pd.DataFrame:
         locks = [_lock_utc(season, round_no, key, race[key]) for key in LOCK_SESSIONS if key in race]
         if not locks:
             raise ValueError(f"{season} round {round_no} has no lock session on the schedule")
+        if "time" not in race:
+            raise ValueError(f"{season} round {round_no} race has no time on the schedule")
         ti_race = ti_root / slug / "race.json"
         rows.append({
             "season": season,

@@ -1,6 +1,6 @@
 # Progress
 
-Branch: codex/phase-3-plan (Phase 3 planning; prior Phase 1-2 work stays on phase-1-ingest-scoring)
+Branch: codex/phase-3-plan, merged with main (Phase 1-2, graphify setup, small fixes).
 
 ## Done
 - Spec and plan written (docs/superpowers/).
@@ -19,13 +19,14 @@ Branch: codex/phase-3-plan (Phase 3 planning; prior Phase 1-2 work stays on phas
   Every round valid (5 drivers, 2 constructors), max solve 0.18 s. Reports in reports/baseline_{season}.md (gitignored).
 
 ## Next
-- Push branch, open PR to `main` branch (GitHub has no main yet).
+- Decide how to make `pace_seconds` comparable across drivers before Phase 4 (see known-issues).
 - Phase 3 data/model work complete for the agreed scope. Task plan: `docs/superpowers/plans/2026-11-09-phase-3-pace-kalman.md`. Per the user's no-fabrication decision, complete pace coverage means one estimate/status row per entrant/weekend; all 919 rows are present. Kalman's 2026 holdout correlation previously exceeded last-race order. Phase 3 acceptance rerun 2026-11-10: suite 184 passed, data gate 8 passed, walk-forward totals unchanged. Prior broad FastF1 data for 2023-2024 remains partial and unchanged; detailed FastF1 scope is 2025-2026 only.
 - Phase 4 task-level plan drafted for review at `docs/superpowers/plans/2026-11-10-phase-4-event-models-simulator.md`; implementation has not started.
 - Rerun official snapshot after final 2026 race, before 2027 game launches, then reseal.
 
 ## Outstanding
 - Pace/status coverage is complete for 919/919 entrant/weekend rows under the user's no-fabrication decision. Usable pace is available for 518/667 entrant rows where FP2 was scheduled; 149 remain explicitly `no_usable_longrun`. Downstream models must treat them as missing. All retained estimates pass the pre-lock cutoff; 181 are low-sample (<8 laps).
+- Investigate the extra players in the latest official gameday (37 vs 33); needs F1_DATA_KEY.
 
 ## Log
 - 2026-11-09: grilled spec, wrote spec and plan, created repo, set up orchestrator/worker files and effort setting.
@@ -37,6 +38,8 @@ Branch: codex/phase-3-plan (Phase 3 planning; prior Phase 1-2 work stays on phas
 - 2026-11-09: Clarified fantasy price requirement: actual round prices already captured in raw official per-gameday feeds and normalized to `prices` rows; consecutive rows support price-change comparisons, and optimizer carries current asset prices into next-round budget. No price-forecast model wanted. Scheduled capture stays for Phase 7.
 
 - 2026-11-10: Completed cached 2025-2026 FastF1 ingest with race-control messages, refreshed pace/status and prior safety-car features, reviewed residuals and missingness, and recorded the explicit-status coverage interpretation. Drafted the Phase 4 event-model/simulator plan for review; no Phase 4 code or tests run.
+
+- 2026-11-10: set up graphify (code-only graph in graphify-out/, hooks in .claude/settings.json, rule in CLAUDE.md); created local main (fast-forward of Phase 1-2 plus graphify); small fixes: clear ValueError for a race entry without `time`, snapshot_official raises when the schedule feed fails.
 
 - 2026-11-10: Fixed pace rows with unknown FP2 timing being stamped `known_at = lock_utc`; now NaT. Reran Phase 3 acceptance checks (184 unit, 8 data, walk-forward unchanged). Phase 3 complete pending commit; pace cross-driver comparability open for Phase 4.
 
