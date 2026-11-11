@@ -8,7 +8,8 @@
 - TI lists non-participants (2026 Mexico: TSU under VRB); count only drivers in Jolpica results.
 - Official 2026 feeds may vanish when 2027 game launches: snapshot first.
 - snapshot_official now raises if the schedule feed fails; a partial run (some per-player feeds skipped) is still silent, so check the printed "wrote N files" line (61 on a good run).
-- Official feed lists 37 players in latest gameday, 33 in gameday 1; extra rows not yet explained.
+- Official 2026 feed grows from 33 to 37 players through mid-season seat swaps: Lawson to Red Bull with a second PlayerId (116) and Tsunoda in at Racing Bulls for rounds 12-14; Hirakawa (round 19) and Camara (round 20 on) for Ocon at Haas. build_tables keys drivers by TLA and keeps the active row, so the points are right.
+- Benched drivers stay in the optimizer pool: the prices table has no active flag and baseline_mu/robust_mu score them on old form. The 2026 baseline backtest picked HAD in rounds 12-14 (0 points each). Fix: carry IsActive into prices, set mu=0 for inactive drivers (keep them so the ILP can weigh the transfer cost). The flag looks known before lock: the gameday-21 file, saved about 11 days before that race, already marks Camara active and Ocon inactive.
 - Gate exception: 2025 Spanish GP race, AST. TI's team total includes withdrawn driver's -20 there; 2023 Azerbaijan sprint WIL row has same shape and TI excludes it. Pinned in KNOWN_SOURCE_EXCEPTIONS (tests/test_scoring_gate.py); data test fails if any other row mismatches or this one stops.
 - Official 2026 round 6 (Monaco): for 9 assets official session points do not add up to feed's own GamedayPoints. build_tables uses TI row (which matches GamedayPoints); gate records them as anomalies. If no TI row matches, official row kept unflagged.
 - TI phantom rows: some drivers listed under team they did not drive for (no position). build_tables dedupes by participation; gate skips them. Skipped rows checked against official feed only for 2026; in 2023-2025 no independent source.
@@ -28,3 +29,4 @@
 - `pick_team.py` without `config/my_team.yaml` uses the starting 100.0 budget, not the user's grown team value. Chips not yet used by the optimizer.
 - Bonus labels (fastest lap, DotD, pit times) exist only in raw TI rows, not in `data/processed/`; 23 of 220 2026 constructor-rounds have no pit time and stay missing. Re-audited 2026-11-10 (`reports/phase4_bonus_audit.md`).
 - Review finding (4.3, unfixed): `plan_chips.py` proxies rounds 22-23 prices with round 21 prices and uses the same robust-form expected points for all three rounds; chip gains for later rounds are rough.
+- src/features/rolling.py:31 `fillna(0)` on an object-dtype frame raises a pandas FutureWarning (downcasting) when an asset has no history; harmless now, cast form_sum/k to float when next touching the baseline.
