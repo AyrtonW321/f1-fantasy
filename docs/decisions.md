@@ -45,3 +45,5 @@ Format: date, decision. Why.
 - 2026-11-10 Phase 4 revised after grilling: 2026-only data, robust per-weekend form, walk-forward over all 2026 rounds (tune on rounds 1-10), must beat rolling-5 baseline on MAE and season total, incremental pieces kept only if backtest improves. User wants a live Las Vegas pick (lock 2026-11-21 04:00 UTC) and to keep improving through Abu Dhabi.
 - 2026-11-10 Pace left out of Phase 4: values not comparable across drivers.
 - 2026-11-10 2026 chip rules confirmed by user and stored in config/rules_2026.yaml (Limitless, Wildcard, Extra DRS 3x, No Negative, Autopilot, Final Fix; one chip per round, each once).
+- 2026-11-10 Bonus events (fastest lap, DotD, pit-stop times) are supported for 2026 from raw TracingInsights rows via existing `ti_lines` parsers. First audit checked only processed tables and wrongly marked them unsupported. Missing pit times stay missing.
+- 2026-11-10 Bonus events modeled as expected values (shrunk per-asset mean of bonus points added to trimmed non-bonus form), not per-draw samples: the optimizer only uses means. Kept disabled: better on tuning rounds 1-10 but worse over all 2026 rounds than robust form.

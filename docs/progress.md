@@ -19,7 +19,7 @@ Branch: codex/phase-3-plan. Phases 1-3 merged to main (8922035); Phase 4 work un
   Every round valid (5 drivers, 2 constructors), max solve 0.18 s. Reports in reports/baseline_{season}.md (gitignored).
 
 ## Next
-- Phase 4 (revised plan, task list in `docs/superpowers/plans/2026-11-10-phase-4-event-models-simulator.md`): 4.1 done; 4.2 race order + DNF built but disabled (does not beat 4.1: MAE 13.56 vs 13.47, total 4362 vs 4363); 4.3 chip planner waits on user's team and remaining chips; freeze Nov 20 for Las Vegas (lock 2026-11-21 04:00 UTC).
+- Phase 4 (revised plan, task list in `docs/superpowers/plans/2026-11-10-phase-4-event-models-simulator.md`): 4.1 done; 4.2 race order + DNF built but disabled (does not beat 4.1: MAE 13.56 vs 13.47, total 4362 vs 4363); 4.3 chip planner built (ChatGPT), real advice waits on user's team and `chips_left`; 4.7 bonus built and disabled (MAE 13.50 vs 13.47, total 4330 vs 4363); robust form (4.1) remains the live predictor; freeze Nov 20 for Las Vegas (lock 2026-11-21 04:00 UTC).
 - Phase 4 work not yet committed.
 - Investigate the extra players in the latest official gameday (37 vs 33); needs F1_DATA_KEY.
 - Rerun official snapshot after each remaining 2026 race, then reseal.
@@ -46,6 +46,9 @@ Branch: codex/phase-3-plan. Phases 1-3 merged to main (8922035); Phase 4 work un
 - 2026-11-10: Grilled and revised Phase 4 (2026-only, robust form, Las Vegas deadline). Built the base: `robust_mu` (trimmed mean trim 0.3, shrunk to price prior weight 2.0) beats rolling-5 on 2026 walk-forward, MAE 13.47 vs 14.36, season total 4363 vs 4269. `pipelines/pick_team.py` picks the next round; reads `config/my_team.yaml` when present. 189 unit, 8 data tests pass. Next: user's team and chip info, then race order + DNF piece.
 - 2026-11-10: Stored user-confirmed 2026 chip rules (null placeholders for 2023-2025, same-keys test passes). Wrote revised Phase 4 task list (4.1-4.8) into the plan, linked it from the master plan, refreshed HANDOFF.md. Delegated 4.2 to a side session.
 - 2026-11-10: 4.2 simulator (Plackett-Luce race order + DNF, Monte Carlo through scoring engine) built and tested, 199 tests pass; does not beat 4.1 so `pick_team.py` keeps `robust_mu`. Split remaining Phase 4 work between Claude and ChatGPT in HANDOFF.md.
+- 2026-11-10: Checked ChatGPT's 4.3 (`src/optimize/chips.py`, `pipelines/plan_chips.py`) and 4.7 (`src/models/bonus.py`, `reports/phase4_bonus_audit.md`): files present, no out-of-scope edits, 206 unit and 9 data tests pass, `plan_chips.py` runs on the example team. Uncommitted.
+- 2026-11-10: Re-audited 4.7 bonus sources from raw TracingInsights rows: fastest lap and DotD 20/20 rounds, sprint fastest lap 6/6, pit times 197/220 constructor-rounds. Rewrote `reports/phase4_bonus_audit.md`; all supported.
+- 2026-11-10: Built `data/processed/bonus.parquet` (672 2026 asset-rounds) and `bonus_mu` (trimmed non-bonus form + shrunk bonus mean). Tuned on rounds 1-10; does not beat 4.1 over all rounds (MAE 13.50 vs 13.47, total 4330 vs 4363), so disabled.
 
 ## Phase 3 completed work
 - Added FastF1 3.9.x as pinned-major dependency and external-cache ingestion pipeline. FastF1/Jolpica inventory matched all 93 scheduled events (0 name mismatches). Local F1 TV auth active. Prior all-years archive attempt hit FastF1's 500 API calls/hour limit and loaded 174/450 sessions, 93,178 laps, 17,039 weather rows, 1,335 track-status rows. Scope now narrowed to 2025-2026.

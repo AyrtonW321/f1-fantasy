@@ -66,3 +66,27 @@ def robust_mu(prices: pd.DataFrame, points: pd.DataFrame, races: pd.DataFrame,
     out = out[OUT_COLS].reset_index(drop=True)
     assert_known_before_lock(out, races)
     return out
+
+
+def bonus_mu(prices: pd.DataFrame, points: pd.DataFrame, bonus: pd.DataFrame, races: pd.DataFrame,
+             season: int, round_: int, trim: float = 0.3, prior_weight: float = 2.0,
+             bonus_weight: float = 2.0) -> pd.DataFrame:
+    """robust_mu of non-bonus points plus each asset's mean bonus points, shrunk toward its kind's field mean.
+
+    Bonus points (fastest lap, DotD, pit stop) are rare spikes that trimming would cut, so they get a plain
+    shrunk mean instead. Expected values only: the optimizer uses means, so no per-draw sampling here.
+    """
+    keys = ["season", "round", *ASSET]
+    resid = points.merge(bonus[keys + ["bonus"]], on=keys, how="left")
+    resid["total"] = resid["total"] - resid["bonus"].fillna(0.0)
+    out = robust_mu(prices, resid.drop(columns="bonus"), races, season, round_, trim, prior_weight)
+    lock = out["known_at"].iloc[0] if len(out) else None
+    hist = bonus[(bonus["season"] == season) & (bonus["round"] < round_) & (bonus["known_at"] <= lock)]
+    field = hist.groupby("kind")["bonus"].mean()
+    stats = hist.groupby(ASSET)["bonus"].agg(["sum", "count"]).reset_index()
+    out = out.merge(stats, on=ASSET, how="left").fillna({"sum": 0.0, "count": 0.0})
+    prior = out["kind"].map(field).fillna(0.0)
+    out["mu"] = out["mu"] + (out["sum"] + bonus_weight * prior) / (out["count"] + bonus_weight)
+    out = out[OUT_COLS].reset_index(drop=True)
+    assert_known_before_lock(out, races)
+    return out

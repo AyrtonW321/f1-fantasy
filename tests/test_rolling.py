@@ -146,3 +146,18 @@ def test_robust_mu_ignores_one_outlier_weekend_and_shrinks_to_price():
     # No history: pure price prior.
     first = robust_mu(px, points(rows), races(), SEASON, 1).set_index("asset_id")
     assert first.loc["AAA", "mu"] == pytest.approx(10.0)
+
+
+def test_bonus_mu_adds_shrunk_bonus_mean_to_trimmed_non_bonus_form():
+    from src.features.rolling import bonus_mu
+    # AAA: 10 base points every week plus a 10-point bonus in 3 of 5 weeks; BBB never gets a bonus.
+    rows = [(r, "AAA", 20 if r <= 3 else 10) for r in range(1, 6)] + [(r, "BBB", 10) for r in range(1, 6)]
+    pts = points(rows)
+    bonus = pts[["season", "round", "asset_id", "kind", "known_at"]].assign(
+        bonus=[10.0 if a == "AAA" and r <= 3 else 0.0 for r, a in zip(pts["round"], pts["asset_id"])])
+    px = prices([(r, a, 10.0) for r in range(1, 7) for a in ("AAA", "BBB")])
+    out = bonus_mu(px, pts, bonus, races(), SEASON, 6, trim=0.2, prior_weight=1.0, bonus_weight=1.0)
+    mu = out.set_index("asset_id")["mu"]
+    # Non-bonus form 10 for both; field bonus mean = 30/10 = 3.
+    assert mu["AAA"] == pytest.approx(10 + (30 + 3) / 6)
+    assert mu["BBB"] == pytest.approx(10 + 3 / 6)

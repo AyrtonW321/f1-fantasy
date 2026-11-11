@@ -158,3 +158,15 @@ def test_entrants_include_driver_only_in_race_results(tmp_path):
     ])
     # BOR has no code in the fixture, so driver_code falls back to familyName[:3].upper()
     assert weekend_entrants(2024, 3, tmp_path) == {"HAM", "BOR"}
+
+
+def test_bonus_points_scores_fastest_lap_dotd_and_pit_via_engine():
+    from src.ingest.ti_lines import bonus_points
+    from src.sim.scoring import load_rules
+    rules = load_rules(2026)
+    driver = {"type": "driver", "abbreviation": "VER", "raceFastestLap": True, "raceDriverOfTheDay": True,
+              "sprintFastestLap": True}
+    assert bonus_points(driver, rules) == 10 + 10 + 5
+    team = {"type": "constructor", "id": "RED", "raceFastestLap": True,
+            "sessionResult": {"fastestPitStopPoints": {"text": "Fastest pit stop of 2.19s"}}}
+    assert bonus_points(team, rules) == 10 + 10  # FL counts for constructors; 2.19s is in the 10-point band

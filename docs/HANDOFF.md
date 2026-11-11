@@ -28,8 +28,8 @@ Full plan: `docs/superpowers/plans/2026-11-09-f1-fantasy-optimizer.md`.
 Phase 4 plan (revised 2026-11-10, read its "Revision" and "Revised task list" sections first): `docs/superpowers/plans/2026-11-10-phase-4-event-models-simulator.md`.
 
 1. Task 4.2: race order + DNF Monte Carlo simulator. Must beat 4.1 on 2026 MAE and season total.
-2. Task 4.3 (ChatGPT): chip planner. Needs the user's team (`config/my_team.yaml`, gitignored) and remaining chips to give real advice; build and test it first with fixtures.
-3. Tasks 4.4-4.6 (Claude) one at a time; 4.7 samplers (ChatGPT) wired in by Claude. Each kept only if the backtest improves.
+2. Task 4.3 (ChatGPT): chip planner built and tested (uncommitted). Needs `config/my_team.yaml` with `chips_left` for real advice.
+3. Tasks 4.4-4.6 (Claude) one at a time. 4.7 done and disabled: bonus table and `bonus_mu` built, did not beat 4.1 over all rounds. Each kept only if the backtest improves.
 4. Task 4.8: freeze Nov 20 and print the Las Vegas pick before lock (2026-11-21 04:00 UTC).
 
 Also pending: rerun the official 2026 snapshot (`src/ingest/fantasy_scrape.py`) after each remaining 2026 race, then reseal with `uv run python -m src.ingest.vault seal`.

@@ -26,3 +26,5 @@
 - The cloud session has no F1_DATA_KEY and cannot reach fantasy.formula1.com, so data tests (-m data) and re-snapshots must run elsewhere.
 - Phase 4 form settings were tuned on 2026 rounds 1-10 and reported over rounds 1-20, so the all-rounds numbers partly include the tuning rounds.
 - `pick_team.py` without `config/my_team.yaml` uses the starting 100.0 budget, not the user's grown team value. Chips not yet used by the optimizer.
+- Bonus labels (fastest lap, DotD, pit times) exist only in raw TI rows, not in `data/processed/`; 23 of 220 2026 constructor-rounds have no pit time and stay missing. Re-audited 2026-11-10 (`reports/phase4_bonus_audit.md`).
+- Review finding (4.3, unfixed): `plan_chips.py` proxies rounds 22-23 prices with round 21 prices and uses the same robust-form expected points for all three rounds; chip gains for later rounds are rough.

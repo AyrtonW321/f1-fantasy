@@ -4,7 +4,7 @@ import re
 from pathlib import Path
 
 from src.ingest.codes import driver_code
-from src.sim.scoring import DriverLine, PitResult, Session
+from src.sim.scoring import DriverLine, PitResult, Session, score_constructor, score_driver
 
 _SECONDS = re.compile(r"of ([\d.]+)s")
 _RANK_TOKENS = re.compile(r"Fastest|2nd fastest|3rd fastest")
@@ -83,3 +83,15 @@ def weekend_entrants(season: int, round_: int, raw_dir: Path) -> set[str]:
                 continue
             codes.update(driver_code(result["Driver"]) for result in race.get(key, []))
     return codes
+
+
+def bonus_points(row: dict, rules: dict) -> float:
+    """Fastest-lap (race and sprint), Driver of the Day and pit-stop points in one TI row, via the engine."""
+    code = row.get("abbreviation") or row["id"]
+    race = DriverLine(code, "race", fastest_lap=bool(row.get("raceFastestLap")),
+                      dotd=bool(row.get("raceDriverOfTheDay")))
+    sprint = DriverLine(code, "sprint", fastest_lap=bool(row.get("sprintFastestLap")))
+    if row["type"] == "driver":
+        return float(score_driver(rules, race) + (score_driver(rules, sprint) if sprint.fastest_lap else 0))
+    return float(score_constructor(rules, [race], pit=parse_pit(row))
+                 + (score_constructor(rules, [sprint]) if sprint.fastest_lap else 0))
