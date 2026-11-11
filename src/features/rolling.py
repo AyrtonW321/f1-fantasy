@@ -36,3 +36,33 @@ def baseline_mu(prices: pd.DataFrame, points: pd.DataFrame, races: pd.DataFrame,
     out = out[OUT_COLS].reset_index(drop=True)
     assert_known_before_lock(out, races)
     return out
+
+
+def _trimmed_mean(values: pd.Series, trim: float) -> float:
+    v = values.sort_values().to_numpy()
+    cut = int(len(v) * trim)
+    return float(v[cut:len(v) - cut].mean())
+
+
+def robust_mu(prices: pd.DataFrame, points: pd.DataFrame, races: pd.DataFrame,
+              season: int, round_: int, trim: float = 0.2, prior_weight: float = 3.0) -> pd.DataFrame:
+    """Season-to-date trimmed mean per asset, shrunk toward the price prior.
+
+    Uses every earlier round of the season, so one or two outlier weekends move it little.
+    mu = (k * trimmed_mean + prior_weight * price * m) / (k + prior_weight).
+    """
+    base = baseline_mu(prices, points, races, season, round_, window=1)  # reuse target rows, lock, guard
+    lock = base["known_at"].iloc[0] if len(base) else None
+    history = points[(points["season"] == season) & (points["round"] < round_) & (points["known_at"] <= lock)]
+    priced = history.merge(prices[["season", "round", *ASSET, "price"]], on=["season", "round", *ASSET])
+    ratios = (priced["total"] / priced["price"]).dropna()
+    m = float(ratios.median()) if len(ratios) else 1.0
+    form = (history.groupby(ASSET)["total"]
+            .agg(center=lambda s: _trimmed_mean(s, trim), k="count").reset_index())
+    out = base.drop(columns="mu").merge(form, on=ASSET, how="left")
+    out["k"] = out["k"].fillna(0)
+    out["center"] = out["center"].fillna(0.0)
+    out["mu"] = (out["k"] * out["center"] + prior_weight * out["price"] * m) / (out["k"] + prior_weight)
+    out = out[OUT_COLS].reset_index(drop=True)
+    assert_known_before_lock(out, races)
+    return out

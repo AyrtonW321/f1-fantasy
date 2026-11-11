@@ -1,6 +1,6 @@
 # Progress
 
-Branch: codex/phase-3-plan, merged with main (Phase 1-2, graphify setup, small fixes).
+Branch: codex/phase-3-plan. Phases 1-3 merged to main (8922035); Phase 4 work uncommitted on this branch.
 
 ## Done
 - Spec and plan written (docs/superpowers/).
@@ -19,10 +19,10 @@ Branch: codex/phase-3-plan, merged with main (Phase 1-2, graphify setup, small f
   Every round valid (5 drivers, 2 constructors), max solve 0.18 s. Reports in reports/baseline_{season}.md (gitignored).
 
 ## Next
-- Decide how to make `pace_seconds` comparable across drivers before Phase 4 (see known-issues).
-- Phase 3 data/model work complete for the agreed scope. Task plan: `docs/superpowers/plans/2026-11-09-phase-3-pace-kalman.md`. Per the user's no-fabrication decision, complete pace coverage means one estimate/status row per entrant/weekend; all 919 rows are present. Kalman's 2026 holdout correlation previously exceeded last-race order. Phase 3 acceptance rerun 2026-11-10: suite 184 passed, data gate 8 passed, walk-forward totals unchanged. Prior broad FastF1 data for 2023-2024 remains partial and unchanged; detailed FastF1 scope is 2025-2026 only.
-- Phase 4 task-level plan drafted for review at `docs/superpowers/plans/2026-11-10-phase-4-event-models-simulator.md`; implementation has not started.
-- Rerun official snapshot after final 2026 race, before 2027 game launches, then reseal.
+- Phase 4 (revised plan, task list in `docs/superpowers/plans/2026-11-10-phase-4-event-models-simulator.md`): 4.1 done; 4.2 race order + DNF built but disabled (does not beat 4.1: MAE 13.56 vs 13.47, total 4362 vs 4363); 4.3 chip planner waits on user's team and remaining chips; freeze Nov 20 for Las Vegas (lock 2026-11-21 04:00 UTC).
+- Phase 4 work not yet committed.
+- Investigate the extra players in the latest official gameday (37 vs 33); needs F1_DATA_KEY.
+- Rerun official snapshot after each remaining 2026 race, then reseal.
 
 ## Outstanding
 - Pace/status coverage is complete for 919/919 entrant/weekend rows under the user's no-fabrication decision. Usable pace is available for 518/667 entrant rows where FP2 was scheduled; 149 remain explicitly `no_usable_longrun`. Downstream models must treat them as missing. All retained estimates pass the pre-lock cutoff; 181 are low-sample (<8 laps).
@@ -42,6 +42,10 @@ Branch: codex/phase-3-plan, merged with main (Phase 1-2, graphify setup, small f
 - 2026-11-10: set up graphify (code-only graph in graphify-out/, hooks in .claude/settings.json, rule in CLAUDE.md); created local main (fast-forward of Phase 1-2 plus graphify); small fixes: clear ValueError for a race entry without `time`, snapshot_official raises when the schedule feed fails.
 
 - 2026-11-10: Fixed pace rows with unknown FP2 timing being stamped `known_at = lock_utc`; now NaT. Reran Phase 3 acceptance checks (184 unit, 8 data, walk-forward unchanged). Phase 3 complete pending commit; pace cross-driver comparability open for Phase 4.
+
+- 2026-11-10: Grilled and revised Phase 4 (2026-only, robust form, Las Vegas deadline). Built the base: `robust_mu` (trimmed mean trim 0.3, shrunk to price prior weight 2.0) beats rolling-5 on 2026 walk-forward, MAE 13.47 vs 14.36, season total 4363 vs 4269. `pipelines/pick_team.py` picks the next round; reads `config/my_team.yaml` when present. 189 unit, 8 data tests pass. Next: user's team and chip info, then race order + DNF piece.
+- 2026-11-10: Stored user-confirmed 2026 chip rules (null placeholders for 2023-2025, same-keys test passes). Wrote revised Phase 4 task list (4.1-4.8) into the plan, linked it from the master plan, refreshed HANDOFF.md. Delegated 4.2 to a side session.
+- 2026-11-10: 4.2 simulator (Plackett-Luce race order + DNF, Monte Carlo through scoring engine) built and tested, 199 tests pass; does not beat 4.1 so `pick_team.py` keeps `robust_mu`. Split remaining Phase 4 work between Claude and ChatGPT in HANDOFF.md.
 
 ## Phase 3 completed work
 - Added FastF1 3.9.x as pinned-major dependency and external-cache ingestion pipeline. FastF1/Jolpica inventory matched all 93 scheduled events (0 name mismatches). Local F1 TV auth active. Prior all-years archive attempt hit FastF1's 500 API calls/hour limit and loaded 174/450 sessions, 93,178 laps, 17,039 weather rows, 1,335 track-status rows. Scope now narrowed to 2025-2026.

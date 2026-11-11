@@ -1,6 +1,33 @@
 # Phase 4 Plan: Event Models and Fantasy Simulator
 
-**Status:** Draft for user review before implementation.
+**Status:** Revised after grilling (2026-11-10). The revision below overrides the draft text that follows it.
+
+## Revision 2026-11-10 (overrides the draft)
+
+- **Goal:** the best team each weekend, judged on typical points per weekend. One or two big weekends must not drive picks: use robust form (a trimmed mean, shrunk toward the price prior).
+- **Data:** 2026 only, for fitting and tuning. The 2023-2025 scoring tests stay. This replaces the "tune 2023-2025, hold out 2026" rule for Phase 4.
+- **Evaluation:** walk-forward over every completed 2026 round. Tune settings on rounds 1-10 only, then report across all rounds.
+- **Acceptance:** must beat the Phase 2 rolling-5 baseline in the 2026 walk-forward on both per-asset MAE (points per weekend) and season total.
+- **Order:** incremental. (1) A Vegas-ready base: robust 2026 form fed into the existing optimizer with the real team from `config/my_team.yaml`. (2) Then race order plus DNF, qualifying, overtakes, sprints and bonuses, each kept only if the backtest improves.
+- **Deadline:** pick the Las Vegas team before lock at 2026-11-21 04:00 UTC. Freeze on Nov 20 with the best version that passed.
+- **Team state:** `config/my_team.yaml` (gitignored) holds owned assets, bank and free transfers; the user updates it each round. 2027 starts fresh.
+- **Chips:** the user has chips left and wants timing advice. 2026 chip rules confirmed by the user and stored in `config/rules_2026.yaml` (`chips`); 2023-2025 chip values are null.
+- **Pace:** not used in Phase 4 (cross-driver comparability unresolved).
+
+## Revised task list (2026-11-10)
+
+Every task: 2026 data only, walk-forward, settings tuned on rounds 1-10, kept only if it beats the current best on both 2026 per-asset MAE and season total. Freeze on Nov 20 with the best passing version.
+
+| # | Task | Files | Done when | Status |
+|---|---|---|---|---|
+| 4.1 | Vegas-ready base: robust form | `src/features/rolling.py` (`robust_mu`), `pipelines/evaluate_form.py`, `pipelines/pick_team.py`, `config/model.yaml` (`form`), `config/my_team.example.yaml` | Beats rolling-5 on MAE and total | Done: MAE 13.47 vs 14.36, total 4363 vs 4269 (trim 0.3, prior weight 2.0) |
+| 4.2 | Race order + DNF simulator | `src/models/plackett_luce.py`, `src/models/dnf.py`, `src/sim/montecarlo.py`, `pipelines/evaluate_sim.py`, tests | Simulated expected points beat 4.1 on MAE and total; fixed seed reproduces; samples scored by `src/sim/scoring.py` | Built, disabled: MAE 13.56 vs 13.47, total 4362 vs 4363 (does not beat 4.1). Best DNF shrink at grid edge (200), so per-driver DNF adds nothing over the field rate. 0.35 s/round at 2000 draws |
+| 4.3 | Chip planner | `src/optimize/chips.py`, `pipelines/plan_chips.py` | Advises which chip (if any) to play in each of rounds 21-23 from the user's remaining chips; uses `chips` rules | ChatGPT; real advice waits on the user's team and remaining chips |
+| 4.4 | Qualifying order | extend 4.2 | Beats 4.2 | Claude, after 4.2 |
+| 4.5 | Positions gained / overtakes | `src/models/poisson.py` | Beats previous best | Pending |
+| 4.6 | Sprint weekends | extend simulator | Beats previous best on sprint rounds | Pending (no sprints left in 2026 after Brazil; backtest only) |
+| 4.7 | Bonus events (fastest lap, DotD, pit stops) | extend simulator | Beats previous best; unsupported sources disabled | ChatGPT builds samplers + audit; Claude wires them in |
+| 4.8 | Freeze and Las Vegas pick | `pipelines/pick_team.py` | Team, boost, transfers and chip advice printed before 2026-11-21 04:00 UTC | Pending |
 **Scope:** Low-parameter qualifying, race, sprint, DNF, positions-gained, and bonus-event models; Monte Carlo point simulation using the existing season-specific scoring engine.
 **Prerequisites:** Phase 1-2 scoring/optimizer work is recorded as passing. Phase 3 has complete explicit pace/status coverage for 2025-2026 and a Kalman result above the last-race-order baseline. Pace is optional: the 149 `no_usable_longrun` entrant/weekend rows remain missing and must not be imputed.
 

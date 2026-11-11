@@ -13,4 +13,12 @@ constructor:
   world_record_stop: null
 team: {budget: 100.0, drivers: 5, constructors: 2, boost_multiplier: 2}
 transfers: {free: 2, carry_max: 1, max_free: 3, penalty: 10, net: false}
+# Chips: not confirmed for this season; null until confirmed.
+chips:
+  limitless: {budget_cap: null, free_transfers: null, team_reverts_next_round: null}
+  wildcard: {budget_cap: null, free_transfers: null, team_reverts_next_round: null}
+  extra_drs: {extra_multiplier: null}
+  no_negative: {session_floor: null}
+  autopilot: {boost_to: null}
+  final_fix: {swaps_after_qualifying: null}
 assumed: []

@@ -2,7 +2,7 @@
 
 - 2023 free-transfer carry-over assumed; no source confirms.
 - Never observed, left null: 2026 race DSQ, world-record pit stop, pre-2026 sprint DSQ, overall fastest stop before 2025.
-- Chip effects third-party only; confirm with user before Phase 6.
+- Chip effects confirmed by user for 2026 only (config/rules_2026.yaml `chips`); 2023-2025 chips still unconfirmed.
 - TracingInsights has no licence; its data must never appear in git as plaintext.
 - TracingInsights 2023 roundNumber one ahead of Jolpica from Monaco on; join on slug.
 - TI lists non-participants (2026 Mexico: TSU under VRB); count only drivers in Jolpica results.
@@ -24,3 +24,5 @@
 - `pace_seconds` not comparable across drivers: each fit centres lap number and tyre age at that driver's own medians, and the model has no compound offset, so values mix fuel load, tyre age and compound. 427/518 estimates are rank-deficient (single stint, lap and age collinear), so a common event reference is not identifiable for them. Resolve before Phase 4 uses pace.
 - graphify hooks in .claude/settings.json call bare `graphify`; install it on PATH (uv tool install graphifyy) or the hooks fail.
 - The cloud session has no F1_DATA_KEY and cannot reach fantasy.formula1.com, so data tests (-m data) and re-snapshots must run elsewhere.
+- Phase 4 form settings were tuned on 2026 rounds 1-10 and reported over rounds 1-20, so the all-rounds numbers partly include the tuning rounds.
+- `pick_team.py` without `config/my_team.yaml` uses the starting 100.0 budget, not the user's grown team value. Chips not yet used by the optimizer.

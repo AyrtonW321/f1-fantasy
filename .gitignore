@@ -10,3 +10,4 @@ graphify-out/cache/hook_sessions/
 graphify-out/.graphify_*
 graphify-out/2026-*/
 graphify-out/cache/ast/v0.9.17/
+config/my_team.yaml

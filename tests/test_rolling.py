@@ -132,3 +132,17 @@ def test_known_at_after_lock_row_ignored():
     pts = points([(1, "VER", 10.0), (2, "VER", 20.0, lock(3) + pd.Timedelta(hours=1))])
     out = baseline_mu(p, pts, races(), SEASON, 3)
     assert mu_of(out, "VER") == pytest.approx(10.0)
+
+
+def test_robust_mu_ignores_one_outlier_weekend_and_shrinks_to_price():
+    from src.features.rolling import robust_mu
+    # AAA scores 10 every week except one 100-point weekend; price prior m = median(total/price).
+    rows = [(r, "AAA", 100 if r == 3 else 10) for r in range(1, 6)] + [(r, "BBB", 10) for r in range(1, 6)]
+    px = prices([(r, a, 10.0) for r in range(1, 7) for a in ("AAA", "BBB")])
+    out = robust_mu(px, points(rows), races(), SEASON, 6, trim=0.2, prior_weight=1.0).set_index("asset_id")
+    # trim 0.2 of 5 drops 1 low and 1 high: center 10; prior 10 * 1.0 = 10.
+    assert out.loc["AAA", "mu"] == pytest.approx(10.0)
+    assert out.loc["BBB", "mu"] == pytest.approx(10.0)
+    # No history: pure price prior.
+    first = robust_mu(px, points(rows), races(), SEASON, 1).set_index("asset_id")
+    assert first.loc["AAA", "mu"] == pytest.approx(10.0)

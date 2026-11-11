@@ -42,3 +42,6 @@ Format: date, decision. Why.
 - 2026-11-10 Pace rows with unknown FP2 timing keep `known_at = NaT`, not `lock_utc`. Lock fallback made unknown-availability rows look pre-lock known to any downstream leakage check.
 - 2026-11-10 graphify installed as a uv tool, not a project dependency, and the graph built code-only. No pyproject change, and no repo data goes to an LLM. graphify-out/ is committed; its per-session hook state (graphify-out/cache/hook_sessions/) is gitignored.
 - 2026-11-10 snapshot_official raises when the schedule feed fails instead of returning []. A silent empty run looked like success.
+- 2026-11-10 Phase 4 revised after grilling: 2026-only data, robust per-weekend form, walk-forward over all 2026 rounds (tune on rounds 1-10), must beat rolling-5 baseline on MAE and season total, incremental pieces kept only if backtest improves. User wants a live Las Vegas pick (lock 2026-11-21 04:00 UTC) and to keep improving through Abu Dhabi.
+- 2026-11-10 Pace left out of Phase 4: values not comparable across drivers.
+- 2026-11-10 2026 chip rules confirmed by user and stored in config/rules_2026.yaml (Limitless, Wildcard, Extra DRS 3x, No Negative, Autopilot, Final Fix; one chip per round, each once).
