@@ -2,21 +2,41 @@
 
 Format: date, decision. Why.
 
-- 2026-11-09 Base = Phases 1-2, plan covers all 7. Scoring and the optimizer must be proven before any model sits on them.
-- 2026-11-09 Data: TracingInsights pinned release for 2023-25, official feeds for 2026 and live, mzafram totals as cross-check, Jolpica for results and schedules. TI is the only 2023-25 source; official 2026 feeds may vanish; mzafram is an independent check.
+- 2026-11-09 Base = Phases 1-2, plan covers all 7. Scoring and optimizer must be proven before any model sits on them.
+- 2026-11-09 Data: TracingInsights pinned release for 2023-25, official feeds for 2026 and live, mzafram totals as cross-check, Jolpica for results and schedules. TI only 2023-25 source; official 2026 feeds may vanish; mzafram independent check.
 - 2026-11-09 Rules per season for all four seasons (rules_2023..2026.yaml), unseen values null. Exact-match scoring across seasons needs each season's real values; null stops guessing.
-- 2026-11-09 Chips wait for Phase 6. Timing needs a forward view, and chip rules are unconfirmed.
-- 2026-11-09 Budget grows: bank plus current prices, carried round to round. Matches the real game; a fixed 100 forces fake transfers.
-- 2026-11-09 Baseline: same-season rolling 5, filled with a price-based prior. Past seasons stay as the answer key for backtests and tuning. Prior-season form misleads across regulation resets.
-- 2026-11-09 Tune on 2023-2025, hold out 2026 and log each evaluation, refit on all four for 2027. Tuning and scoring on the same races is self-graded.
+- 2026-11-09 Chips wait for Phase 6. Timing needs forward view, chip rules unconfirmed.
+- 2026-11-09 Budget grows: bank plus current prices, carried round to round. Matches real game; fixed 100 forces fake transfers.
+- 2026-11-09 Baseline: same-season rolling 5, filled with price-based prior. Past seasons stay as answer key for backtests and tuning. Prior-season form misleads across regulation resets.
+- 2026-11-09 Tune on 2023-2025, hold out 2026 and log each evaluation, refit on all four for 2027. Tuning and scoring on same races is self-graded.
 - 2026-11-09 FastF1 laps move to Phase 3. Nothing in Phases 1-2 reads them.
-- 2026-11-09 Solver: PuLP. Bundles CBC, writes the spec's formulation directly, problem is about 30 assets.
-- 2026-11-09 Leakage cutoff = first competitive session of the weekend. True sprint-weekend lock could not be verified; this cannot leak.
-- 2026-11-09 One public repo; raw data committed only as an encrypted archive (F1_DATA_KEY). TracingInsights has no licence; user wants public code.
-- 2026-11-09 Execution: orchestrator on the main session, Haiku builder and reviewer workers, every check re-run by the orchestrator. Cheap workers stay reliable only if checks are re-run.
-- 2026-11-09 pulp pinned below 4. Version 4.2 has no bundled CBC and a different API; 3.3.2 matches the plan and needs no new dependency.
-- 2026-11-09 Gate participation rule: a driver row counts only if Jolpica lists him that weekend and TI gives a position other than WD. TI lists phantom rows for drivers who changed team, and these distorted team totals.
-- 2026-11-09 Gate pins one genuine source inconsistency (2025 Spanish GP AST) instead of adding a rule that would break the 2023 case. Any other mismatch fails the test.
-- 2026-11-09 mzafram totals are joined by Jolpica round, not TI roundNumber (TI runs one ahead in 2023 from Monaco).
-- 2026-11-09 Baseline reports (reports/baseline_*.md) are gitignored: they are derived from fantasy data that must not appear in git as plaintext.
-- 2026-11-09 Phase 2 tasks 6-8 were built in parallel with Phase 1 to save time, against the hard rule; recorded as a process breach.
+- 2026-11-09 Solver: PuLP. Bundles CBC, writes spec's formulation directly, problem about 30 assets.
+- 2026-11-09 Leakage cutoff = first competitive session of weekend. True sprint-weekend lock could not be verified; this cannot leak.
+- 2026-11-09 One public repo; raw data committed only as encrypted archive (F1_DATA_KEY). TracingInsights has no licence; user wants public code.
+- 2026-11-09 Execution: orchestrator on main session, Haiku builder and reviewer workers, every check re-run by orchestrator. (VOIDED 2026-11-10, see below.)
+- 2026-11-09 pulp pinned below 4. Version 4.2 has no bundled CBC and different API; 3.3.2 matches plan, needs no new dependency.
+- 2026-11-09 Gate participation rule: driver row counts only if Jolpica lists him that weekend and TI gives position other than WD. TI lists phantom rows for drivers who changed team; these distorted team totals.
+- 2026-11-09 Gate pins one genuine source inconsistency (2025 Spanish GP AST) instead of adding rule that would break 2023 case. Any other mismatch fails test.
+- 2026-11-09 mzafram totals joined by Jolpica round, not TI roundNumber (TI runs one ahead in 2023 from Monaco).
+- 2026-11-09 Baseline reports (reports/baseline_*.md) gitignored: derived from fantasy data that must not appear in git as plaintext.
+- 2026-11-09 Phase 2 tasks 6-8 built in parallel with Phase 1 to save time, against hard rule; recorded as process breach.
+- 2026-11-09 Phase 3 plan: ingest FastF1 sessions/laps to Parquet with cache outside OneDrive, add explicit track/event metadata, derive auditable FP2 long-run pace feature, estimate car strength sequentially with Kalman model. Aim: measure weekend performance signals unavailable in fantasy totals alone, then separate car, driver, circuit effects for better order predictions.
+- 2026-11-09 Phase 3 validation: tune only on 2023-2025, reserve 2026 for frozen holdout evaluations; log every evaluation. Enforce `known_at` and existing lock cutoff. Compare walk-forward rank correlation with last race's order. Avoids future leakage, tests whether added signal improves over simple baseline.
+- 2026-11-09 Phase 3 execution approved. FastF1 `>=3.9.2,<4` installed. Archive ingestion requires eligible F1 TV account, kept local. FP2 gaps are explicit statuses; no synthetic pace fallback allowed.
+- 2026-11-09 Fantasy price handling: retain actual official prices by gameday/round, compare adjacent rounds to measure realized changes. Current observed prices feed optimizer budget; future price changes need no prediction. Scraper is on-demand snapshot today; Phase 7 should capture each round on schedule and preserve round history.
+- 2026-11-09 F1 Fantasy prices: compare consecutive official per-round price snapshots to calculate realized changes, tagged as known at later round's lock. Optimizer continues to use current observed prices for budget; do not forecast future changes or use TracingInsights `priceChange`.
+- 2026-11-09 FastF1 archive access: current FastF1 3.9.x requires eligible F1 TV authentication for archive pulls. Credentials/token remain local and outside git. Successful schedule inventory does not count as successful lap-data pull; verify non-empty session/lap output.
+- 2026-11-09 FP2 coverage: preserve explicit statuses for missing or unusable sessions, never use pace learned after fantasy lock. Sprint-weekend FP2 may be absent or post-lock, so all-driver coverage means row/status for every entrant, not fabricated pace.
+- 2026-11-09 Kalman observation: use within-round standardized race finish order, predict each round before incorporating its result. Tune model parameters on 2023-2025 only; log every frozen 2026 holdout evaluation.
+- 2026-11-09 FP2 regression: fit eligible long-run laps pooled across stints for driver/weekend. Per-stint tyre-age and lap-number slopes underidentified when those predictors advance together; center tyre age by compound and lap number at documented reference values, report rank diagnostics.
+- 2026-11-09 Kalman identification/tuning: center car, driver, track effects to zero-sum after each race update. Tune Q, observation variance, previous-season prior weight/duration on 2023-2025; compare zero-prior run. Hold observation definition fixed as within-round standardized finishing position.
+- 2026-11-09 FastF1 archive pull: auth verified locally with active F1 TV subscription. FastF1 limits archive requests to 500 API calls/hour; keep successful cache responses and resume partial pulls rather than treating rate-limited gaps as unavailable source data.
+- 2026-11-09 FastF1 session identifiers: distinguish `SS` (Sprint Shootout, 2023) from `SQ` (Sprint Qualifying, 2024+); API uses separate identifiers though both occupy sprint-qualifying slot in weekend schedule.
+- 2026-11-09 FastF1 time conversion: normalize both pandas and standard-library `timedelta` values to seconds; FastF1 returns latter for session-relative lap/weather times.
+- 2026-11-09 FastF1 rate-limit recovery: stop requesting at first 500-calls/hour limiter error, persist all fetched rows and full expected-session inventory, then retry from cache in later window. Avoids flooding logs, preserves which sessions remain incomplete.
+- 2026-11-09 FastF1 data horizon: build detailed session/lap and FP2 pace data only for 2025-2026. Do not fetch 2024 FastF1 data; preserve already-existing older-season tables for historical scoring and model context.
+- 2026-11-10 Pace data quality: load FastF1 race-control messages so `Deleted` lap flags are populated. For slow-lap screening, anchor to the faster half of each stint and cap the MAD allowance at 10 seconds; the previous uncapped MAD retained accurate-but-extremely-slow laps and produced RMSE as high as 41 seconds. Keep low-coverage statuses explicit instead of fabricating pace.
+- 2026-11-10 Pace minimum sample: retain the four-clean-lap-per-stint requirement. A fallback pooling two-lap stints with four total laps recovered 54 rows but yielded 49 estimates under eight laps and four fits above 5 seconds RMSE (maximum 10.13 seconds). A seven-lap pooled minimum recovered only five rows. Preserve the stricter long-run definition and report missingness.
+- 2026-11-10 Phase 3 coverage interpretation: complete coverage means an explicit estimate/status row for every entrant/weekend, not fabricated estimates for every FP2. Report usable pace coverage separately and keep `no_usable_longrun` as missing downstream. The current 919/919 status rows satisfy this contract; 518/667 rows with scheduled FP2 have usable pre-lock pace.
+- 2026-11-10 Orchestrator/Haiku-worker setup and Opus 5.5 xhigh effort voided by user. No builder/reviewer agents, no effort setting; main session does work directly. Caveman ultra is default response style.
+- 2026-11-10 Pace rows with unknown FP2 timing keep `known_at = NaT`, not `lock_utc`. Lock fallback made unknown-availability rows look pre-lock known to any downstream leakage check.

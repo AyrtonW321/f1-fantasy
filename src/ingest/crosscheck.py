@@ -224,8 +224,13 @@ def _save_season_csv(path: Path, season: int, rows: list[dict]) -> None:
     Written only when there are rows, or when an older file still holds this season's rows."""
     if not rows and not path.exists():
         return
-    frame = pd.DataFrame(rows)
-    if path.exists():
+    default_columns = {
+        "finish_mismatches.csv": ["season", "slug", "session", "driver", "ti", "jolpica"],
+        "totals_mismatches.csv": ["season", "round", "asset", "ours", "mzafram"],
+    }
+    columns = list(rows[0]) if rows else default_columns[path.name]
+    frame = pd.DataFrame(rows, columns=columns)
+    if path.exists() and path.stat().st_size:
         previous = pd.read_csv(path)
         frame = pd.concat([previous[previous["season"] != season], frame], ignore_index=True)
     path.parent.mkdir(parents=True, exist_ok=True)

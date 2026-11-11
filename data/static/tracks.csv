@@ -1,0 +1,94 @@
+season,round,track_id,track_name,track_type,overtaking_difficulty,safety_car_rate,safety_car_rate_races,sprint
+2023,1,bahrain,Bahrain International Circuit,permanent,medium,,0,False
+2023,2,jeddah,Jeddah Corniche Circuit,street,medium,,0,False
+2023,3,albert_park,Albert Park Grand Prix Circuit,semi-permanent,medium,,0,False
+2023,4,baku,Baku City Circuit,street,high,,0,True
+2023,5,miami,Miami International Autodrome,semi-permanent,medium,,0,False
+2023,6,monaco,Circuit de Monaco,street,high,,0,False
+2023,7,catalunya,Circuit de Barcelona-Catalunya,permanent,medium,,0,False
+2023,8,villeneuve,Circuit Gilles Villeneuve,semi-permanent,medium,,0,False
+2023,9,red_bull_ring,Red Bull Ring,permanent,low,,0,True
+2023,10,silverstone,Silverstone Circuit,permanent,medium,,0,False
+2023,11,hungaroring,Hungaroring,permanent,high,,0,False
+2023,12,spa,Circuit de Spa-Francorchamps,permanent,medium,,0,True
+2023,13,zandvoort,Circuit Park Zandvoort,permanent,high,,0,False
+2023,14,monza,Autodromo Nazionale di Monza,permanent,low,,0,False
+2023,15,marina_bay,Marina Bay Street Circuit,street,high,,0,False
+2023,16,suzuka,Suzuka Circuit,permanent,high,,0,False
+2023,17,losail,Lusail International Circuit,permanent,medium,,0,True
+2023,18,americas,Circuit of the Americas,permanent,medium,,0,True
+2023,19,rodriguez,Autódromo Hermanos Rodríguez,permanent,medium,,0,False
+2023,20,interlagos,Autódromo José Carlos Pace,permanent,medium,,0,True
+2023,21,vegas,Las Vegas Strip Street Circuit,street,medium,,0,False
+2023,22,yas_marina,Yas Marina Circuit,permanent,medium,,0,False
+2024,1,bahrain,Bahrain International Circuit,permanent,medium,0.0,1,False
+2024,2,jeddah,Jeddah Corniche Circuit,street,medium,1.0,1,False
+2024,3,albert_park,Albert Park Grand Prix Circuit,semi-permanent,medium,1.0,1,False
+2024,4,suzuka,Suzuka Circuit,permanent,high,1.0,1,False
+2024,5,shanghai,Shanghai International Circuit,permanent,medium,,0,True
+2024,6,miami,Miami International Autodrome,semi-permanent,medium,0.0,1,True
+2024,7,imola,Autodromo Enzo e Dino Ferrari,permanent,high,,0,False
+2024,8,monaco,Circuit de Monaco,street,high,0.0,1,False
+2024,9,villeneuve,Circuit Gilles Villeneuve,semi-permanent,medium,1.0,1,False
+2024,10,catalunya,Circuit de Barcelona-Catalunya,permanent,medium,0.0,1,False
+2024,11,red_bull_ring,Red Bull Ring,permanent,low,1.0,1,True
+2024,12,silverstone,Silverstone Circuit,permanent,medium,1.0,1,False
+2024,13,hungaroring,Hungaroring,permanent,high,0.0,1,False
+2024,14,spa,Circuit de Spa-Francorchamps,permanent,medium,0.0,1,False
+2024,15,zandvoort,Circuit Park Zandvoort,permanent,high,1.0,1,False
+2024,16,monza,Autodromo Nazionale di Monza,permanent,low,0.0,1,False
+2024,17,baku,Baku City Circuit,street,high,1.0,1,False
+2024,18,marina_bay,Marina Bay Street Circuit,street,high,1.0,1,False
+2024,19,americas,Circuit of the Americas,permanent,medium,0.0,1,True
+2024,20,rodriguez,Autódromo Hermanos Rodríguez,permanent,medium,1.0,1,False
+2024,21,interlagos,Autódromo José Carlos Pace,permanent,medium,1.0,1,True
+2024,22,vegas,Las Vegas Strip Street Circuit,street,medium,1.0,1,False
+2024,23,losail,Lusail International Circuit,permanent,medium,1.0,1,True
+2024,24,yas_marina,Yas Marina Circuit,permanent,medium,0.0,1,False
+2025,1,albert_park,Albert Park Grand Prix Circuit,semi-permanent,medium,0.5,2,False
+2025,2,shanghai,Shanghai International Circuit,permanent,medium,1.0,1,True
+2025,3,suzuka,Suzuka Circuit,permanent,high,0.5,2,False
+2025,4,bahrain,Bahrain International Circuit,permanent,medium,0.0,2,False
+2025,5,jeddah,Jeddah Corniche Circuit,street,medium,1.0,2,False
+2025,6,miami,Miami International Autodrome,semi-permanent,medium,0.5,2,True
+2025,7,imola,Autodromo Enzo e Dino Ferrari,permanent,high,0.0,1,False
+2025,8,monaco,Circuit de Monaco,street,high,0.5,2,False
+2025,9,catalunya,Circuit de Barcelona-Catalunya,permanent,medium,0.0,2,False
+2025,10,villeneuve,Circuit Gilles Villeneuve,semi-permanent,medium,1.0,2,False
+2025,11,red_bull_ring,Red Bull Ring,permanent,low,0.5,2,False
+2025,12,silverstone,Silverstone Circuit,permanent,medium,0.5,2,False
+2025,13,spa,Circuit de Spa-Francorchamps,permanent,medium,0.0,1,True
+2025,14,hungaroring,Hungaroring,permanent,high,0.0,1,False
+2025,15,zandvoort,Circuit Park Zandvoort,permanent,high,1.0,1,False
+2025,16,monza,Autodromo Nazionale di Monza,permanent,low,0.0,1,False
+2025,17,baku,Baku City Circuit,street,high,1.0,1,False
+2025,18,marina_bay,Marina Bay Street Circuit,street,high,1.0,1,False
+2025,19,americas,Circuit of the Americas,permanent,medium,0.0,1,True
+2025,20,rodriguez,Autódromo Hermanos Rodríguez,permanent,medium,1.0,1,False
+2025,21,interlagos,Autódromo José Carlos Pace,permanent,medium,1.0,1,True
+2025,22,vegas,Las Vegas Strip Street Circuit,street,medium,1.0,1,False
+2025,23,losail,Lusail International Circuit,permanent,medium,1.0,1,True
+2025,24,yas_marina,Yas Marina Circuit,permanent,medium,0.0,1,False
+2026,1,albert_park,Albert Park Grand Prix Circuit,semi-permanent,medium,0.6666666666666666,3,False
+2026,2,shanghai,Shanghai International Circuit,permanent,medium,0.5,2,True
+2026,3,suzuka,Suzuka Circuit,permanent,high,0.3333333333333333,3,False
+2026,4,miami,Miami International Autodrome,semi-permanent,medium,0.3333333333333333,3,True
+2026,5,villeneuve,Circuit Gilles Villeneuve,semi-permanent,medium,1.0,3,True
+2026,6,monaco,Circuit de Monaco,street,high,0.3333333333333333,3,False
+2026,7,catalunya,Circuit de Barcelona-Catalunya,permanent,medium,0.3333333333333333,3,False
+2026,8,red_bull_ring,Red Bull Ring,permanent,low,0.6666666666666666,3,False
+2026,9,silverstone,Silverstone Circuit,permanent,medium,0.6666666666666666,3,True
+2026,10,spa,Circuit de Spa-Francorchamps,permanent,medium,0.5,2,False
+2026,11,hungaroring,Hungaroring,permanent,high,0.0,2,False
+2026,12,zandvoort,Circuit Park Zandvoort,permanent,high,1.0,2,True
+2026,13,monza,Autodromo Nazionale di Monza,permanent,low,0.0,2,False
+2026,14,madring,Madring,street,medium,,0,False
+2026,15,baku,Baku City Circuit,street,high,1.0,2,False
+2026,16,sepang,Sepang International Circuit,permanent,medium,,0,False
+2026,17,marina_bay,Marina Bay Street Circuit,street,high,0.5,2,True
+2026,18,americas,Circuit of the Americas,permanent,medium,0.0,2,False
+2026,19,rodriguez,Autódromo Hermanos Rodríguez,permanent,medium,0.5,2,False
+2026,20,interlagos,Autódromo José Carlos Pace,permanent,medium,1.0,2,False
+2026,21,vegas,Las Vegas Strip Street Circuit,street,medium,0.5,2,False
+2026,22,losail,Lusail International Circuit,permanent,medium,1.0,2,False
+2026,23,yas_marina,Yas Marina Circuit,permanent,medium,0.0,2,False

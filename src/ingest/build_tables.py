@@ -9,6 +9,7 @@ from pathlib import Path
 import pandas as pd
 
 from src.ingest.codes import driver_code
+from src.features.prices import realized_price_changes
 
 SLUG_ALIASES = {
     "bahrain-grand-prix-in-malaysia": "bahrain-grand-prix",
@@ -235,3 +236,5 @@ def build_all(raw_dir: Path, out_dir: Path, seasons: Sequence[int]) -> None:
         tables["results"].append(build_results(season, raw_dir))
     for name, frames in tables.items():
         pd.concat(frames, ignore_index=True).to_parquet(out_dir / f"{name}.parquet", index=False)
+    prices = pd.concat(tables["prices"], ignore_index=True)
+    realized_price_changes(prices).to_parquet(out_dir / "price_changes.parquet", index=False)

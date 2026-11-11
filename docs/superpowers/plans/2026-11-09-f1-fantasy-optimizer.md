@@ -1,10 +1,10 @@
 # F1 Fantasy Optimizer Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** A Python system that reproduces official F1 Fantasy scoring for 2023-2026 and picks a valid optimal team each round from a rolling baseline, as the base for the full prediction system.
+**Goal:** Python system reproducing official F1 Fantasy scoring for 2023-2026, picking valid optimal team each round from rolling baseline. Base for full prediction system.
 
-**Architecture:** Raw source files are committed only as one encrypted archive and normalize into Parquet tables. `scoring.py` and an ILP optimizer read per-season YAML rules. A walk-forward runner carries team state round to round and calls a pluggable predictor, so later models replace only the baseline.
+**Architecture:** Raw source files committed only as one encrypted archive, normalized into Parquet tables. `scoring.py` and ILP optimizer read per-season YAML rules. Walk-forward runner carries team state round to round, calls pluggable predictor, so later models replace only baseline.
 
 **Tech Stack:** Python 3.11+, uv, requests, pandas, pyarrow, numpy, pyyaml, PuLP, pytest.
 
@@ -12,25 +12,25 @@
 
 ## Global Constraints
 
-- No phase starts before the previous phase's acceptance passes.
+- No phase starts before previous phase's acceptance passes.
 - All game rules live in `config/rules_{season}.yaml`, never in code.
-- A `null` rule value raises `UnknownRuleError` when needed. Never fill one in to make a test pass.
-- If the scoring gate fails on real data, stop and report the rows. Do not change a rule value without asking the user.
+- `null` rule value raises `UnknownRuleError` when needed. Never fill one in to make test pass.
+- Scoring gate fails on real data: stop, report rows. Do not change rule value without asking user.
 - Every feature row has `known_at`. Nothing uses data after that round's `lock_utc`.
 - Never read TracingInsights `priceChange`.
-- Ask before adding a dependency the original spec does not list.
-- No plaintext data in the public repo: real data is committed only inside `data/raw.tar.gz.enc`. Committed fixtures are hand-written.
-- `F1_DATA_KEY` is never committed, logged or printed.
-- `f1-fantasy` must be its own git repo. Run `git rev-parse --show-toplevel` before the first commit; it must print the project folder, not the home directory.
+- Ask before adding dependency original spec does not list.
+- No plaintext data in public repo: real data committed only inside `data/raw.tar.gz.enc`. Committed fixtures hand-written.
+- `F1_DATA_KEY` never committed, logged or printed.
+- `f1-fantasy` must be own git repo. Run `git rev-parse --show-toplevel` before first commit; must print project folder, not home directory.
 - pytest for every module, small typed functions.
 
 ## Review Focus
 
-1. Sources disagree on round numbers or race names: joins use slugs, and an unmatched race raises with its name. Test in Task 4.
-2. A driver changes teams mid-season: one asset with continuous form and ownership. Test in Task 4.
-3. An owned asset is missing from a round's list: budget uses its last known price and the optimizer still returns a team. Test in Task 7.
-4. Unplayed rounds appear in source files: they never count as zero-point form. Test in Task 4 and Task 6.
-5. A snapshot rerun meets an error or empty response: the existing good file stays. Test in Task 1.
+1. Sources disagree on round numbers or race names: joins use slugs, unmatched race raises with its name. Test in Task 4.
+2. Driver changes teams mid-season: one asset with continuous form and ownership. Test in Task 4.
+3. Owned asset missing from round's list: budget uses last known price, optimizer still returns team. Test in Task 7.
+4. Unplayed rounds appear in source files: never count as zero-point form. Test in Task 4 and Task 6.
+5. Snapshot rerun meets error or empty response: existing good file stays. Test in Task 1.
 
 ---
 
@@ -60,13 +60,13 @@ f1-fantasy/
   tests/
 ```
 
-`src/` has no `__init__.py`; pytest uses `pythonpath = ["."]` and imports read `from src.sim.scoring import ...`.
+`src/` has no `__init__.py`; pytest uses `pythonpath = ["."]`, imports read `from src.sim.scoring import ...`.
 
 # Phase 1: Ingest and scoring engine
 
 ### Task 1: Project scaffold and official feed snapshot
 
-Snapshots come first because the 2026 feeds may vanish when the 2027 game launches.
+Snapshots first: 2026 feeds may vanish when 2027 game launches.
 
 **Files:**
 - Create: `pyproject.toml`, `.gitignore`, `tests/conftest.py`, `src/ingest/fantasy_scrape.py`, `src/ingest/vault.py`
@@ -77,15 +77,15 @@ Snapshots come first because the 2026 feeds may vanish when the 2027 game launch
 
 - [ ] **Step 1: User sets up the key and environment (user does this; the key never enters the chat)**
 
-The repo `AyrtonW321/f1-fantasy` and its local folder already exist. Generate a key with `openssl rand -base64 32`, save it in a password manager, and set it as user env var `F1_DATA_KEY`. Set `UV_PROJECT_ENVIRONMENT` to a folder outside OneDrive.
+Repo `AyrtonW321/f1-fantasy` and local folder already exist. Generate key with `openssl rand -base64 32`, save in password manager, set as user env var `F1_DATA_KEY`. Set `UV_PROJECT_ENVIRONMENT` to folder outside OneDrive.
 
 - [ ] **Step 2: Write scaffold**
 
 `pyproject.toml`: `requires-python = ">=3.11"`; dependencies requests, pandas, pyarrow, numpy, pyyaml; dev group pytest; `[tool.uv] package = false`; `[tool.pytest.ini_options]` with `pythonpath = ["."]` and marker `data`. `.gitignore`: `data/raw/`, `data/processed/`, `.venv/`, `__pycache__/`.
 
-`tests/conftest.py`: fixture `raw_data` returns `Path("data/raw")`. If `data/raw/tracinginsights` is absent: `pytest.fail` when env `REQUIRE_DATA=1`, else `pytest.skip("data/raw absent: scoring gate NOT run")`.
+`tests/conftest.py`: fixture `raw_data` returns `Path("data/raw")`. If `data/raw/tracinginsights` absent: `pytest.fail` when env `REQUIRE_DATA=1`, else `pytest.skip("data/raw absent: scoring gate NOT run")`.
 
-- [ ] **Step 3: Write failing tests** using a fake session mapping URL to `(status, json)`
+- [ ] **Step 3: Write failing tests** using fake session mapping URL to `(status, json)`
 
 ```python
 def test_snapshot_writes_every_gameday(tmp_path): ...
@@ -121,13 +121,13 @@ def test_oversize_keeps_old_archive(tmp_path, monkeypatch):
 
 - [ ] **Step 5: Implement `snapshot_official` in `src/ingest/fantasy_scrape.py`**
 
-Base URL `https://fantasy.formula1.com/feeds/`. Paths: `schedule/raceday_en.json`, `limits/constraints.json`, `apps/web_config.json`, `drivers/{g}_en.json` for `g` in 1..max `GamedayId` in raceday `Data.Value`, `popup/playerstats_{id}.json` for each `PlayerId` in the highest gameday fetched. A response is valid when status is 200, JSON parses and is non-empty; driver feeds also need non-empty `Data.Value`. Write only valid responses. Add `__main__` writing to `data/raw`. Use a generic User-Agent.
+Base URL `https://fantasy.formula1.com/feeds/`. Paths: `schedule/raceday_en.json`, `limits/constraints.json`, `apps/web_config.json`, `drivers/{g}_en.json` for `g` in 1..max `GamedayId` in raceday `Data.Value`, `popup/playerstats_{id}.json` for each `PlayerId` in highest gameday fetched. Response valid when status 200, JSON parses and non-empty; driver feeds also need non-empty `Data.Value`. Write only valid responses. Add `__main__` writing to `data/raw`. Use generic User-Agent.
 
-`src/ingest/vault.py`: build the tar with stdlib `tarfile` in a temp directory outside the repo, then run `openssl enc -aes-256-cbc -pbkdf2 -iter 600000 -salt -pass env:F1_DATA_KEY` by subprocess with no shell. Replace the archive with `os.replace` only after success and the size check. `unseal` decrypts and extracts to a temp directory using `tarfile` `filter="data"`, then swaps it into `raw_dir`. Add `__main__` with `seal` and `unseal` commands on `data/raw` and `data/raw.tar.gz.enc`.
+`src/ingest/vault.py`: build tar with stdlib `tarfile` in temp directory outside repo, then run `openssl enc -aes-256-cbc -pbkdf2 -iter 600000 -salt -pass env:F1_DATA_KEY` by subprocess with no shell. Replace archive with `os.replace` only after success and size check. `unseal` decrypts and extracts to temp directory using `tarfile` `filter="data"`, then swaps into `raw_dir`. Add `__main__` with `seal` and `unseal` commands on `data/raw` and `data/raw.tar.gz.enc`.
 
 - [ ] **Step 6: Run tests.** Expected: PASS.
 
-- [ ] **Step 7: Run the snapshot and seal it.** `uv run python -m src.ingest.fantasy_scrape`, then `uv run python -m src.ingest.vault seal`. Expected: `data/raw/official/2026/drivers/` holds one file per gameday and `git status` lists only `data/raw.tar.gz.enc` from `data/`. Rerun both after the final 2026 race.
+- [ ] **Step 7: Run the snapshot and seal it.** `uv run python -m src.ingest.fantasy_scrape`, then `uv run python -m src.ingest.vault seal`. Expected: `data/raw/official/2026/drivers/` holds one file per gameday, `git status` lists only `data/raw.tar.gz.enc` from `data/`. Rerun both after final 2026 race.
 
 - [ ] **Step 8: Commit:** `feat: scaffold project and snapshot official feeds`.
 
@@ -169,13 +169,13 @@ def test_jolpica_retries_429(tmp_path):
 
 - [ ] **Step 3: Implement**
 
-TI archive URL: `https://github.com/TracingInsights/fantasy/archive/refs/tags/{tag}.zip`. Keep only `race.json` and `*_all.json` under `data/transformed/{2023..2026}/`, written to `raw_dir/tracinginsights/{year}/{slug}/`. Remove the base64 `circuitMapUrl` from `race.json` to keep the archive small. mzafram URL: `https://raw.githubusercontent.com/mzafram2001/f1-fantasy/main/data/{year}/round_{nn:02d}.json`, `nn` in 1..30.
+TI archive URL: `https://github.com/TracingInsights/fantasy/archive/refs/tags/{tag}.zip`. Keep only `race.json` and `*_all.json` under `data/transformed/{2023..2026}/`, written to `raw_dir/tracinginsights/{year}/{slug}/`. Remove base64 `circuitMapUrl` from `race.json` to keep archive small. mzafram URL: `https://raw.githubusercontent.com/mzafram2001/f1-fantasy/main/data/{year}/round_{nn:02d}.json`, `nn` in 1..30.
 
-Jolpica base `https://api.jolpi.ca/ergast/f1/{season}/`, endpoints `races`, `results`, `qualifying`, `sprint`, `limit=100`, paging by `offset` until `MRData.total`, 0.5s sleep between pages, 3 retries on 429 with 5s sleep then raise. Output `raw_dir/jolpica/{season}/{endpoint}.json`, a list of Race objects merged by `round`. Result list keys: `Results`, `QualifyingResults`, `SprintResults`.
+Jolpica base `https://api.jolpi.ca/ergast/f1/{season}/`, endpoints `races`, `results`, `qualifying`, `sprint`, `limit=100`, paging by `offset` until `MRData.total`, 0.5s sleep between pages, 3 retries on 429 with 5s sleep then raise. Output `raw_dir/jolpica/{season}/{endpoint}.json`, list of Race objects merged by `round`. Result list keys: `Results`, `QualifyingResults`, `SprintResults`.
 
 - [ ] **Step 4: Run tests.** Expected: PASS.
 
-- [ ] **Step 5: Pull real data.** Tag `data-sync-20261109-044408`, seasons 2023-2026. Add a `__main__` to each module. Run `uv run python -m src.ingest.vault seal`. Expected: archive under 95 MB, and it is included in this task's commit.
+- [ ] **Step 5: Pull real data.** Tag `data-sync-20261109-044408`, seasons 2023-2026. Add `__main__` to each module. Run `uv run python -m src.ingest.vault seal`. Expected: archive under 95 MB, included in this task's commit.
 
 - [ ] **Step 6: Commit:** `feat: pull community fantasy data and Jolpica results`.
 
@@ -217,7 +217,7 @@ def score_constructor(rules: dict, lines: Sequence[DriverLine],
                       teamwork: str | None = None, pit: PitResult = PitResult()) -> int: ...
 ```
 
-- [ ] **Step 1: Write the rules files.** Shape, shown for 2026; values for the other seasons are in the spec tables:
+- [ ] **Step 1: Write the rules files.** Shape, shown for 2026; other seasons' values in spec tables:
 
 ```yaml
 season: 2026
@@ -285,7 +285,7 @@ def test_overall_fastest_stop_null_raises_in_2024():
 
 - [ ] **Step 3: Run tests.** Expected: FAIL, module not found.
 
-- [ ] **Step 4: Implement `src/sim/scoring.py`.** A constructor scores each line as a driver would, minus DOTD, with `constructor.disqualified[session]` replacing the driver DSQ value. Teamwork applies only when passed; pit applies only in race sessions.
+- [ ] **Step 4: Implement `src/sim/scoring.py`.** Constructor scores each line as driver would, minus DOTD, with `constructor.disqualified[session]` replacing driver DSQ value. Teamwork applies only when passed; pit applies only in race sessions.
 
 - [ ] **Step 5: Run tests.** Expected: PASS.
 
@@ -352,11 +352,11 @@ def test_price_known_at_equals_lock_and_points_after_race(tmp_path):
 
 - [ ] **Step 3: Implement**
 
-`SLUG_ALIASES = {"bahrain-grand-prix-in-malaysia": "bahrain-grand-prix", "brazilian-grand-prix": "sao-paulo-grand-prix"}` and `CONSTRUCTOR_ALIASES = {"RBR": "RED", "RBS": "VRB"}`. Canonical round comes from Jolpica. `ti_slug_round` stores TI's `roundNumber`, used only by the mzafram cross-check.
+`SLUG_ALIASES = {"bahrain-grand-prix-in-malaysia": "bahrain-grand-prix", "brazilian-grand-prix": "sao-paulo-grand-prix"}` and `CONSTRUCTOR_ALIASES = {"RBR": "RED", "RBS": "VRB"}`. Canonical round from Jolpica. `ti_slug_round` stores TI's `roundNumber`, used only by mzafram cross-check.
 
-`lock_utc` is the minimum of Qualifying, Sprint, SprintQualifying, SprintShootout datetimes; a missing time raises. `completed` means round present in Jolpica `results.json`.
+`lock_utc` is minimum of Qualifying, Sprint, SprintQualifying, SprintShootout datetimes; missing time raises. `completed` means round present in Jolpica `results.json`.
 
-TI source: `{session}_all.json` row `price`, `sessionResult.totalPoints.points` per session. 2026 prices and points come from the Task 1 snapshot `official/2026/drivers/{round}.json` (`Value`, `QualifyingPoints`, `SprintPoints`, `RacePoints`, parsed as floats), matched on `DriverTLA`.
+TI source: `{session}_all.json` row `price`, `sessionResult.totalPoints.points` per session. 2026 prices and points come from Task 1 snapshot `official/2026/drivers/{round}.json` (`Value`, `QualifyingPoints`, `SprintPoints`, `RacePoints`, parsed as floats), matched on `DriverTLA`.
 
 Jolpica `Driver.code` may be missing; fall back to `familyName[:3].upper()`.
 
@@ -364,7 +364,7 @@ Jolpica `Driver.code` may be missing; fall back to `familyName[:3].upper()`.
 
 - [ ] **Step 4: Run tests.** Expected: PASS.
 
-- [ ] **Step 5: Build real tables.** `uv run python pipelines/build_data.py`. Expected: four Parquet files; `races` has 22, 24, 24, and 23 rows for 2023-2026. Unmatched names raise; add real aliases if the spec's list is incomplete.
+- [ ] **Step 5: Build real tables.** `uv run python pipelines/build_data.py`. Expected: four Parquet files; `races` has 22, 24, 24, and 23 rows for 2023-2026. Unmatched names raise; add real aliases if spec's list incomplete.
 
 - [ ] **Step 6: Commit:** `feat: normalize raw sources into Parquet tables`.
 
@@ -421,23 +421,23 @@ def test_finish_positions_agree(raw_data, season):
 
 - [ ] **Step 3: Implement**
 
-No TI field marks DSQ or NC, so `disqualified` and `not_classified` come from non-zero `disqualifiedPoints` and `notClassifiedPoints` lines. Position, gained, overtakes, fastest lap and DOTD come from `{session}Position`, `{session}PositionsGained`, `{session}Overtakes`, `{session}FastestLap`, `raceDriverOfTheDay`. Overall fastest comes from `raceOverallFastestPitStop`; world record from non-zero `worldRecordPitStopPoints`.
+No TI field marks DSQ or NC, so `disqualified` and `not_classified` come from non-zero `disqualifiedPoints` and `notClassifiedPoints` lines. Position, gained, overtakes, fastest lap and DOTD come from `{session}Position`, `{session}PositionsGained`, `{session}Overtakes`, `{session}FastestLap`, `raceDriverOfTheDay`. Overall fastest from `raceOverallFastestPitStop`; world record from non-zero `worldRecordPitStopPoints`.
 
-Pit text: contains `" of "` means seconds by regex `of ([\d.]+)s`. Empty or `"Fastest pit stop time"` means none. Otherwise ranks: 1 if it starts with `Fastest`, 2 if `2nd`, 3 if `3rd`.
+Pit text: contains `" of "` means seconds by regex `of ([\d.]+)s`. Empty or `"Fastest pit stop time"` means none. Otherwise ranks: 1 if starts with `Fastest`, 2 if `2nd`, 3 if `3rd`.
 
-Teamwork text map: `Neither driver reached Q2`, `One driver reached Q2`, `Both drivers reached Q2`, `One driver reached Q3`, `Both drivers reached Q3` to the YAML keys.
+Teamwork text map: `Neither driver reached Q2`, `One driver reached Q2`, `Both drivers reached Q2`, `One driver reached Q3`, `Both drivers reached Q3` to YAML keys.
 
 Constructor lines: driver rows with matching `constructorId` and `abbreviation` in `weekend_entrants`.
 
 Gate target: 2023-2025 `sessionResult.totalPoints.points`; 2026 official session points. Mismatch dict: season, slug, session, asset, expected, actual. Completed rounds only.
 
-`totals_mismatches` compares `fantasy_points.total` with mzafram `Round_Fantasy_Points` (`Driver_Code`, `Team_Code`), locating files by `ti_slug_round`, and writes `data/processed/totals_mismatches.csv`. It is a report, not a gate. If an entire season mismatches, the round numbering assumption is wrong; stop and fix the join.
+`totals_mismatches` compares `fantasy_points.total` with mzafram `Round_Fantasy_Points` (`Driver_Code`, `Team_Code`), locating files by `ti_slug_round`, writes `data/processed/totals_mismatches.csv`. Report, not gate. If entire season mismatches, round numbering assumption wrong; stop and fix join.
 
 - [ ] **Step 4: Run unit tests.** Expected: PASS.
 
-- [ ] **Step 5: Run Phase 1 acceptance.** `REQUIRE_DATA=1 uv run pytest -m data -v`. Expected: 8 passed, 0 skipped. On any mismatch, stop and show the user the rows.
+- [ ] **Step 5: Run Phase 1 acceptance.** `REQUIRE_DATA=1 uv run pytest -m data -v`. Expected: 8 passed, 0 skipped. On any mismatch, stop and show user the rows.
 
-- [ ] **Step 6: Run cross-check** and report mismatch counts per season to the user.
+- [ ] **Step 6: Run cross-check** and report mismatch counts per season to user.
 
 - [ ] **Step 7: Commit:** `feat: add scoring gate and source cross-checks`.
 
@@ -491,7 +491,7 @@ def test_guard_raises_after_lock():
 
 - [ ] **Step 2: Run tests.** Expected: FAIL, modules not found.
 
-- [ ] **Step 3: Implement.** Filter `points` to the season and `known_at <= lock_utc` of the target round. Formula in spec. `known_at` on output is the round's `lock_utc`. Call `assert_known_before_lock` on the output.
+- [ ] **Step 3: Implement.** Filter `points` to season and `known_at <= lock_utc` of target round. Formula in spec. `known_at` on output is round's `lock_utc`. Call `assert_known_before_lock` on output.
 
 - [ ] **Step 4: Run tests.** Expected: PASS.
 
@@ -538,7 +538,7 @@ def optimize(assets: Sequence[Asset], state: TeamState | None, rules: dict) -> D
 def next_state(state: TeamState | None, decision: Decision, rules: dict) -> TeamState: ...
 ```
 
-- [ ] **Step 1: Write failing tests** with synthetic asset lists from a `make_field()` helper
+- [ ] **Step 1: Write failing tests** with synthetic asset lists from `make_field()` helper
 
 ```python
 def test_counts_and_boost(): ...          # 5 drivers, 2 constructors, boost on highest-mu picked driver
@@ -570,7 +570,7 @@ def test_solves_under_two_seconds():      # 33 assets
 
 - [ ] **Step 2: Run tests.** Expected: FAIL, module not found.
 
-- [ ] **Step 3: Add pulp and implement.** Formulation from the spec: binaries `x_i`, `y_j`, `b_i`, `s_k`, continuous `e >= T - F`, `e >= 0`. Compare costs in integer tenths (`round(price * 10)`) to avoid float budget errors. `budget = bank + sum(current or last known price)`. Sort assets by id and use `PULP_CBC_CMD(msg=False)` for repeatable results. Carry: `F' = min(max_free, free + min(carry_max, max(F - T, 0)))`. Raise `InfeasibleTeam` when no team fits.
+- [ ] **Step 3: Add pulp and implement.** Formulation from spec: binaries `x_i`, `y_j`, `b_i`, `s_k`, continuous `e >= T - F`, `e >= 0`. Compare costs in integer tenths (`round(price * 10)`) to avoid float budget errors. `budget = bank + sum(current or last known price)`. Sort assets by id and use `PULP_CBC_CMD(msg=False)` for repeatable results. Carry: `F' = min(max_free, free + min(carry_max, max(F - T, 0)))`. Raise `InfeasibleTeam` when no team fits.
 
 - [ ] **Step 4: Run tests.** Expected: PASS.
 
@@ -586,7 +586,7 @@ def test_solves_under_two_seconds():      # 33 assets
 - Consumes: Task 6 `baseline_mu`; Task 7 `optimize`, `next_state`, `Asset`.
 - Produces: `Predictor = Callable[[int, int], pd.DataFrame]`; `RoundResult(round: int, decision: Decision, actual_points: float, solve_seconds: float)`; `SeasonResult(season: int, rounds: list[RoundResult], total: float, total_from_round_5: float, assumptions: list[str])`; `run_season(season: int, tables: dict[str, pd.DataFrame], rules: dict, predict: Predictor) -> SeasonResult`; `write_report(result: SeasonResult, path: Path) -> None`.
 
-- [ ] **Step 1: Write failing tests** on a synthetic 6-round season
+- [ ] **Step 1: Write failing tests** on synthetic 6-round season
 
 ```python
 def test_actual_points_counts_boost_and_penalty():
@@ -611,22 +611,22 @@ def test_report_prints_assumptions(tmp_path):
 
 - [ ] **Step 2: Run tests.** Expected: FAIL, module not found.
 
-- [ ] **Step 3: Implement.** Loop completed rounds in order. Skip chips. Add `__main__`: `--season` builds the baseline predictor with `rolling_window` from `model.yaml`, writes `reports/baseline_{season}.md` with per-round team, boost, transfers, points, and both totals.
+- [ ] **Step 3: Implement.** Loop completed rounds in order. Skip chips. Add `__main__`: `--season` builds baseline predictor with `rolling_window` from `model.yaml`, writes `reports/baseline_{season}.md` with per-round team, boost, transfers, points, both totals.
 
 - [ ] **Step 4: Run tests.** Expected: PASS.
 
-- [ ] **Step 5: Run Phase 2 acceptance.** For each season 2023-2026: `uv run python -m src.backtest.walkforward --season 2024`. Expected: a report for each; every round valid; max solve time under 2s. Then `uv run pytest -v`. Expected: all pass.
+- [ ] **Step 5: Run Phase 2 acceptance.** For each season 2023-2026: `uv run python -m src.backtest.walkforward --season 2024`. Expected: report for each; every round valid; max solve time under 2s. Then `uv run pytest -v`. Expected: all pass.
 
 - [ ] **Step 6: Commit:** `feat: add walk-forward baseline backtest`.
 
 # Phases 3-7: outline
 
-Each phase gets its own task-level plan after the previous acceptance passes. Designing them now would fix schemas before their first reader exists.
+Each phase gets own task-level plan after previous acceptance passes. Designing now would fix schemas before first reader exists.
 
 | Phase | Build | Carried-over decisions | Acceptance |
 |---|---|---|---|
-| 3 Pace + Kalman | FastF1 ingest (`laps`, `sessions`), cache outside OneDrive, `tracks.csv`, `features/pace.py`, `models/kalman.py` | Tune only on 2023-2025. Prior-year order as weak prior in first 2-3 rounds. | FP2 long-run per driver per weekend. Kalman correlates with race order better than last-race order. |
-| 4 Events + simulator | `models/plackett_luce.py`, `lgbm_rank.py`, `dnf.py`, `poisson.py`, `sim/montecarlo.py` reusing `scoring.py` | Season rules by year. Null rules must be resolved or simulated around, with the user asked. | Models fit and sample; calibrated. |
-| 5 Backtest | `backtest/metrics.py`, Kalman `Q` and `lambda` tuning, reuse `run_season` | Hold out 2026. Log every 2026 evaluation in `reports/holdout_2026_log.md`. Refit on all four for 2027. Test prior-season form. Compare from round 5 and overall. | Every metric compared with baseline. Models that lose are dropped. |
-| 6 Horizon, chips, price, risk | `optimize/horizon.py`, `chips.py`, `models/price.py`, risk mode | Confirm chip rules per season first. `lambda_price` must beat growing-budget baseline. Price features relative within season. | Each improves Phase 5 or is disabled by default. |
-| 7 Automation | `pipelines/weekly_update.py`, `.github/workflows/cron.yml`, `reports/round_XX.md` | `F1_DATA_KEY` as Actions secret; workflow unseals before running and reseals after new snapshots. Real deadlines from feed lock flags. Time Monte Carlo against Actions minutes. | Cron writes report unattended. |
+| 3 Pace + Kalman | FastF1 ingest (`laps`, `sessions`) for 2025-2026, cache outside OneDrive, `tracks.csv`, `features/pace.py`, `models/kalman.py` | Tune only on 2023-2025. Prior-year order as weak prior in first 2-3 rounds. | FP2 long-run per driver per weekend in 2025-2026. Kalman correlates with race order better than last-race order. |
+| 4 Events + simulator | `models/plackett_luce.py`, `lgbm_rank.py`, `dnf.py`, `poisson.py`, `sim/montecarlo.py` reusing `scoring.py` | Season rules by year. Null rules must be resolved or simulated around, with user asked. | Models fit and sample; calibrated. |
+| 5 Backtest | `backtest/metrics.py`, Kalman `Q` and `lambda` tuning, reuse `run_season` | Hold out 2026. Log every 2026 evaluation in `reports/holdout_2026_log.md`. Refit on all four for 2027. Test prior-season form. Compare from round 5 and overall. | Every metric compared with baseline. Losing models dropped. |
+| 6 Horizon, chips, observed price changes, risk | `optimize/horizon.py`, `chips.py`, risk mode | Confirm chip rules per season first. Use captured round prices and realized changes in budget/horizon comparisons; no future-price prediction. | Extensions evaluated against Phase 5; observed prices and budget stay season-correct. |
+| 7 Automation | `pipelines/weekly_update.py`, `.github/workflows/cron.yml`, `reports/round_XX.md` | `F1_DATA_KEY` as Actions secret; workflow unseals before running, reseals after new snapshots. Real deadlines from feed lock flags. Time Monte Carlo against Actions minutes. | Cron writes report unattended. |
