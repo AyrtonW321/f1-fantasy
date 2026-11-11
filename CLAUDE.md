@@ -34,6 +34,7 @@ Python system that reproduces official F1 Fantasy scoring for 2023-2026, predict
 config/         rules_2023..2026.yaml, model.yaml
 data/           raw.tar.gz.enc (committed); static/tracks.csv (hand-built, committed); raw/ and processed/ (gitignored)
 docs/           progress.md, decisions.md, known-issues.md, superpowers/{specs,plans}
+graphify-out/   graph.json, GRAPH_REPORT.md, graph.html (committed); cache/ (gitignored). Tool: uv tool install graphifyy
 pipelines/      build_data.py
 reports/
 src/ingest/     vault, fantasy_scrape, community_pull, jolpica_pull, build_tables, ti_lines, crosscheck, tracks (fastf1_pull planned)
