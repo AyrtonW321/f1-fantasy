@@ -1,32 +1,39 @@
 # F1 Fantasy Optimizer
 
-Python system that reproduces official F1 Fantasy scoring for 2023-2026, predicts fantasy points, and picks the optimal team each round under the budget cap. Target: backtest on 2023-2026, live for Round 1 of 2027.
+Python system. Reproduce official F1 Fantasy scoring 2023-2026, predict fantasy points, pick optimal team each round under budget cap. Target: backtest on 2023-2026, live for Round 1 of 2027.
 
 - Spec: docs/superpowers/specs/2026-11-09-f1-fantasy-optimizer.md (Part 1 overrides Part 2)
 - Plan: docs/superpowers/plans/2026-11-09-f1-fantasy-optimizer.md
 
-## Roles
-
-- You (the main session) are the orchestrator. You plan, write briefs and check results. You don't do bulk work yourself when a worker can.
-- Workers are subagents on Haiku: `builder` and `reviewer` in .claude/agents/.
-- Every brief states the goal, the files to read, and a "Done when:" check that can be run or seen.
-- Before accepting any worker's output, run its check yourself. If it fails, send it back with the failure. Never pass on a worker's report unchecked.
-
 ## Session routine
 
 - Start: read this file and docs/progress.md, docs/decisions.md, docs/known-issues.md.
-- End: update progress.md (including one dated log line), add new decisions (date and why) and gotchas, run the `reflect` skill and propose skill edits with this session's evidence. The user approves before you apply them.
+- End: update progress.md (include one dated log line), add new decisions (date and why) and gotchas, record unfixed review findings in known-issues.md, run `reflect` skill, propose skill edits with this session's evidence. User approves before you apply.
 
-## Hard rules (copy into every brief that touches them)
+## Code style: ponytail
 
-- No phase starts before the previous phase's acceptance passes.
-- Game rules live in config/rules_{season}.yaml, never in code. A `null` value raises UnknownRuleError; never fill one in to pass a test. If the scoring gate fails on real data, stop and report the rows.
+Use ponytail (full) on all coding tasks here: lazy senior dev, laziest solution that works. Reuse existing helper, stdlib, installed dep before new code. Shortest correct diff. Non-trivial logic leaves one runnable check.
+
+## graphify
+
+This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
+
+Rules:
+- For codebase questions, first run `graphify query "<question>"` when graphify-out/graph.json exists. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
+- If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
+- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
+- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
+
+## Hard rules
+
+- No phase starts before previous phase's acceptance passes.
+- Game rules live in config/rules_{season}.yaml, never in code. `null` value raises UnknownRuleError; never fill one in to pass test. Scoring gate fails on real data: stop, report rows.
 - Every feature row has `known_at`. Nothing uses data after that round's `lock_utc`.
 - Never read TracingInsights `priceChange` (post-race data).
-- Ask before adding a dependency the spec doesn't list.
-- No plaintext data in git: real data is committed only as data/raw.tar.gz.enc. Never commit, log or print F1_DATA_KEY.
-- Before the first commit run `git rev-parse --show-toplevel`; it must print this project folder.
-- Pushes and repo changes need the user's OK. Workers never commit or push.
+- Ask before adding dependency spec doesn't list.
+- No plaintext data in git: real data committed only as data/raw.tar.gz.enc. Never commit, log or print F1_DATA_KEY.
+- Before first commit run `git rev-parse --show-toplevel`; must print this project folder.
+- Pushes and repo changes need user's OK.
 
 ## Folder map (planned unless it exists)
 
@@ -42,5 +49,5 @@ src/features/   rolling.py, guard.py
 src/optimize/   ilp.py
 src/backtest/   walkforward.py
 tests/
-.claude/        agents/{builder,reviewer}.md, skills/reflect/SKILL.md
+.claude/        skills/reflect/SKILL.md
 ```

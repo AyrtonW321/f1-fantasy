@@ -1,0 +1,8 @@
+docs/
+reports/
+data/
+graphify-out/
+.claude/
+.pytest_cache/
+*.md
+uv.lock
