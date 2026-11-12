@@ -4,8 +4,12 @@ with src/sim/scoring.py. Output is a predictor frame (OUT_COLS) for run_season.
 Split, so nothing counts twice: the simulator gives race finish-position points and the not-classified
 penalty (drivers; constructors as the sum of their two drivers' lines). Everything else (qualifying,
 sprint, positions gained, overtakes, fastest lap, DotD, pit stops, teamwork) is robust_mu fitted on each
-asset's past totals minus its actual position/DNF points. Assets the simulator cannot place (first
+asset's past totals minus its actual position/DNF points (and, with quali=True, qualifying points). Assets the simulator cannot place (first
 rounds, drivers absent from the last race, constructors without two entrants) keep plain robust_mu.
+
+quali=True (Phase 4.4) also samples a qualifying order per draw (Plackett-Luce on car strength + qualifying
+form), scores it (driver positions, constructor positions + Q2/Q3 teamwork) and feeds it to the race order
+as a grid feature, so a driver who qualifies badly in a draw also races worse in that draw.
 """
 import numpy as np
 import pandas as pd
@@ -38,12 +42,37 @@ def point_tables(rules: dict, n: int) -> tuple[np.ndarray, np.ndarray]:
 def simulate(log_strength: np.ndarray, p_dnf: np.ndarray, n_draws: int, seed: int) -> np.ndarray:
     """Finishing index per draw and entrant, shape (n_draws, m); a DNF gets index m."""
     rng = np.random.default_rng(seed)
-    m = len(log_strength)
+    m = np.shape(log_strength)[-1]  # log_strength: (m,) or one row per draw (n_draws, m)
     dnf = rng.random((n_draws, m)) < p_dnf
     order = plackett_luce.sample(np.where(dnf, -np.inf, log_strength), n_draws, rng)
+    return np.where(dnf, m, _rank(order))
+
+
+Q2_CUT, Q3_CUT = 16, 10  # 22-car field: 6 out in Q1, 6 in Q2, top 10 in Q3
+
+
+def _rank(order: np.ndarray) -> np.ndarray:
+    """Entrant indices winner first -> finishing index per entrant."""
     rank = np.empty_like(order)
-    np.put_along_axis(rank, order, np.broadcast_to(np.arange(m), order.shape), axis=1)
-    return np.where(dnf, m, rank)
+    np.put_along_axis(rank, order, np.broadcast_to(np.arange(order.shape[1]), order.shape), axis=1)
+    return rank
+
+
+def _teamwork(rules: dict, a, b):
+    """Constructor qualifying teamwork points for two finishing indices (0-based) or positions-1; vectorised."""
+    key = lambda n: score_constructor(rules, [], n)
+    best, worst = np.minimum(a, b), np.maximum(a, b)
+    return np.select([worst < Q3_CUT, best < Q3_CUT, worst < Q2_CUT, best < Q2_CUT],
+                     [key("both_q3"), key("one_q3"), key("both_q2"), key("one_q2")], key("neither_q2"))
+
+
+def _perf(rank: np.ndarray, m: int) -> np.ndarray:
+    """Standardised position score (higher = better) for 0-based finishing indices in an m-car field."""
+    return -(rank - (m - 1) / 2) / np.arange(m).std()
+
+
+def quali_tables(rules: dict, n: int) -> np.ndarray:
+    return np.array([score_driver(rules, DriverLine("X", "qualifying", position=p)) for p in range(1, n + 1)])
 
 
 def _features(race: pd.DataFrame, kalman: pd.DataFrame, round_: int, drivers: list[str], teams: list[str],
@@ -60,7 +89,7 @@ def _features(race: pd.DataFrame, kalman: pd.DataFrame, round_: int, drivers: li
 def sim_mu(prices: pd.DataFrame, points: pd.DataFrame, results: pd.DataFrame, races: pd.DataFrame,
            season: int, round_: int, rules: dict, *, trim: float, prior_weight: float, l2: float = 1.0,
            dnf_shrink: float = 5.0, form_trim: float = 0.3, n_draws: int = 2000, seed: int = 0,
-           min_rounds: int = 3) -> pd.DataFrame:
+           min_rounds: int = 3, quali: bool = False) -> pd.DataFrame:
     lock = races.loc[(races["season"] == season) & (races["round"] == round_), "lock_utc"].iloc[0]
     hist = results[(results["season"] == season) & (results["round"] < round_) & (results["known_at"] <= lock)]
     race = hist[hist["session"] == "race"].copy()
@@ -81,17 +110,44 @@ def sim_mu(prices: pd.DataFrame, points: pd.DataFrame, results: pd.DataFrame, ra
     sched = races[(races["season"] == season) & (races["round"] <= round_)].assign(completed=True)
     kalman = walkforward_strength(pd.concat([race, placeholder], ignore_index=True), sched, NO_TRACKS)
 
-    by_round = race.groupby("round")["position"]
-    race["perf"] = -(race["position"] - by_round.transform("mean")) / by_round.transform(
-        lambda s: s.std(ddof=0) or 1.0)
+    def add_perf(df):  # per-round standardised position score
+        g = df.groupby("round")["position"]
+        return df.assign(perf=-(df["position"] - g.transform("mean")) / g.transform(lambda s: s.std(ddof=0) or 1.0))
+
+    race = add_perf(race)
     train = [_features(race, kalman, r, g["driver_code"].tolist(), g["constructor_id"].tolist(), form_trim)
              for r, g in race[~race["status"].isin(DNF_STATUSES)].sort_values("position").groupby("round")]
-    beta = plackett_luce.fit(train, l2)
     x = _features(race, kalman, round_, drivers, teams, form_trim)
-    rank = simulate(x @ beta, dnf_probability(race, drivers, dnf_shrink).to_numpy(), n_draws, seed)
-    drv_pts, con_pts = point_tables(rules, len(drivers))
-    sim = {(d, "driver"): v for d, v in zip(drivers, drv_pts[rank].mean(axis=0))}
-    con = pd.Series(con_pts[rank].mean(axis=0), index=teams).groupby(level=0).agg(["sum", "count"])
+    m = len(drivers)
+    drv_pts, con_pts = point_tables(rules, m)
+    p_dnf = dnf_probability(race, drivers, dnf_shrink).to_numpy()
+    if quali:
+        qual = add_perf(hist[(hist["session"] == "qualifying") & hist["position"].notna()].copy())
+        qtrain = [_features(qual, kalman, r, g["driver_code"].tolist(), g["constructor_id"].tolist(), form_trim)
+                  for r, g in qual.sort_values("position").groupby("round")]
+        qbeta = plackett_luce.fit(qtrain, l2)
+        qrank = _rank(plackett_luce.sample(_features(qual, kalman, round_, drivers, teams, form_trim) @ qbeta,
+                                           n_draws, np.random.default_rng(seed + 1)))
+        qperf = qual.set_index(["round", "driver_code"])["perf"]
+        grid = [np.array([qperf.get((r, d), 0.0) for d in g["driver_code"]]) for r, g in
+                race[~race["status"].isin(DNF_STATUSES)].sort_values("position").groupby("round")]
+        beta = plackett_luce.fit([np.column_stack([f, q]) for f, q in zip(train, grid)], l2)
+        rank = simulate(x @ beta[:2] + _perf(qrank, m) * beta[2], p_dnf, n_draws, seed)
+    else:
+        beta = plackett_luce.fit(train, l2)
+        rank = simulate(x @ beta, p_dnf, n_draws, seed)
+    pts_d, pts_c = drv_pts[rank], con_pts[rank]
+    if quali:  # constructor teamwork needs both of a team's drivers, applied below via pairs
+        qd = quali_tables(rules, m)[qrank]
+        pts_d = pts_d + qd
+        pts_c = pts_c + qd.astype(float)
+        ti = np.array(teams)
+        for t in set(teams):
+            i = np.flatnonzero(ti == t)
+            if len(i) == 2:
+                pts_c[:, i] += (_teamwork(rules, qrank[:, i[0]], qrank[:, i[1]]) / 2)[:, None]
+    sim = {(d, "driver"): v for d, v in zip(drivers, pts_d.mean(axis=0))}
+    con = pd.Series(pts_c.mean(axis=0), index=teams).groupby(level=0).agg(["sum", "count"])
     sim |= {(CONSTRUCTOR_CODE[t], "constructor"): s for t, (s, c) in con.iterrows() if c == 2}
 
     # Residual form: past totals minus each asset's actual position/DNF points.
@@ -107,6 +163,19 @@ def sim_mu(prices: pd.DataFrame, points: pd.DataFrame, results: pd.DataFrame, ra
         race.groupby(["round", "team"], as_index=False)["core_c"].sum()
             .set_axis(["round", "asset_id", "core"], axis=1).assign(kind="constructor"),
     ])
+    if quali:  # actual qualifying points: driver position + constructor positions and Q2/Q3 teamwork
+        q = hist[(hist["session"] == "qualifying") & hist["position"].notna()].copy()
+        q["team"] = q["constructor_id"].map(CONSTRUCTOR_CODE)
+        q["pts"] = [score_driver(rules, DriverLine("X", "qualifying", position=int(p))) for p in q["position"]]
+        qcon = q.groupby(["round", "team"]).agg(n=("pts", "size"), pts=("pts", "sum"), lo=("position", "min"),
+                                                hi=("position", "max")).reset_index()
+        qcon = qcon[qcon["n"] == 2]
+        qcon["pts"] += _teamwork(rules, qcon["lo"].to_numpy() - 1, qcon["hi"].to_numpy() - 1)
+        qcore = pd.concat([
+            q[["round", "driver_code", "pts"]].set_axis(["round", "asset_id", "core"], axis=1).assign(kind="driver"),
+            qcon[["round", "team", "pts"]].set_axis(["round", "asset_id", "core"], axis=1).assign(kind="constructor"),
+        ])
+        core = pd.concat([core, qcore]).groupby(["round", *ASSET], as_index=False)["core"].sum()
     resid = past_points.merge(core, on=["round", *ASSET], how="left")
     resid["total"] = resid["total"] - resid["core"].fillna(0.0)
     rest = robust_mu(prices, resid.drop(columns="core"), races, season, round_, trim, prior_weight)

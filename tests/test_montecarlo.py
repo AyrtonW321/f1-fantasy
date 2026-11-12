@@ -88,3 +88,13 @@ def test_sim_mu_on_real_2026_round():
     out = sim_mu(t["prices"], t["fantasy_points"], t["results"], t["races"], 2026, 12, RULES,
                  trim=0.3, prior_weight=2.0)
     assert out["mu"].notna().all() and len(out) == len(t["prices"].query("season == 2026 and round == 12"))
+
+
+def test_quali_sim_reproducible_and_scores_qualifying():
+    races, results, prices, points = _world()
+    q = results[results["session"] == "race"].assign(session="qualifying", status=None)
+    results = pd.concat([results, q], ignore_index=True)
+    a = sim_mu(prices, points, results, races, 2026, 5, RULES, trim=0.3, prior_weight=2.0, quali=True, seed=0)
+    b = sim_mu(prices, points, results, races, 2026, 5, RULES, trim=0.3, prior_weight=2.0, quali=True, seed=0)
+    pd.testing.assert_frame_equal(a, b)
+    assert not a["mu"].isna().any()
