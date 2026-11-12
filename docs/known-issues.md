@@ -26,7 +26,11 @@
 - graphify hooks in .claude/settings.json call bare `graphify`; install it on PATH (uv tool install graphifyy) or the hooks fail.
 - The cloud session has no F1_DATA_KEY and cannot reach fantasy.formula1.com, so data tests (-m data) and re-snapshots must run elsewhere.
 - Phase 4 form settings were tuned on 2026 rounds 1-10 and reported over rounds 1-20, so the all-rounds numbers partly include the tuning rounds.
-- `pick_team.py` without `config/my_team.yaml` uses the starting 100.0 budget, not the user's grown team value. Chips not yet used by the optimizer.
+- `pick_team.py` without `config/my_team.yaml` uses the starting 100.0 budget, not the user's grown team value. Use `--team N` with `config/my_team_N.yaml` for the real team.
 - Bonus labels (fastest lap, DotD, pit times) exist only in raw TI rows, not in `data/processed/`; 23 of 220 2026 constructor-rounds have no pit time and stay missing. Re-audited 2026-11-10 (`reports/phase4_bonus_audit.md`).
 - Review finding (4.3, unfixed): `plan_chips.py` proxies rounds 22-23 prices with round 21 prices and uses the same robust-form expected points for all three rounds; chip gains for later rounds are rough.
+- Forecast weak spot (the main limit): `robust_mu` weighs the whole season equally, so it is slow to see a recent upturn (Round 21: it prefers BOR, 6.6 expected, over HUL, 4.9, although HUL scored 14, 2, 15, 19, 17, 7, 2, 4 in rounds 13-20). Five Phase 4 attempts to improve it (4.2, 4.4, 4.5, 4.6, 4.7) all lost on season total; see `docs/decisions.md`.
+- The optimizer plans one round at a time: the 10-point penalty is a flat cost, and it never holds a transfer back for a later round.
+- Chip timing: the round-to-chip assignment is mostly a tie-break, because gains are per-round averages and no sprint weekend is left in 2026. Autopilot is small (about +1 to +7). `final_fix` is not valued.
+- Chip id `extra_drs` is the game's "X3 boost"; the id is kept to avoid renaming the rules files, team files and tests.
 - src/features/rolling.py:31 `fillna(0)` on an object-dtype frame raises a pandas FutureWarning (downcasting) when an asset has no history; harmless now, cast form_sum/k to float when next touching the baseline.
