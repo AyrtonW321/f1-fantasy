@@ -17,7 +17,7 @@ One calculation decides keeps, sells, transfers and the boost: the legal team wi
 
 | Chip (id in code) | Value comes from |
 |---|---|
-| `x3_boost` | Optimizer: tries every driver as the 3x pick, plus the normal 2x on another |
+| `x3_boost` | Optimizer: tries every driver as the 3x pick (the normal 2x is forbidden on it), the optimizer then picks the team and the 2x driver; output shows `3x X, 2x Y` |
 | `wildcard`, `limitless` | Optimizer: re-run with the transfer penalty off / the budget cap off; gain = difference |
 | `autopilot`, `no_negative` | Replay of earlier rounds with the team you would field (`src/optimize/chip_history.py`): average past gain, sprint and normal weekends kept apart; previous season added if fewer than 3 rounds are done |
 | `final_fix` | Not valued: needs the qualifying result. Play it after qualifying |

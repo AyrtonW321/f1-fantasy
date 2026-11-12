@@ -39,6 +39,7 @@ class Decision:
     budget: float
     expected_points: float
     prices: Mapping[str, float] = field(default_factory=dict)  # picked asset id to current price
+    boost3: str | None = None  # driver on the x3_boost chip, when that chip is played
 
 
 class InfeasibleTeam(Exception):
@@ -50,7 +51,9 @@ def _tenths(value: float) -> int:
     return round(value * 10)
 
 
-def optimize(assets: Sequence[Asset], state: TeamState | None, rules: dict) -> Decision:
+def optimize(assets: Sequence[Asset], state: TeamState | None, rules: dict,
+             no_boost: Sequence[str] = ()) -> Decision:
+    """no_boost: driver ids that may not take the normal boost (used when a chip already boosts them)."""
     assets = sorted(assets, key=lambda a: a.id)  # fixed order: repeatable results
     n_drivers = _rule(rules, "team.drivers")
     n_constructors = _rule(rules, "team.constructors")
@@ -75,6 +78,8 @@ def optimize(assets: Sequence[Asset], state: TeamState | None, rules: dict) -> D
     prob += pulp.lpSum(boost.values()) == 1
     for i in drv:
         prob += boost[i] <= pick[i]
+        if assets[i].id in no_boost:
+            prob += boost[i] == 0
     prob += pulp.lpSum(_tenths(a.price) * pick[i] for i, a in enumerate(assets)) <= _tenths(budget)
 
     obj = pulp.lpSum(a.mu * pick[i] for i, a in enumerate(assets))

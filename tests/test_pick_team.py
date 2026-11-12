@@ -25,3 +25,11 @@ def test_exclude_pushes_asset_below_everyone_and_rejects_unknown():
     assert exclude(mu, ["A"])["mu"].tolist() == [-1000.0, 6.0]
     with pytest.raises(ValueError):
         exclude(mu, ["Z"])
+
+
+def test_swaps_pair_sold_with_bought_by_kind():
+    from types import SimpleNamespace
+    from pipelines.pick_team import swaps
+    d = SimpleNamespace(drivers=("A", "X", "C"), constructors=("M", "N"))
+    assert swaps(["A", "B", "C"], ["M", "F"], d) == ["B -> X", "F -> N"]
+    assert swaps(["A", "X", "C"], ["M", "N"], d) == []

@@ -77,3 +77,17 @@ def test_replay_autopilot_and_no_negative_use_actual_points():
     # normal boost went to A (best mu); B scored 22 more, so autopilot adds (2-1)*22
     assert replay_gain("autopilot", rules, ["A", "B"], ["C"], "A", pts, mu) == 22.0
     assert replay_gain("no_negative", rules, ["A", "B"], ["C"], "A", pts, mu) == 21.0  # constructor -1 and -20
+
+
+def test_x3_boost_puts_3x_on_best_driver_and_2x_on_the_next():
+    from src.optimize.chips import estimate_chip
+    from src.optimize.ilp import Asset, optimize
+    from src.sim.scoring import load_rules
+    rules = load_rules(2026)
+    assets = [Asset(d, "driver", 1.0, mu) for d, mu in zip("ABCDE", (30, 20, 10, 5, 1))] + [
+        Asset("X", "constructor", 1.0, 10.0), Asset("Y", "constructor", 1.0, 5.0)]
+    team = {"drivers": list("ABCDE"), "constructors": ["X", "Y"], "bank": 0.0, "free_transfers": 2}
+    base = optimize(assets, None, rules)
+    gain, d, why = estimate_chip(assets, team, rules, "x3_boost", base)
+    assert why is None and d.boost3 == "A" and d.boost == "B"
+    assert gain == 2 * 30 + 20 - 30  # 3x A (+60) and 2x B (+20), instead of 2x A (+30)

@@ -38,6 +38,16 @@ def exclude(mu: pd.DataFrame, ids) -> pd.DataFrame:
     return mu.assign(mu=mu["mu"].where(~mu["asset_id"].isin(ids), -1000.0))
 
 
+def swaps(drivers, constructors, d) -> list[str]:
+    """'OUT -> IN' for each transfer, drivers and constructors paired separately (counts always match)."""
+    out = []
+    for owned, new in ((drivers, d.drivers), (constructors, d.constructors)):
+        sold = [a for a in owned if a not in new]
+        bought = [a for a in new if a not in owned]
+        out += [f"{s} -> {b}" for s, b in zip(sold, bought)]
+    return out
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("--season", type=int, help="default: season with rounds still to play")
@@ -68,6 +78,10 @@ def main(argv=None):
     for a in [*d.drivers, *d.constructors]:
         tag = " (2x boost)" if a == d.boost else ""
         print(f"  {a:4} {by_id.loc[a, 'kind']:11} price {by_id.loc[a, 'price']:5.1f}  expected {by_id.loc[a, 'mu']:5.1f}{tag}")
+    if state:
+        kept = {a: by_id.loc[a, "kind"] for a in state.owned}
+        mv = swaps([a for a, k in kept.items() if k == "driver"], [a for a, k in kept.items() if k == "constructor"], d)
+        print("Swaps: " + (", ".join(mv) or "none (keep your team)"))
     print(f"cost {d.cost:.1f} of budget {d.budget:.1f}; transfers in: {', '.join(d.transfers_in) or '-'}; "
           f"penalty transfers: {d.penalty_transfers}")
 

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
+from dataclasses import replace
 from itertools import product
 from collections.abc import Callable, Mapping, Sequence
 
@@ -47,26 +48,18 @@ def estimate_chip(assets: Sequence[Asset], team: Mapping, rules: dict, chip: str
         candidate = optimize(assets, _state(team, {a.id: a.price for a in assets}), free)
     elif chip == "x3_boost":
         multiplier = _rule(rules, f"chips.{chip}.extra_multiplier")
-        # Try each possible 3x driver while optimize chooses the normal 2x driver.
+        # One driver counts 3x, another keeps the normal boost. For each 3x driver: give it mu * multiplier,
+        # forbid the normal boost on it, and let optimize choose the team and the other boosted driver.
         candidates = []
-        for boosted in (a for a in assets if a.kind == "driver"):
-            altered = [Asset(a.id, a.kind, a.price,
-                             a.mu * (multiplier - 1) if a.id == boosted.id else a.mu)
-                       for a in assets]
-            d = optimize(altered, _state(team, {a.id: a.price for a in altered}), rules)
-            ids = set(d.drivers)
-            if boosted.id in ids and d.boost != boosted.id:
-                value = sum(a.mu for a in assets if a.id in {*d.drivers, *d.constructors})
-                normal = next(a for a in assets if a.id == d.boost)
-                normal_multiplier = _rule(rules, "team.boost_multiplier")
-                value += (normal_multiplier - 1) * normal.mu + (multiplier - 1) * boosted.mu
-                value -= _rule(rules, "transfers.penalty") * d.penalty_transfers
-                candidates.append((value, d))
+        for three in (a for a in assets if a.kind == "driver"):
+            altered = [Asset(a.id, a.kind, a.price, a.mu * multiplier if a.id == three.id else a.mu) for a in assets]
+            d = optimize(altered, _state(team, {a.id: a.price for a in altered}), rules, no_boost=[three.id])
+            if three.id in d.drivers:
+                candidates.append((d.expected_points, replace(d, boost3=three.id)))
         if not candidates:
-            return None, None, "no feasible extra boost assignment"
-        _, candidate = max(candidates, key=lambda x: (x[0], tuple(x[1].drivers)))
-        # Expected value adjusted for the second 3x boost selected above.
-        gain = max(0.0, max(v for v, _ in candidates) - baseline.expected_points)
+            return None, None, "no feasible x3 boost assignment"
+        value, candidate = max(candidates, key=lambda x: (x[0], tuple(x[1].drivers)))
+        gain = max(0.0, value - baseline.expected_points)
         return gain, candidate, None
     else:
         # No-negative needs session-level downside; Autopilot needs the distribution of the maximum;

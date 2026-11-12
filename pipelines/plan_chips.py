@@ -13,7 +13,7 @@ import pandas as pd
 import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from pipelines.pick_team import exclude
+from pipelines.pick_team import exclude, swaps
 from src.features.rolling import robust_mu
 from src.optimize.chip_history import historical_value
 from src.optimize.chips import plan_chips
@@ -75,9 +75,11 @@ def main(argv=None):
         print(f"Market prices are proxied from latest available {season} round {max(stale)}.")
     for row in plan:
         d = row["decision"]
+        mv = swaps(team["drivers"], team["constructors"], d)
+        boost = f"3x {d.boost3}, 2x {d.boost}" if d.boost3 else f"2x {d.boost}"
         print(f"Round {row['round']}: {row['chip'] or 'none'}; expected gain {row['gain']:.1f}; "
-              f"drivers {', '.join(d.drivers)}; constructors {', '.join(d.constructors)}; "
-              f"boost {d.boost}")
+              f"swaps {', '.join(mv) or 'none'}; boost {boost}; "
+              f"drivers {', '.join(d.drivers)}; constructors {', '.join(d.constructors)}")
     skipped = sorted({c for row in plan for c in row.get("unsupported", {})})
     if skipped:
         print(f"Not valued: {', '.join(skipped)}. "
