@@ -1,5 +1,6 @@
 # Copy to config/my_team.yaml (gitignored) and update after each round.
 # Asset ids as in the official feed: driver codes (VER) and constructor codes (RED).
+exclude: []   # asset ids that cannot race (benched), e.g. [HIR]
 drivers: [VER, NOR, PIA, HAD, BEA]
 constructors: [MCL, VRB]
 bank: 0.0            # money left unspent, in millions

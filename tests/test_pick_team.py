@@ -15,3 +15,13 @@ def test_load_team_reads_state_and_rejects_unknown_assets(tmp_path):
     with pytest.raises(ValueError, match="XXX"):
         f.write_text("drivers: [XXX]\nconstructors: [RED]\nbank: 0\nfree_transfers: 2\n")
         load_team(f, {"RED": 33.6})
+
+
+def test_exclude_pushes_asset_below_everyone_and_rejects_unknown():
+    import pandas as pd
+    import pytest
+    from pipelines.pick_team import exclude
+    mu = pd.DataFrame({"asset_id": ["A", "B"], "mu": [5.0, 6.0]})
+    assert exclude(mu, ["A"])["mu"].tolist() == [-1000.0, 6.0]
+    with pytest.raises(ValueError):
+        exclude(mu, ["Z"])

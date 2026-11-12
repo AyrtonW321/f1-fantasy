@@ -11,3 +11,5 @@ graphify-out/.graphify_*
 graphify-out/2026-*/
 graphify-out/cache/ast/v0.9.17/
 config/my_team.yaml
+
+config/my_team_[0-9].yaml
