@@ -45,7 +45,7 @@ def estimate_chip(assets: Sequence[Asset], team: Mapping, rules: dict, chip: str
         free = deepcopy(rules)
         free["transfers"]["penalty"] = 0
         candidate = optimize(assets, _state(team, {a.id: a.price for a in assets}), free)
-    elif chip == "extra_drs":
+    elif chip == "x3_boost":
         multiplier = _rule(rules, f"chips.{chip}.extra_multiplier")
         # Try each possible 3x driver while optimize chooses the normal 2x driver.
         candidates = []

@@ -17,7 +17,7 @@ transfers: {free: 2, carry_max: 1, max_free: 3, penalty: 10, net: true}
 chips:
   limitless: {budget_cap: false, free_transfers: unlimited, team_reverts_next_round: true}
   wildcard: {budget_cap: true, free_transfers: unlimited, team_reverts_next_round: false}
-  extra_drs: {extra_multiplier: 3}          # one driver 3x, plus the normal boost on another driver
+  x3_boost: {extra_multiplier: 3}          # one driver 3x, plus the normal boost on another driver
   no_negative: {session_floor: 0}           # any negative session score counts as 0
   autopilot: {boost_to: highest_scoring_driver}
   final_fix: {swaps_after_qualifying: 1}    # one driver swap after qualifying, before the race

@@ -1,7 +1,7 @@
 """Plan chips for the rest of the season (default: the season with unplayed rounds) from config/my_team.yaml.
 
 The team file uses drivers, constructors, bank and free_transfers; add a
-``chips_left: [limitless, wildcard, extra_drs, no_negative, autopilot, final_fix]``
+``chips_left: [limitless, wildcard, x3_boost, no_negative, autopilot, final_fix]``
 list containing only chips still available. If the private file is absent, the
 example team is used and the output is clearly marked as illustrative.
 """
