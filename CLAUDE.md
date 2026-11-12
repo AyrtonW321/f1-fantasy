@@ -14,6 +14,8 @@ Python system. Reproduce official F1 Fantasy scoring 2023-2026, predict fantasy 
 
 Use ponytail (full) on all coding tasks here: lazy senior dev, laziest solution that works. Reuse existing helper, stdlib, installed dep before new code. Shortest correct diff. Non-trivial logic leaves one runnable check.
 
+- Phase 4 predictor terms (4.2, 4.4, 4.5, 4.6, 4.7) all lost to `robust_mu` on season total. Before building a new one, prototype it in a scratch script and run `run_season` on rounds 1-10. If the total is below `robust_mu`'s, stop and report; skip the model, test and report files.
+
 ## Hard rules
 
 - No phase starts before previous phase's acceptance passes.
@@ -24,6 +26,7 @@ Use ponytail (full) on all coding tasks here: lazy senior dev, laziest solution 
 - No plaintext data in git: real data committed only as data/raw.tar.gz.enc. Never commit, log or print F1_DATA_KEY.
 - Before first commit run `git rev-parse --show-toplevel`; must print this project folder.
 - Pushes and repo changes need user's OK.
+- Parallel agents each work in their own git worktree (`git worktree add ../f1-fantasy-<task> -b <branch>`), never the same folder. Handoff prompts must say so and name the worktree path.
 
 ## Folder map (planned unless it exists)
 
