@@ -35,11 +35,28 @@ def build_bonus(raw_dir: Path, out_dir: Path) -> None:
     bonus.to_parquet(out_dir / "bonus.parquet", index=False)
 
 
+def build_overtakes(raw_dir: Path, out_dir: Path) -> None:
+    """Race overtakes and positions gained per driver-round, 2023-2026 (TI raceOvertakes, racePositionsGained)."""
+    races = pd.read_parquet(out_dir / "races.parquet")
+    points = pd.read_parquet(out_dir / "fantasy_points.parquet")
+    rows = []
+    for race in races[races["completed"]].itertuples():
+        for row in _load(raw_dir / "tracinginsights" / str(race.season) / race.slug / "race_all.json"):
+            if row["type"] == "driver":
+                rows.append({"season": race.season, "round": int(race.round), "asset_id": row["abbreviation"],
+                             "overtakes": row["raceOvertakes"] or 0, "gained": row["racePositionsGained"] or 0})
+    ot = pd.DataFrame(rows).drop_duplicates(["season", "round", "asset_id"])
+    keys = ["season", "round", "asset_id"]
+    ot = points[points["kind"] == "driver"][keys + ["known_at"]].merge(ot, on=keys)
+    ot.to_parquet(out_dir / "overtakes.parquet", index=False)
+
+
 def main() -> None:
     out_dir = Path("data/processed")
     build_all(Path("data/raw"), out_dir, [2023, 2024, 2025, 2026])
     build_bonus(Path("data/raw"), out_dir)
-    for name in ("races", "prices", "price_changes", "fantasy_points", "results", "bonus"):
+    build_overtakes(Path("data/raw"), out_dir)
+    for name in ("races", "prices", "price_changes", "fantasy_points", "results", "bonus", "overtakes"):
         print(f"{name}: {len(pd.read_parquet(out_dir / f'{name}.parquet'))} rows")
 
 
