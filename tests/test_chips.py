@@ -63,3 +63,17 @@ def test_duplicate_remaining_chip_rejected():
     with pytest.raises(ValueError, match="at most once"):
         plan_chips(lambda *_: pd.DataFrame(), {"chips_left": ["wildcard", "wildcard"]},
                    load_rules(2026), [21])
+
+
+def test_replay_autopilot_and_no_negative_use_actual_points():
+    import pandas as pd
+    from src.optimize.chip_history import replay_gain
+    pts = pd.DataFrame({"asset_id": ["A", "B", "C"], "kind": ["driver", "driver", "constructor"],
+                        "qualifying": [3.0, 5.0, -1.0], "sprint": [None, None, None], "race": [10.0, 30.0, -20.0],
+                        "total": [13.0, 35.0, -21.0]})
+    mu = pd.DataFrame({"asset_id": ["A", "B"], "kind": ["driver", "driver"], "mu": [20.0, 10.0]})
+    rules = {"team": {"boost_multiplier": 2}, "chips": {"autopilot": {"boost_to": "highest_scoring_driver"},
+                                                         "no_negative": {"session_floor": 0}}}
+    # normal boost went to A (best mu); B scored 22 more, so autopilot adds (2-1)*22
+    assert replay_gain("autopilot", rules, ["A", "B"], ["C"], "A", pts, mu) == 22.0
+    assert replay_gain("no_negative", rules, ["A", "B"], ["C"], "A", pts, mu) == 21.0  # constructor -1 and -20

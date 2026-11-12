@@ -40,7 +40,7 @@ def exclude(mu: pd.DataFrame, ids) -> pd.DataFrame:
 
 def main(argv=None):
     parser = argparse.ArgumentParser()
-    parser.add_argument("--season", type=int, default=2026)
+    parser.add_argument("--season", type=int, help="default: season with rounds still to play")
     parser.add_argument("--round", type=int, help="default: first round not yet completed")
     parser.add_argument("--team", type=int, help="read config/my_team_N.yaml instead of my_team.yaml")
     args = parser.parse_args(argv)
@@ -48,6 +48,7 @@ def main(argv=None):
     team_file = Path(f"config/my_team_{args.team}.yaml") if args.team else TEAM_FILE
     tables = {n: pd.read_parquet(f"data/processed/{n}.parquet") for n in ("races", "prices", "fantasy_points")}
     races = tables["races"]
+    args.season = args.season or int(races.loc[~races["completed"], "season"].min())
     season_races = races[races["season"] == args.season]
     round_ = args.round or int(season_races.loc[~season_races["completed"], "round"].min())
     form = yaml.safe_load(Path("config/model.yaml").read_text(encoding="utf-8"))["form"]

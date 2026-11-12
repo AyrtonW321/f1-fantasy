@@ -77,8 +77,12 @@ def estimate_chip(assets: Sequence[Asset], team: Mapping, rules: dict, chip: str
 
 
 def plan_chips(predictor: Callable[[int, int], pd.DataFrame], team: Mapping, rules: dict,
-               rounds: Sequence[int], season: int = 2026) -> list[dict]:
-    """Assign configured remaining chips to rounds for maximum nonnegative expected gain."""
+               rounds: Sequence[int], season: int = 2026,
+               replay: Callable[[str, Decision, int], float | None] | None = None) -> list[dict]:
+    """Assign configured remaining chips to rounds for maximum nonnegative expected gain.
+
+    replay(chip, base_decision, round) values chips that expected points cannot rank (historical average).
+    """
     chips_left = team.get("chips_left", [])
     if len(chips_left) != len(set(chips_left)):
         raise ValueError("each chip may appear at most once in chips_left")
@@ -93,6 +97,8 @@ def plan_chips(predictor: Callable[[int, int], pd.DataFrame], team: Mapping, rul
         base = optimize(assets, state, rules)
         for chip in chips:
             gain, decision, unsupported = estimate_chip(assets, team, rules, chip, base)
+            if gain is None and replay is not None and (hist := replay(chip, base, round_)) is not None:
+                gain, decision, unsupported = max(0.0, hist), base, None
             values[(round_, chip)] = gain
             decisions[(round_, chip)] = (decision, unsupported)
     # Enumerate one option per round; chip indexes are unique and at most one per round.
@@ -109,13 +115,15 @@ def plan_chips(predictor: Callable[[int, int], pd.DataFrame], team: Mapping, rul
     assignment = best[1] if best else tuple(None for _ in rounds)
     output = []
     for round_, chip in zip(rounds, assignment):
+        skipped = {c: decisions[(round_, c)][1] for c in chips if decisions[(round_, c)][1]}
         if chip is None:
             baseframe = predictor(season, round_)
             assets = [Asset(str(r.asset_id), str(r.kind), float(r.price), float(r.mu))
                       for r in baseframe.itertuples()]
             decision = optimize(assets, _state(team, {a.id: a.price for a in assets}), rules)
-            output.append({"round": round_, "chip": None, "gain": 0.0, "decision": decision})
+            output.append({"round": round_, "chip": None, "gain": 0.0, "decision": decision, "unsupported": skipped})
         else:
             decision, _ = decisions[(round_, chip)]
-            output.append({"round": round_, "chip": chip, "gain": values[(round_, chip)], "decision": decision})
+            output.append({"round": round_, "chip": chip, "gain": values[(round_, chip)], "decision": decision,
+                           "unsupported": skipped})
     return output

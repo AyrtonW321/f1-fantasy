@@ -1,4 +1,4 @@
-"""Plan 2026 chips for rounds 21-23 from config/my_team.yaml.
+"""Plan chips for the rest of the season (default: the season with unplayed rounds) from config/my_team.yaml.
 
 The team file uses drivers, constructors, bank and free_transfers; add a
 ``chips_left: [limitless, wildcard, extra_drs, no_negative, autopilot, final_fix]``
@@ -15,6 +15,7 @@ import yaml
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from pipelines.pick_team import exclude
 from src.features.rolling import robust_mu
+from src.optimize.chip_history import historical_value
 from src.optimize.chips import plan_chips
 from src.sim.scoring import load_rules
 
@@ -24,6 +25,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def main(argv=None):
     parser = argparse.ArgumentParser()
+    parser.add_argument("--season", type=int, help="default: season with rounds still to play")
     parser.add_argument("--team", type=int, help="read config/my_team_N.yaml instead of my_team.yaml")
     args = parser.parse_args(argv)
     config = ROOT / "config"
@@ -31,18 +33,23 @@ def main(argv=None):
     example = not team_path.exists()
     team_path = config / "my_team.example.yaml" if example else team_path
     team = yaml.safe_load(team_path.read_text(encoding="utf-8"))
-    rules = load_rules(2026)
+    tables = {n: pd.read_parquet(ROOT / f"data/processed/{n}.parquet")
+              for n in ("races", "prices", "fantasy_points")}
+    races = tables["races"]
+    season = args.season or int(races.loc[~races["completed"], "season"].min())
+    rounds = sorted(races.loc[(races["season"] == season) & ~races["completed"], "round"].astype(int))
+    if not rounds:
+        raise SystemExit(f"no rounds left to play in {season}")
+    rules = load_rules(season)
     if example:
         team.setdefault("chips_left", list(rules["chips"]))
     elif "chips_left" not in team:
         raise SystemExit(f"{team_path} must include chips_left: [chip ids still available]")
-    tables = {n: pd.read_parquet(ROOT / f"data/processed/{n}.parquet")
-              for n in ("races", "prices", "fantasy_points")}
     form = yaml.safe_load((config / "model.yaml").read_text(encoding="utf-8"))["form"]
-    price_rounds = tables["prices"].loc[tables["prices"]["season"] == 2026, "round"]
-    price_source = {r: r if r in set(price_rounds) else int(price_rounds.max()) for r in (21, 22, 23)}
+    price_rounds = tables["prices"].loc[tables["prices"]["season"] == season, "round"]
+    price_source = {r: r if r in set(price_rounds) else int(price_rounds.max()) for r in rounds}
 
-    def predictor(season, round_):
+    def raw_predictor(season, round_):
         prices = tables["prices"]
         if not ((prices["season"] == season) & (prices["round"] == round_)).any():
             earlier = prices[(prices["season"] == season) & (prices["round"] < round_)]
@@ -52,20 +59,29 @@ def main(argv=None):
             proxy = earlier[earlier["round"] == latest].copy()
             proxy["round"] = round_
             prices = pd.concat([prices, proxy], ignore_index=True)
-        mu = robust_mu(prices, tables["fantasy_points"], tables["races"], season, round_,
-                       form["trim"], form["prior_weight"])
+        return robust_mu(prices, tables["fantasy_points"], tables["races"], season, round_,
+                         form["trim"], form["prior_weight"])
+
+    def predictor(season, round_):
+        mu = raw_predictor(season, round_)
         return exclude(mu, team.get("exclude", [])) if len(mu) else mu
 
-    plan = plan_chips(predictor, team, rules, [21, 22, 23])
+    replay = lambda chip, d, r: historical_value(chip, rules, d.drivers, d.constructors, d.boost,
+                                                 tables["fantasy_points"], tables["races"], raw_predictor, season, r)
+    plan = plan_chips(predictor, team, rules, rounds, season, replay=replay)
     print("ILLUSTRATIVE: config/my_team.example.yaml" if example else f"Team: config/{team_path.name}")
     stale = sorted({source for round_, source in price_source.items() if source != round_})
     if stale:
-        print(f"Market prices are proxied from latest available 2026 round {max(stale)}.")
+        print(f"Market prices are proxied from latest available {season} round {max(stale)}.")
     for row in plan:
         d = row["decision"]
         print(f"Round {row['round']}: {row['chip'] or 'none'}; expected gain {row['gain']:.1f}; "
               f"drivers {', '.join(d.drivers)}; constructors {', '.join(d.constructors)}; "
               f"boost {d.boost}")
+    skipped = sorted({c for row in plan for c in row.get("unsupported", {})})
+    if skipped:
+        print(f"Not valued: {', '.join(skipped)}. "
+              "Their gain depends on qualifying results, so the plan cannot rank them (play after qualifying).")
 
 
 if __name__ == "__main__":
