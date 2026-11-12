@@ -24,7 +24,7 @@ RESULT_FILES = (
     ("sprint.json", "SprintResults", "sprint"),
 )
 RACE_COLS = ["season", "round", "slug", "ti_slug_round", "sprint", "lock_utc", "race_utc", "completed"]
-PRICE_COLS = ["season", "round", "asset_id", "kind", "price", "known_at", "source"]
+PRICE_COLS = ["season", "round", "asset_id", "kind", "price", "active", "known_at", "source"]
 POINT_COLS = ["season", "round", "asset_id", "kind", "qualifying", "sprint", "race", "total", "known_at", "source"]
 RESULT_COLS = ["season", "round", "session", "driver_code", "constructor_id", "position", "grid", "status", "known_at"]
 PARTICIPATION_FIELDS = ("racePosition", "qualifyingPosition", "sprintPosition")
@@ -64,7 +64,7 @@ def _ti_session_points(path: Path) -> dict[str, float]:
     return {row["id"]: _ti_points(row) for row in _load(path)}
 
 
-def _asset(asset_id, kind, price, qualifying, sprint, race, source, participated) -> dict:
+def _asset(asset_id, kind, price, qualifying, sprint, race, source, participated, active=None) -> dict:
     return {
         "asset_id": asset_id,
         "kind": kind,
@@ -75,6 +75,7 @@ def _asset(asset_id, kind, price, qualifying, sprint, race, source, participated
         "total": qualifying + sprint + race,
         "source": source,
         "participated": participated,
+        "active": True if active is None else active,
     }
 
 
@@ -119,7 +120,7 @@ def _official_rows(path: Path) -> list[dict]:
         row = _asset(
             asset_id, kind, float(value["Value"]),
             _points(value["QualifyingPoints"]), _points(value["SprintPoints"]), _points(value["RacePoints"]),
-            "official", value["IsActive"] == "1",
+            "official", value["IsActive"] == "1", value["IsActive"] == "1",
         )
         row["gameday"] = _points(value["GamedayPoints"])
         rows.append(row)
@@ -183,7 +184,8 @@ def build_prices_points(season: int, races: pd.DataFrame, raw_dir: Path) -> tupl
     for race in races.itertuples(index=False):
         for asset in _round_assets(raw_dir, season, race.slug, race.round).values():
             base = {"season": season, "round": race.round, "asset_id": asset["asset_id"], "kind": asset["kind"]}
-            price_rows.append({**base, "price": asset["price"], "known_at": race.lock_utc, "source": asset["source"]})
+            price_rows.append({**base, "price": asset["price"], "active": bool(asset["active"]),
+                               "known_at": race.lock_utc, "source": asset["source"]})
             if race.completed:
                 point_rows.append({
                     **base,

@@ -271,6 +271,19 @@ def test_official_active_row_wins_unplayed_duplicate(tmp_path):
     races = build_races(2026, tmp_path)
     prices, _ = build_prices_points(2026, races, tmp_path)
     assert prices["price"].tolist() == [5.5]
+    assert prices["active"].tolist() == [True]
+
+
+def test_official_inactive_flag_is_carried_to_prices(tmp_path):
+    write_jolpica(tmp_path, 2026, [
+        schedule(12, "Belgian Grand Prix", "2026-08-23", "13:00:00Z", Qualifying=("2026-08-22", "13:00:00Z")),
+    ], results={})
+    write_official(tmp_path, 2026, 12, [
+        off_row("HAD", "DRIVER", 7.2, quali="", sprint="", race="", is_active="0"),
+    ])
+    races = build_races(2026, tmp_path)
+    prices, _ = build_prices_points(2026, races, tmp_path)
+    assert prices["active"].tolist() == [False]
 
 
 def test_official_inconsistency_uses_agreeing_tracinginsights_row(tmp_path):
