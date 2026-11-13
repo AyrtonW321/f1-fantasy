@@ -58,6 +58,7 @@ Branch: codex/phase-3-plan. Phases 1-3 merged to main (8922035); Phase 4 work un
 - 2026-11-12: 4.8 done, Phase 4 closed (tag `phase4-freeze`). Grilled Phase 5: 2027 cold-start scope, plan `docs/superpowers/plans/2026-11-12-phase-5-backtest.md`; ChatGPT handoff `docs/handoff-chatgpt-5.1-metrics.md`. 217 tests pass.
 - 2026-11-12: 5.1 added shared walk-forward metrics and evaluated rolling-5 and `robust_mu` across 2023-2026; aggregate 2026 metrics appended to the holdout log and full season table written to `reports/phase5_seasons.md`.
 - 2026-11-12: 5.2 selected trim 0.3 / prior weight 2.0 by combined 2023-2025 season points (14830); 2026 total tied current 4363, so setting retained with no value change to `config/model.yaml`.
+- 2026-11-13: Phase 5 done. Reviewed and merged ChatGPT 5.1-5.2; carry-over prior prototyped and rejected (fresh-team retest too); `robust_mu` 0.3 / 2.0 kept for 2027. `reports/phase5_backtest.md`.
 
 ## Phase 3 completed work
 - Added FastF1 3.9.x as pinned-major dependency and external-cache ingestion pipeline. FastF1/Jolpica inventory matched all 93 scheduled events (0 name mismatches). Local F1 TV auth active. Prior all-years archive attempt hit FastF1's 500 API calls/hour limit and loaded 174/450 sessions, 93,178 laps, 17,039 weather rows, 1,335 track-status rows. Scope now narrowed to 2025-2026.

@@ -1,6 +1,6 @@
 # Phase 5 Plan: Multi-season backtest and 2027 cold start
 
-**Status:** Agreed with user after grilling (2026-11-12). Overrides the Phase 5 row in the master plan.
+**Status:** Done 2026-11-13. `robust_mu` 0.3 / 2.0 kept; carry-over not enabled. Results: `reports/phase5_backtest.md`. Overrides the Phase 5 row in the master plan.
 
 ## Goal
 
@@ -27,11 +27,11 @@ Dropped from the original plan: Kalman `Q` and price `lambda` tuning. Neither mo
 
 | # | Task | Who | Files | Depends on | Status |
 |---|---|---|---|---|---|
-| 5.1 | Metrics and multi-season walk-forward: rolling-5 and `robust_mu` on 2023-2026 | ChatGPT, worktree `../f1-fantasy-5.1-metrics`, branch `chatgpt/5.1-metrics` | `src/backtest/metrics.py`, `pipelines/evaluate_seasons.py`, test | - | Pending |
-| 5.2 | Re-tune trim and prior weight on 2023-2025, 2026 check | ChatGPT | `pipelines/evaluate_seasons.py`, `config/model.yaml` only if 2026 total no worse | 5.1 | Pending |
-| 5.3 | Carry-over prior | Claude, worktree `../f1-fantasy-5.3-carryover`, branch `claude/5.3-carryover` | `src/features/carryover.py`, rename map in `config/model.yaml`, test | - | Pending |
-| 5.4 | Tune and evaluate carry-over on 2024 and 2025 rounds 1-4; 2026 report | Claude | `pipelines/evaluate_carryover.py` | 5.1, 5.3 | Pending |
-| 5.5 | Wire the winner into `pick_team.py`; `reports/phase5_backtest.md`; decisions | Claude | `pipelines/pick_team.py`, docs | 5.2, 5.4 | Pending |
+| 5.1 | Metrics and multi-season walk-forward: rolling-5 and `robust_mu` on 2023-2026 | ChatGPT, worktree `../f1-fantasy-5.1-metrics`, branch `chatgpt/5.1-metrics` | `src/backtest/metrics.py`, `pipelines/evaluate_seasons.py`, test | - | Done (ChatGPT, 0d34c8a) |
+| 5.2 | Re-tune trim and prior weight on 2023-2025, 2026 check | ChatGPT | `pipelines/evaluate_seasons.py`, `config/model.yaml` only if 2026 total no worse | 5.1 | Done: 0.3 / 2.0 still best, config unchanged |
+| 5.3 | Carry-over prior | Claude, worktree `../f1-fantasy-5.3-carryover`, branch `claude/5.3-carryover` | `src/features/carryover.py`, rename map in `config/model.yaml`, test | - | Prototype only, uncommitted in worktree |
+| 5.4 | Tune and evaluate carry-over on 2024 and 2025 rounds 1-4; 2026 report | Claude | `pipelines/evaluate_carryover.py` | 5.1, 5.3 | Done: fails gate (2024 worse, 2025 flat), disabled |
+| 5.5 | Wire the winner into `pick_team.py`; `reports/phase5_backtest.md`; decisions | Claude | `pipelines/pick_team.py`, docs | 5.2, 5.4 | Done: winner is current `robust_mu`, no wiring change |
 
 ## Acceptance
 

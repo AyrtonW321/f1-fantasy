@@ -33,3 +33,7 @@
 - The optimizer plans one round at a time: the 10-point penalty is a flat cost, and it never holds a transfer back for a later round.
 - Chip timing: the round-to-chip assignment is mostly a tie-break, because gains are per-round averages and no sprint weekend is left in 2026. Autopilot is small (about +1 to +7). `final_fix` is not valued.
 - src/features/rolling.py:31 `fillna(0)` on an object-dtype frame raises a pandas FutureWarning (downcasting) when an asset has no history; harmless now, cast form_sum/k to float when next touching the baseline.
+- 2026-11-13 (review of 5.1) `pipelines/evaluate_seasons.py` appends to `reports/holdout_2026_log.md` on every run, so reruns duplicate entries.
+- 2026-11-13 (review of 5.1) `evaluate_seasons.py` rewrites `config/model.yaml` with `yaml.safe_dump` when adopting a new setting, which drops the file's comments.
+- 2026-11-13 (review of 5.1) `--predictor` factories receive `tables` without `results`; a predictor needing team lineups must load it itself.
+- 2026-11-13 `robust_mu` loses the 2023 season total to rolling-5 by 565 points; not investigated (user kept robust_mu).

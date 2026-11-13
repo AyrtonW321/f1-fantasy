@@ -58,3 +58,5 @@ Format: date, decision. Why.
 - 2026-11-12 Carry-over tuned on 2024 and 2025 only; 2026 reported but no veto. Why: 2026 was a regulation reset, 2027 keeps the 2026 rules, so stable-rule transitions match 2027. Late-season decay tested.
 - 2026-11-12 Phase 5 split: ChatGPT 5.1-5.2 (metrics, multi-season walk-forward, re-tune) in `../f1-fantasy-5.1-metrics`; Claude 5.3-5.5 (carry-over, evaluation, wiring) in `../f1-fantasy-5.3-carryover`.
 - 2026-11-12 Form retune remains trim 0.3 / prior weight 2.0: it maximized combined 2023-2025 season points, and matched the current 2026 total (4363), satisfying the no-worse adoption rule.
+- 2026-11-13 Carry-over prior not enabled: fails the 2024/2025 rounds 1-4 gate both with transfer limits and with a fresh team each round (2024 735 vs 804, 2025 770 vs 749), though MAE improves. It wins 2026 (reset year) but 2026 has no veto. Prototype left uncommitted in `../f1-fantasy-5.3-carryover`.
+- 2026-11-13 `robust_mu` kept for 2027 despite losing 2023 season total to rolling-5 by 565 (combined 2023-2025 14830 vs 15309). User call: 2023 an outlier; robust wins Spearman every season, MAE 3 of 4, totals 2025-2026.
