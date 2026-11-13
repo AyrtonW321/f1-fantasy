@@ -57,3 +57,4 @@ Format: date, decision. Why.
 - 2026-11-12 Carry-over prior: previous season only, PPM at each race's price, driver prior = new team's car level x teammate points ratio (rookies 1.0), team renames mapped. Why: prices reset each season and mostly reflect the car; teammate ratio isolates the driver (Sainz 2024 0.77 of Leclerc, then Williams car near 0).
 - 2026-11-12 Carry-over tuned on 2024 and 2025 only; 2026 reported but no veto. Why: 2026 was a regulation reset, 2027 keeps the 2026 rules, so stable-rule transitions match 2027. Late-season decay tested.
 - 2026-11-12 Phase 5 split: ChatGPT 5.1-5.2 (metrics, multi-season walk-forward, re-tune) in `../f1-fantasy-5.1-metrics`; Claude 5.3-5.5 (carry-over, evaluation, wiring) in `../f1-fantasy-5.3-carryover`.
+- 2026-11-12 Form retune remains trim 0.3 / prior weight 2.0: it maximized combined 2023-2025 season points, and matched the current 2026 total (4363), satisfying the no-worse adoption rule.
