@@ -16,6 +16,7 @@ from pipelines.pick_team import load_team
 from src.backtest.walkforward import _actual_points
 from src.features.rolling import robust_mu
 from src.optimize.chip_history import replay_gain
+from src.optimize.chips import estimate_chip
 from src.optimize.ilp import Asset, Decision, InfeasibleTeam, TeamState, next_state, optimize
 from src.sim.scoring import _rule, load_rules
 
@@ -46,6 +47,8 @@ def next_round(tables=None) -> tuple[int, int]:
     """(season, round) of the first round not yet completed, as pick_team uses."""
     races = (tables or _tables())["races"]
     left = races[~races["completed"]].sort_values(["season", "round"])
+    if left.empty:
+        raise ValueError("no upcoming round in the race table; update data once the next season is listed")
     return int(left["season"].iloc[0]), int(left["round"].iloc[0])
 
 
@@ -150,9 +153,12 @@ def apply_transfers(n: int, decision: Decision, chip: str | None = None, tables=
 
 
 def top_teams(state: TeamState | None, budget: float = 100.0, n: int = 5, exclude=(),
-              season: int | None = None, round_: int | None = None, tables=None) -> list[Decision]:
+              season: int | None = None, round_: int | None = None, tables=None,
+              chip: str | None = None) -> list[Decision]:
     """Best n distinct teams for the next round, best first. state=None: overall best under `budget`
-    (no transfer limits); otherwise teams reachable from state (its own budget, transfer penalties)."""
+    (no transfer limits); otherwise teams reachable from state (its own budget, transfer penalties).
+    chip (with a state): the one best team for that chip (limitless, wildcard, x3_boost with boost3 set);
+    a chip that does not change the team (autopilot, no_negative, final_fix) gives the normal list."""
     t = tables or _tables()
     if season is None or round_ is None:
         season, round_ = next_round(t)
@@ -160,6 +166,12 @@ def top_teams(state: TeamState | None, budget: float = 100.0, n: int = 5, exclud
     if state is None:
         rules = {**rules, "team": {**rules["team"], "budget": budget}}
     pool = assets(season, round_, exclude, t)
+    if chip and state is not None:
+        team = {"drivers": list(state.owned), "constructors": [], "bank": state.bank,
+                "free_transfers": state.free_transfers}
+        _, d, _ = estimate_chip(pool, team, rules, chip)
+        if d is not None:  # shortcut: one team per chip, not top n; add forbid loops if alternatives are wanted
+            return [replace(d, transfers_in=tuple(a for a in (*d.drivers, *d.constructors) if a not in state.owned))]
     found: list[Decision] = []
     for _ in range(n):
         try:
