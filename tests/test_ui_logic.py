@@ -91,3 +91,17 @@ def test_history_points_applies_boost_chip_and_penalty(cfg):
     assert h.loc[0, "points"] == 35 + 8 + 14 - 10 and h.loc[0, "chip"] == "x3_boost"
     assert pd.isna(h.loc[1, "points"]) and h.loc[0, "lineup"].startswith("D1, D2")
     assert logic.history_points(2, tables=t).empty
+
+
+def test_top_teams_chip_and_no_round_left(cfg):
+    t = tables()
+    state = TeamState({a: 10.0 for a in DRIVERS[3:8]} | {"C2": 20.0, "C3": 20.0}, 10.0, 0)
+    x3 = logic.top_teams(state, chip="x3_boost", tables=t)
+    assert len(x3) == 1 and x3[0].boost3 in x3[0].drivers and x3[0].boost3 != x3[0].boost
+    wild = logic.top_teams(state, chip="wildcard", tables=t)[0]
+    normal = logic.top_teams(state, n=1, tables=t)[0]
+    assert wild.expected_points >= normal.expected_points and wild.transfers_in  # no penalty: changes freely
+    assert len(logic.top_teams(state, chip="autopilot", tables=t)) == 5  # team unchanged by chip
+    done = dict(t, races=t["races"].assign(completed=True))
+    with pytest.raises(ValueError, match="no upcoming round"):
+        logic.next_round(done)
