@@ -74,3 +74,4 @@ Branch: codex/phase-3-plan. Phases 1-3 merged to main (8922035); Phase 4 work un
 - Added adjacent-round observed price changes derived only from per-round `price` snapshots. `pipelines/build_data.py` now writes `data/processed/price_changes.parquet`; rebuild produced 2,754 rows. No price-change forecast used.
 - Full suite: 184 passed (2026-11-09). Phase 1 real-data gate: 8 passed. Phase 2 walk-forward totals unchanged: 2023 6190, 2024 4561, 2025 4558, 2026 4269.
 - 2026-11-13: Phase 6 done. Grilled scope (horizon only), wrote `docs/superpowers/plans/2026-11-13-phase-6-horizon.md`; horizon prototype gave no gain on 2023-2025 rounds 1-10, so not built. Next: grill Phase 7 (automation).
+- 2026-11-14: Phase 7 grilled and planned (local Task Scheduler). 7.1 `pipelines/weekly_update.py` built and merged; manual `--force` run wrote the Las Vegas report for teams 1-3; 222 tests. 7.2 (scheduler scripts) handed to ChatGPT: `docs/handoff-chatgpt-7.2-scheduler.md`.

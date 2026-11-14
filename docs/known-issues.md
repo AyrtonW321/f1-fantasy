@@ -37,3 +37,4 @@
 - 2026-11-13 (review of 5.1) `evaluate_seasons.py` rewrites `config/model.yaml` with `yaml.safe_dump` when adopting a new setting, which drops the file's comments.
 - 2026-11-13 (review of 5.1) `--predictor` factories receive `tables` without `results`; a predictor needing team lineups must load it itself.
 - 2026-11-13 `robust_mu` loses the 2023 season total to rolling-5 by 565 points; not investigated (user kept robust_mu).
+- 2026-11-14 For 2027: `pipelines/build_data.py` hardcodes seasons `[2023, 2024, 2025, 2026]` and `BONUS_SEASONS = [2026]`, and `config/rules_2027.yaml` does not exist. The weekly run will not see 2027 rounds until these are added.
