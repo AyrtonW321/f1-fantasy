@@ -15,7 +15,28 @@ sys.path.insert(0, str(ROOT))
 
 from pipelines.pick_team import load_team
 from pipelines.weekly_update import stale_warning, unsealed
+from src.optimize.ilp import TeamState
 from src.ui.logic import apply_transfers, history_points, next_round, save_team, top_teams, validate
+
+
+def _inputs_stamp():
+    """Modified times of everything top_teams reads besides its arguments: data, model and rules files."""
+    files = [*(ROOT / "data" / "processed").glob("*.parquet"), ROOT / "config" / "model.yaml",
+             *(ROOT / "config").glob("rules_*.yaml")]
+    return tuple(sorted((p.name, p.stat().st_mtime_ns) for p in files if p.exists()))
+
+
+@st.cache_data(show_spinner="Solving teams...", max_entries=64)
+def _top(owned, bank, free, budget, exclude, chip, stamp):
+    """Cached top_teams: each ILP solve costs ~0.2 s, so only re-solve when the team, chip or input files change."""
+    state = TeamState(dict(owned), bank, free) if owned is not None else None
+    return top_teams(state, budget, n=5, exclude=list(exclude), chip=chip)
+
+
+def _cached_top(state, budget=100.0, exclude=(), chip=None):
+    owned = tuple(sorted(state.owned.items())) if state is not None else None
+    bank, free = (state.bank, state.free_transfers) if state is not None else (None, None)
+    return _top(owned, bank, free, budget, tuple(exclude), chip, _inputs_stamp())
 
 
 @st.cache_data
@@ -116,6 +137,7 @@ def _timeline(n):
     st.vega_lite_chart(spec, width="stretch")
 
 
+@st.fragment  # a click inside one tab reruns only that tab
 def _team_tab(n, next_round, races):
     config_path = ROOT / "config" / f"my_team_{n}.yaml"
     if not config_path.exists():
@@ -139,8 +161,7 @@ def _team_tab(n, next_round, races):
     choices = []
     if team_state is not None:
         try:
-            choices = top_teams(team_state, 100.0, n=5,
-                                exclude=team.get("exclude", []), chip=chip)
+            choices = _cached_top(team_state, exclude=team.get("exclude", []), chip=chip)
         except ValueError as exc:
             st.warning(str(exc))
     else:
@@ -268,6 +289,20 @@ def _data_tab(next_round, next_error):
             st.error(f"Could not start update: {exc}")
 
 
+@st.fragment
+def _best_tab():
+    st.subheader("Best teams")
+    budget = st.number_input("Budget", min_value=0.0, value=100.0, step=0.1, format="%.1f")
+    try:
+        best = _cached_top(None, budget)
+        if best:
+            st.dataframe(pd.DataFrame(_decision_rows(best)), hide_index=True, width="stretch")
+        else:
+            st.info("No best-team results are available yet.")
+    except ValueError as exc:
+        st.warning(str(exc))
+
+
 def main():
     st.set_page_config(page_title="F1 Fantasy", layout="wide")
     st.title("F1 Fantasy")
@@ -284,16 +319,7 @@ def main():
             _team_tab(n, next_round, races)
     best_index = len(team_tabs)
     with tabs[best_index]:
-        st.subheader("Best teams")
-        budget = st.number_input("Budget", min_value=0.0, value=100.0, step=0.1, format="%.1f")
-        try:
-            best = top_teams(None, budget, n=5)
-            if best:
-                st.dataframe(pd.DataFrame(_decision_rows(best)), hide_index=True, width="stretch")
-            else:
-                st.info("No best-team results are available yet.")
-        except ValueError as exc:
-            st.warning(str(exc))
+        _best_tab()
     with tabs[best_index + 1]:
         _data_tab(next_round, next_error)
 
