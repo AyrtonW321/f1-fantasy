@@ -76,3 +76,4 @@ Branch: codex/phase-3-plan. Phases 1-3 merged to main (8922035); Phase 4 work un
 - 2026-11-13: Phase 6 done. Grilled scope (horizon only), wrote `docs/superpowers/plans/2026-11-13-phase-6-horizon.md`; horizon prototype gave no gain on 2023-2025 rounds 1-10, so not built. Next: grill Phase 7 (automation).
 - 2026-11-14: Phase 7 grilled and planned (local Task Scheduler). 7.1 `pipelines/weekly_update.py` built and merged; manual `--force` run wrote the Las Vegas report for teams 1-3; 222 tests. 7.2 (scheduler scripts) handed to ChatGPT: `docs/handoff-chatgpt-7.2-scheduler.md`.
 - 2026-11-14: 7.2 added Task Scheduler install/uninstall scripts for a daily 20:00 logged-on-user run, with catch-up and a one-hour limit; documented manual reruns and the report/log paths.
+- 2026-11-14: 8.5 added the Streamlit multi-team dashboard, data update controls, launcher batch file, and usage docs. Uses temporary 8.4 API stubs until the logic branch merges.

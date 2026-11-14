@@ -10,6 +10,7 @@ dependencies = [
     "pyyaml",
     "pulp>=3.3.2,<4",
     "fastf1>=3.9.2,<4",
+    "streamlit>=1.67.0",
 ]
 
 [dependency-groups]
