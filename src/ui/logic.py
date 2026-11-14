@@ -52,6 +52,14 @@ def next_round(tables=None) -> tuple[int, int]:
     return int(left["season"].iloc[0]), int(left["round"].iloc[0])
 
 
+def team_state(n: int, tables=None) -> TeamState:
+    """Team n at the next round's prices. ValueError when that round has no prices or no round is left."""
+    t = tables or _tables()
+    season, round_ = next_round(t)
+    now = t["prices"][(t["prices"]["season"] == season) & (t["prices"]["round"] == round_)]
+    return load_team(team_path(n), dict(zip(now["asset_id"], now["price"].astype(float))))
+
+
 def assets(season: int, round_: int, exclude=(), tables=None) -> list[Asset]:
     """This round's assets with robust_mu (config/model.yaml form); excluded ids get mu -1000."""
     t = tables or _tables()
@@ -129,9 +137,7 @@ def apply_transfers(n: int, decision: Decision, chip: str | None = None, tables=
     season, round_ = next_round(t)
     rules = load_rules(season)
     team = load(n)
-    now = t["prices"][(t["prices"]["season"] == season) & (t["prices"]["round"] == round_)]
-    prices = dict(zip(now["asset_id"], now["price"].astype(float)))
-    state = load_team(team_path(n), prices)
+    state = team_state(n, t)
     chip_rules = rules["chips"].get(chip, {}) if chip else {}
     if chip and chip not in (team.get("chips_left") or []):
         raise ValueError(f"chip {chip} not in chips_left")

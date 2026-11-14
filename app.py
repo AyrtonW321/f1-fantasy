@@ -8,15 +8,14 @@ from pathlib import Path
 
 import pandas as pd
 import streamlit as st
-import yaml
 
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
 
-from pipelines.pick_team import load_team
 from pipelines.weekly_update import stale_warning, unsealed
 from src.optimize.ilp import TeamState
-from src.ui.logic import apply_transfers, history_points, next_round, save_team, top_teams, validate
+from src.ui.logic import (apply_transfers, history_points, load, next_round, save_team, team_path,
+                          team_state, top_teams, validate)
 
 
 def _inputs_stamp():
@@ -88,7 +87,7 @@ def _capture_chips(n):
 
 def _decision_rows(decisions):
     return [{"Drivers": ", ".join(d.drivers), "Constructors": ", ".join(d.constructors),
-             "Boost": d.boost, "3x boost": getattr(d, "boost3", None) or "—",
+             "Boost": d.boost, "3x boost": d.boost3 or "—",
              "Transfers in": ", ".join(d.transfers_in) or "—",
              "Penalty transfers": d.penalty_transfers, "Cost": d.cost,
              "Expected points": d.expected_points} for d in decisions]
@@ -137,46 +136,29 @@ def _timeline(n):
     st.vega_lite_chart(spec, width="stretch")
 
 
-@st.fragment  # a click inside one tab reruns only that tab
-def _team_tab(n, next_round, races):
-    config_path = ROOT / "config" / f"my_team_{n}.yaml"
-    if not config_path.exists():
-        st.warning(f"Missing {config_path.relative_to(ROOT)}. Add this team file to use its controls.")
-        return
-    team = yaml.safe_load(config_path.read_text(encoding="utf-8")) or {}
-    season = next_round[0] if next_round is not None else int(races["season"].max()) if not races.empty else 2026
-    round_ = next_round[1] if next_round is not None else None
-    prices = _prices(season, round_)
-    price_map = dict(zip(prices["asset_id"], prices["price"])) if not prices.empty else {}
-    team_state = load_team(config_path, price_map) if all(a in price_map for a in team.get("drivers", []) + team.get("constructors", [])) else None
+def _table_of(decisions):
+    st.dataframe(pd.DataFrame(_decision_rows(decisions)), hide_index=True, width="stretch")
 
-    st.subheader(f"Team {n}")
-    st.dataframe(pd.DataFrame([{"Kind": kind, "Asset": asset, "Price": price_map.get(asset)}
-                               for kind, field in (("Driver", "drivers"), ("Constructor", "constructors"))
-                               for asset in team.get(field, [])]), hide_index=True, width="stretch")
-    chips = list(team.get("chips_left", []))
-    chip_choice = st.selectbox("Chip to play", ["None", *chips], key=f"chip_{n}")
+
+def _picks(n, team, state):
+    """Chip selector, live best pick and the top 5; returns (choices, chip, session key of the chosen index)."""
+    chip_choice = st.selectbox("Chip to play", ["None", *team.get("chips_left", [])], key=f"chip_{n}")
     chip = None if chip_choice == "None" else chip_choice
-    choice_key = f"choice_{n}_{chip_choice}"
     choices = []
-    if team_state is not None:
+    if state is not None:
         try:
-            choices = _cached_top(team_state, exclude=team.get("exclude", []), chip=chip)
+            choices = _cached_top(state, exclude=team.get("exclude", []), chip=chip)
         except ValueError as exc:
             st.warning(str(exc))
-    else:
-        st.warning("Current prices are unavailable for this team, so its live pick cannot be loaded yet.")
     if choices:
         st.markdown("#### Live best pick")
-        st.dataframe(pd.DataFrame(_decision_rows(choices[:1])), hide_index=True, width="stretch")
-        st.session_state.setdefault(choice_key, 0)
-    elif team_state is not None:
+        _table_of(choices[:1])
+    elif state is not None:
         st.info("No live pick is available yet.")
+    return choices, chip, f"choice_{n}_{chip_choice}"
 
-    warning = stale_warning(config_path, races, season, round_) if round_ is not None and not races.empty else None
-    if warning:
-        st.warning(warning)
 
+def _chip_advice(n):
     advice, report_name = _report_chip_advice(n)
     if advice:
         st.markdown(f"#### Chip advice · {report_name}")
@@ -189,19 +171,20 @@ def _team_tab(n, next_round, races):
         except Exception as exc:
             st.error(f"Could not recompute chip advice: {exc}")
 
-    st.markdown("#### Other choices")
-    if choices:
-        st.dataframe(pd.DataFrame(_decision_rows(choices)), hide_index=True, width="stretch")
-        for i, decision in enumerate(choices):
-            if st.button(f"Use this one · {i + 1}", key=f"use_{n}_{chip_choice}_{i}"):
-                st.session_state[choice_key] = i
-    else:
-        st.caption("No alternative lineups are available.")
 
-    selected_index = min(st.session_state.get(choice_key, 0), len(choices) - 1) if choices else None
-    selected = choices[selected_index] if selected_index is not None else None
+def _choose_and_apply(n, choices, chip, choice_key):
+    st.markdown("#### Other choices")
+    if not choices:
+        st.caption("No alternative lineups are available.")
+    else:
+        _table_of(choices)
+        for i in range(len(choices)):
+            if st.button(f"Use this one · {i + 1}", key=f"use_{n}_{chip or 'None'}_{i}"):
+                st.session_state[choice_key] = i
+    index = min(st.session_state.get(choice_key, 0), len(choices) - 1) if choices else None
+    selected = choices[index] if index is not None else None
     if selected is not None:
-        st.write(f"Selected: #{selected_index + 1}")
+        st.write(f"Selected: #{index + 1}")
         st.write(f"Drivers: {', '.join(selected.drivers)}")
         st.write(f"Constructors: {', '.join(selected.constructors)}")
     if st.button("I made these transfers", key=f"apply_{n}", disabled=selected is None):
@@ -212,23 +195,24 @@ def _team_tab(n, next_round, races):
         except Exception as exc:
             st.error(str(exc))
 
+
+def _edit_form(n, team, prices):
     st.markdown("#### Edit team")
-    drivers = prices.loc[prices["kind"] == "driver", "asset_id"].astype(str).tolist() if not prices.empty else team.get("drivers", [])
-    constructors = prices.loc[prices["kind"] == "constructor", "asset_id"].astype(str).tolist() if not prices.empty else team.get("constructors", [])
-    chip_options = list(team.get("chips_left", []))
+    ids = {k: prices.loc[prices["kind"] == k, "asset_id"].astype(str).tolist() if not prices.empty else team.get(f"{k}s", [])
+           for k in ("driver", "constructor")}
+    drivers, constructors = ids["driver"], ids["constructor"]
     with st.form(f"edit_{n}"):
         chosen_drivers = st.multiselect("Drivers (select 5)", drivers, default=[x for x in team.get("drivers", []) if x in drivers])
         chosen_constructors = st.multiselect("Constructors (select 2)", constructors,
                                              default=[x for x in team.get("constructors", []) if x in constructors])
         bank = st.number_input("Bank", min_value=0.0, value=float(team.get("bank", 0.0)), step=0.1, format="%.1f")
         free_transfers = st.number_input("Free transfers", min_value=0, value=int(team.get("free_transfers", 0)), step=1)
-        selected_chips = [chip for chip in chip_options
-                          if st.checkbox(chip, value=True, key=f"edit_chip_{n}_{chip}")]
+        chips = [c for c in team.get("chips_left", []) if st.checkbox(c, value=True, key=f"edit_chip_{n}_{c}")]
         excluded = st.multiselect("Exclude from picks", sorted(set(drivers + constructors)),
                                   default=[x for x in team.get("exclude", []) if x in drivers + constructors])
         save = st.form_submit_button("Validate and save")
     edited = {"drivers": chosen_drivers, "constructors": chosen_constructors, "bank": bank,
-              "free_transfers": free_transfers, "chips_left": selected_chips, "exclude": excluded}
+              "free_transfers": free_transfers, "chips_left": chips, "exclude": excluded}
     try:
         errors = validate(edited)
     except ValueError as exc:
@@ -243,6 +227,34 @@ def _team_tab(n, next_round, races):
         except Exception as exc:
             st.error(str(exc))
 
+
+@st.fragment  # a click inside one tab reruns only that tab
+def _team_tab(n, next_round, races):
+    config_path = team_path(n)
+    if not config_path.exists():
+        st.warning(f"Missing {config_path.relative_to(ROOT)}. Add this team file to use its controls.")
+        return
+    team = load(n) or {}
+    season = next_round[0] if next_round is not None else int(races["season"].max()) if not races.empty else 2026
+    round_ = next_round[1] if next_round is not None else None
+    prices = _prices(season, round_)  # falls back to the latest priced round, for display and the edit form
+    price_map = dict(zip(prices["asset_id"], prices["price"])) if not prices.empty else {}
+    try:
+        state = team_state(n)
+    except ValueError as exc:
+        state = None
+        st.warning(str(exc))
+
+    st.subheader(f"Team {n}")
+    st.dataframe(pd.DataFrame([{"Kind": kind, "Asset": asset, "Price": price_map.get(asset)}
+                               for kind, field in (("Driver", "drivers"), ("Constructor", "constructors"))
+                               for asset in team.get(field, [])]), hide_index=True, width="stretch")
+    choices, chip, choice_key = _picks(n, team, state)
+    if round_ is not None and not races.empty and (warning := stale_warning(config_path, races, season, round_)):
+        st.warning(warning)
+    _chip_advice(n)
+    _choose_and_apply(n, choices, chip, choice_key)
+    _edit_form(n, team, prices)
     st.markdown("#### Season timeline")
     _timeline(n)
 
