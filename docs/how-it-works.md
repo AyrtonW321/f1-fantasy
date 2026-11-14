@@ -21,3 +21,18 @@ One calculation decides keeps, sells, transfers and the boost: the legal team wi
 | `wildcard`, `limitless` | Optimizer: re-run with the transfer penalty off / the budget cap off; gain = difference |
 | `autopilot`, `no_negative` | Replay of earlier rounds with the team you would field (`src/optimize/chip_history.py`): average past gain, sprint and normal weekends kept apart; previous season added if fewer than 3 rounds are done |
 | `final_fix` | Not valued: needs the qualifying result. Play it after qualifying |
+# Weekly report
+
+Install the daily 20:00 local Task Scheduler job from the project folder:
+
+```powershell
+.\scripts\install_task.ps1
+```
+
+Remove it with:
+
+```powershell
+.\scripts\uninstall_task.ps1
+```
+
+The job runs `uv run python -m pipelines.weekly_update`. The PC must be on and you must be logged in when it runs; missed starts are picked up when available. The report is written to `reports/round_{season}_{round}.md`, and the run log is `reports/weekly_update.log`. After editing team files, manually rerun with `uv run python -m pipelines.weekly_update --force`. To trigger a test run of the scheduled task, use `Start-ScheduledTask F1FantasyWeekly`. Sealing `data/raw` stays manual.
