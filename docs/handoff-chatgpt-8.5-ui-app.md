@@ -8,17 +8,19 @@ You are working in the Python repo `f1-fantasy` (F1 Fantasy optimizer, Windows 1
 git worktree add ../f1-fantasy-8.5-ui-app -b chatgpt/8.5-ui-app main
 ```
 
-All edits and commits happen in `../f1-fantasy-8.5-ui-app`. Claude works in parallel on task 8.4 in `../f1-fantasy-8.4-ui-logic` (`src/ui/logic.py`, `tests/test_ui_logic.py`, `.gitignore`). Do NOT edit those files or anything under `src/` or `pipelines/`.
+All edits and commits happen in `../f1-fantasy-8.5-ui-app`. Do NOT edit anything under `src/` or `pipelines/`, `tests/test_ui_logic.py` or `.gitignore`.
 
-## The logic API (built by Claude in 8.4)
+## The logic API (built by Claude in 8.4, merged to main)
 
-The app calls only these. Until 8.4 merges, put temporary stubs with the same signatures in `app_stubs.py` (delete it before your last commit if 8.4 has merged; otherwise say so in your report).
+8.4 is merged: import from `src.ui.logic` directly, no stubs. The app calls only these. Every function takes an optional `tables=` (dict of DataFrames) for tests; the app leaves it out and the function reads `data/processed/*.parquet`. `season`/`round_` default to the next uncompleted round.
 
-- `validate(team: dict) -> list[str]`: error messages, empty when valid. `team` has the team-file keys: `exclude`, `drivers` (5), `constructors` (2), `bank`, `free_transfers`, `chips_left`.
-- `save_team(n: int, team: dict) -> None`: validates, backs up, writes `config/my_team_{n}.yaml`. Raises `ValueError` with the `validate` messages when invalid.
-- `apply_transfers(n: int, decision: Decision, chip: str | None = None) -> None`: backs up and rewrites `config/my_team_{n}.yaml`, appends a history row.
-- `top_teams(state: TeamState | None, budget: float, n: int = 5) -> list[Decision]`: `state=None` means best teams overall. `Decision` and `TeamState` are in `src/optimize/ilp.py` (`Decision.drivers`, `.constructors`, `.boost`, `.transfers_in`, `.penalty_transfers`, `.cost`, `.expected_points`).
-- `history_points(n: int) -> pandas.DataFrame`: columns `round, points, cumulative, team_value, transfers, chip, lineup`.
+- `next_round() -> (season, round)`: first round not yet completed.
+- `load(n) -> dict`: the parsed `config/my_team_{n}.yaml`. `team_path(n)` and `history_path(n)` give the file paths.
+- `validate(team: dict, season=None) -> list[str]`: error messages, empty when valid. `team` has the team-file keys: `exclude`, `drivers` (5), `constructors` (2), `bank`, `free_transfers`, `chips_left`.
+- `save_team(n, team, season=None) -> None`: validates, backs up the old file to `config/backup/`, writes `config/my_team_{n}.yaml`. Raises `ValueError` with the `validate` messages joined by `; ` when invalid.
+- `apply_transfers(n, decision, chip=None) -> dict`: writes the decision as team n (backup first), logs the round to `config/history/team_{n}.csv`, returns the new team dict. Raises `ValueError` if `chip` is not in `chips_left`. A limitless chip keeps the old team (it reverts next round).
+- `top_teams(state, budget=100.0, n=5, exclude=()) -> list[Decision]`: best n distinct teams, best first. `state=None` means best overall under `budget`; otherwise teams reachable from `state` (its own budget, transfer penalties). Pass the team file's `exclude` list. `Decision` and `TeamState` are in `src/optimize/ilp.py` (`Decision.drivers`, `.constructors`, `.boost`, `.boost3`, `.transfers_in`, `.penalty_transfers`, `.cost`, `.budget`, `.expected_points`).
+- `history_points(n) -> pandas.DataFrame`: columns `season, round, points, cumulative, team_value, transfers, chip, lineup`. `points` is NaN until the round is scored; `cumulative` resets each season. Empty DataFrame when no history.
 
 For loading a team file into a `TeamState`, use `pipelines.pick_team.load_team`. For chip advice, capture `pipelines.plan_chips.main(["--team", n])` stdout.
 
@@ -39,10 +41,10 @@ For loading a team file into a `TeamState`, use `pipelines.pick_team.load_team`.
 3. Add `streamlit` with `uv add streamlit` (updates `pyproject.toml` and `uv.lock`).
 4. `docs/how-it-works.md`: a short "Using the app" section (how to start it, what each tab does, where backups and history go).
 
-Check: `uv run streamlit run app.py` starts with the stubs and every tab renders without errors. Run `uv run pytest -q` before committing; all tests must still pass.
+Check: `uv run streamlit run app.py` starts and every tab renders without errors. Test writes on a copy: never click "I made these transfers" or save on the real team files during development. Run `uv run pytest -q` before committing; all tests must still pass.
 
 ## Deliverables
 
 1. Commits on `chatgpt/8.5-ui-app` in the worktree (no push).
-2. A short report to me: files changed, whether stubs are still in use, a screenshot or description of each tab, test count.
+2. A short report to me: files changed, a screenshot or description of each tab, test count.
 3. One dated line in `docs/progress.md`. Record any unfixed finding in `docs/known-issues.md`.
