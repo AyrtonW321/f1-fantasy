@@ -302,11 +302,16 @@ def _data_tab(next_round, next_error):
 
 
 @st.fragment
-def _best_tab():
+def _best_tab(next_round, team_numbers):
     st.subheader("Best teams")
     budget = st.number_input("Budget", min_value=0.0, value=100.0, step=0.1, format="%.1f")
+    benched = sorted({a for n in team_numbers for a in (load(n) or {}).get("exclude") or []})
+    prices = _prices(*next_round) if next_round is not None else pd.DataFrame()
+    options = sorted(set(prices["asset_id"].astype(str)) | set(benched)) if not prices.empty else benched
+    # default: every id excluded in any team file (benched drivers)
+    exclude = st.multiselect("Exclude from picks", options, default=benched, key="best_exclude")
     try:
-        best = _cached_top(None, budget)
+        best = _cached_top(None, budget, exclude=exclude)
         if best:
             st.dataframe(pd.DataFrame(_decision_rows(best)), hide_index=True, width="stretch")
         else:
@@ -331,7 +336,7 @@ def main():
             _team_tab(n, next_round, races)
     best_index = len(team_tabs)
     with tabs[best_index]:
-        _best_tab()
+        _best_tab(next_round, [int(p.stem.rsplit("_", 1)[1]) for p in team_files])
     with tabs[best_index + 1]:
         _data_tab(next_round, next_error)
 
