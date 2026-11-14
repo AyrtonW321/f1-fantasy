@@ -216,7 +216,7 @@
       "label": "main()",
       "file_type": "code",
       "source_file": "app.py",
-      "source_location": "L318",
+      "source_location": "L323",
       "_origin": "ast",
       "id": "app_main",
       "community": 22,
@@ -4798,8 +4798,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "src_ui_logic_team_path",
-      "community": 23,
-      "community_name": "logic.py",
+      "community": 22,
+      "community_name": "app.py",
       "norm_label": "team_path()"
     },
     {
@@ -4831,8 +4831,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "src_ui_logic_load",
-      "community": 23,
-      "community_name": "logic.py",
+      "community": 22,
+      "community_name": "app.py",
       "norm_label": "load()"
     },
     {
@@ -9109,7 +9109,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L318",
+      "source_location": "L323",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app",
@@ -9565,7 +9565,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L309",
+      "source_location": "L314",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_best_tab",
@@ -9625,7 +9625,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L324",
+      "source_location": "L329",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_main",
@@ -9642,6 +9642,18 @@
       "_origin": "ast",
       "source": "app_round_info",
       "target": "src_ui_logic_next_round",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app.py",
+      "source_location": "L309",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_best_tab",
+      "target": "app_prices",
       "confidence_score": 1.0
     },
     {
@@ -9709,7 +9721,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L311",
+      "source_location": "L316",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_best_tab",
@@ -9876,7 +9888,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L331",
+      "source_location": "L336",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_main",
@@ -9948,7 +9960,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L336",
+      "source_location": "L341",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_main",
@@ -9959,8 +9971,20 @@
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L334",
+      "source_location": "L308",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_best_tab",
+      "target": "src_ui_logic_load"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app.py",
+      "source_location": "L339",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_main",
@@ -37940,5 +37964,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "a54e65aeb2f9795c0b6d813b7d68fb4f822be9dc"
+  "built_at_commit": "c1c76929c26226beba40ecd9a0c8c995db439703"
 }

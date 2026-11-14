@@ -1,16 +1,16 @@
 # Graph Report - f1-fantasy  (2026-11-14)
 
 ## Corpus Check
-- 79 files · ~37,980 words
+- 79 files · ~38,042 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 818 nodes · 2466 edges · 28 communities (27 shown, 1 thin omitted)
+- 818 nodes · 2468 edges · 28 communities (27 shown, 1 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 51 edges (avg confidence: 0.74)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a54e65ae`
+- Built from commit: `c1c76929`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -138,11 +138,11 @@ Nodes (8): deviance(), fit(), ndarray, Poisson count helpers for overtakes: log-
 
 ### Community 22 - "app.py"
 Cohesion: 0.17
-Nodes (23): _best_tab(), _cached_top(), _capture_chips(), _chip_advice(), _choose_and_apply(), _data_tab(), _decision_rows(), _inputs_stamp() (+15 more)
+Nodes (25): _best_tab(), _cached_top(), _capture_chips(), _chip_advice(), _choose_and_apply(), _data_tab(), _decision_rows(), _inputs_stamp() (+17 more)
 
 ### Community 23 - "logic.py"
 Cohesion: 0.12
-Nodes (34): _edit_form(), exclude(), load_team(), main(), DataFrame, Path, Benched or unavailable assets: expected points -1000, so the optimizer sells the, apply_transfers() (+26 more)
+Nodes (32): _edit_form(), exclude(), load_team(), main(), DataFrame, Path, Benched or unavailable assets: expected points -1000, so the optimizer sells the, apply_transfers() (+24 more)
 
 ### Community 24 - "ilp.py"
 Cohesion: 0.14
