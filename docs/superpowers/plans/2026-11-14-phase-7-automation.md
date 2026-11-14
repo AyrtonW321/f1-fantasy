@@ -22,7 +22,7 @@ One command pulls fresh data, rebuilds tables, picks all three teams, plans chip
 | # | Task | Who | Files | Depends on | Status |
 |---|---|---|---|---|---|
 | 7.1 | `weekly_update.py`: gate, `--force`, pulls (official snapshot, Jolpica, TracingInsights latest tag, mzafram), rebuild, picks and chips for every team file, report, failure report, log; gitignore reports | Claude, worktree `../f1-fantasy-7.1-weekly`, branch `claude/7.1-weekly` | `pipelines/weekly_update.py`, `tests/test_weekly_update.py`, `.gitignore` | - | Done 2026-11-14 (7a4cab6): `--force` wrote `reports/round_2026_21.md` for all three teams |
-| 7.2 | `scripts/install_task.ps1`, `scripts/uninstall_task.ps1`, "how to run" in `docs/how-it-works.md` | ChatGPT, worktree `../f1-fantasy-7.2-scheduler`, branch `chatgpt/7.2-scheduler` | `scripts/*.ps1`, `docs/how-it-works.md` | - | Pending |
+| 7.2 | `scripts/install_task.ps1`, `scripts/uninstall_task.ps1`, "how to run" in `docs/how-it-works.md` | ChatGPT, worktree `../f1-fantasy-7.2-scheduler`, branch `chatgpt/7.2-scheduler` | `scripts/*.ps1`, `docs/how-it-works.md` | - | Done 2026-11-14 (merged; battery defaults in known-issues) |
 
 ## Acceptance
 
