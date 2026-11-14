@@ -21,6 +21,12 @@ One calculation decides keeps, sells, transfers and the boost: the legal team wi
 | `wildcard`, `limitless` | Optimizer: re-run with the transfer penalty off / the budget cap off; gain = difference |
 | `autopilot`, `no_negative` | Replay of earlier rounds with the team you would field (`src/optimize/chip_history.py`): average past gain, sprint and normal weekends kept apart; previous season added if fewer than 3 rounds are done |
 | `final_fix` | Not valued: needs the qualifying result. Play it after qualifying |
+
+## Using the app
+
+Start the local dashboard from the project folder with `uv run streamlit run app.py`, or double-click `F1 Fantasy.bat`. Each Team tab shows the saved lineup, the current best pick, alternatives, chip advice, a transfer action, a validated manual editor, and saved history. The Best teams tab compares the top lineups at a budget you choose. The Data tab shows the next lock and price status and can run the weekly update; its output streams into the page.
+
+Manual edits and applied transfers back up the prior team file under `config/backup/`; transfer history is stored under `config/history/`. History starts with the first round saved through the app. The scheduled or manual update writes round reports under `reports/` and appends its log to `reports/weekly_update.log`. Sealing raw data remains a separate manual step.
 # Weekly report
 
 Install the daily 20:00 local Task Scheduler job from the project folder:
