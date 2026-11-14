@@ -1,16 +1,16 @@
 # Graph Report - f1-fantasy  (2026-11-14)
 
 ## Corpus Check
-- 78 files · ~36,415 words
+- 78 files · ~36,613 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 791 nodes · 2371 edges · 25 communities (24 shown, 1 thin omitted)
-- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 50 edges (avg confidence: 0.74)
+- 792 nodes · 2378 edges · 24 communities (23 shown, 1 thin omitted)
+- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 51 edges (avg confidence: 0.74)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `0b406e8c`
+- Built from commit: `2ab5b190`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -33,7 +33,6 @@
 - plackett_luce.py
 - test_rolling.py
 - poisson.py
-- TeamState
 - f1-fantasy
 
 ## God Nodes (most connected - your core abstractions)
@@ -53,25 +52,25 @@
   tests/test_pick_team.py → pipelines/pick_team.py
 - `test_reads_config_rules_and_null_raises()` --indirect_call--> `UnknownRuleError`  [INFERRED]
   tests/test_chips.py → src/sim/scoring.py
+- `test_season_values_match_spec()` --calls--> `load_rules()`  [EXTRACTED]
+  tests/test_scoring.py → src/sim/scoring.py
 - `rules()` --calls--> `load_rules()`  [EXTRACTED]
   tests/test_walkforward.py → src/sim/scoring.py
 - `build_bonus()` --calls--> `bonus_points()`  [EXTRACTED]
   pipelines/build_data.py → src/ingest/ti_lines.py
-- `build_bonus()` --calls--> `load_rules()`  [EXTRACTED]
-  pipelines/build_data.py → src/sim/scoring.py
 
 ## Import Cycles
 - None detected.
 
-## Communities (25 total, 1 thin omitted)
+## Communities (24 total, 1 thin omitted)
 
 ### Community 0 - "optimize"
-Cohesion: 0.06
-Nodes (100): collections_abc, dataclasses, exclude(), load_team(), main(), DataFrame, Path, Pick the team for the next unlocked round from robust season form.  Reads conf (+92 more)
+Cohesion: 0.07
+Nodes (84): dataclasses, load_team(), main(), Path, pulp, _actual_points(), DataFrame, DataFrame (+76 more)
 
 ### Community 1 - "crosscheck.py"
 Cohesion: 0.08
-Nodes (52): json, driver_code(), Shared helper for Jolpica driver identity., Three-letter code of a Jolpica Driver dict; falls back to familyName[:3] upper w, _blank_zero(), _constructor_lines(), _jolpica_finishes(), _load() (+44 more)
+Nodes (54): json, driver_code(), Shared helper for Jolpica driver identity., Three-letter code of a Jolpica Driver dict; falls back to familyName[:3] upper w, _blank_zero(), _constructor_lines(), _jolpica_finishes(), _load() (+46 more)
 
 ### Community 2 - "test_build_tables.py"
 Cohesion: 0.11
@@ -82,12 +81,12 @@ Cohesion: 0.13
 Nodes (48): finish_mismatches(), gate_mismatches(), DataFrame, Every TI row of every completed session scored with the rules, compared with the, One CSV for all seasons: this season's rows are replaced and other seasons' rows, TI numeric finishing positions compared with Jolpica's, for every completed sess, Report only, not a gate: our fantasy_points totals against mzafram Round_Fantasy, _save_season_csv() (+40 more)
 
 ### Community 4 - "walkforward.py"
-Cohesion: 0.06
-Nodes (70): argparse, pandas, pathlib, Build the auditable FP2 pace feature table from normalized FastF1 data., main(), Phase 4.7: robust form + separate bonus mean vs robust form (4.1), 2026 walk-for, mae(), main() (+62 more)
+Cohesion: 0.05
+Nodes (84): argparse, collections_abc, pandas, pathlib, Build the auditable FP2 pace feature table from normalized FastF1 data., main(), Phase 4.7: robust form + separate bonus mean vs robust form (4.1), 2026 walk-for, mae() (+76 more)
 
 ### Community 5 - "vault.py"
-Cohesion: 0.17
-Nodes (24): RuntimeError, _key(), main(), MissingKeyError, _openssl(), _openssl_enc(), Exception, Path (+16 more)
+Cohesion: 0.07
+Nodes (44): os, pytest, RuntimeError, shutil, DataFrame, Observed race-to-race fantasy price changes derived from official price snapshot, Calculate observed price changes only between adjacent round snapshots.      The, realized_price_changes() (+36 more)
 
 ### Community 6 - "test_jolpica_pull.py"
 Cohesion: 0.15
@@ -98,16 +97,16 @@ Cohesion: 0.28
 Nodes (17): _frame(), _full_tables(), _kind(), _lock(), _mus(), _prices(), rules(), _spy() (+9 more)
 
 ### Community 8 - "test_community_pull.py"
-Cohesion: 0.05
-Nodes (68): io, os, _capture(), default_steps(), due(), execute(), _http(), latest_ti_tag() (+60 more)
+Cohesion: 0.06
+Nodes (64): io, _capture(), default_steps(), due(), execute(), _http(), latest_ti_tag(), _local() (+56 more)
 
 ### Community 9 - "load_rules"
 Cohesion: 0.08
-Nodes (59): bonus_points(), Fastest-lap (race and sprint), Driver of the Day and pit-stop points in one TI r, dnf_probability(), DataFrame, Series, Per-driver race DNF probability, shrunk toward the field rate of the history it, history: race result rows already cut to before the target lock. p = (dnfs + shr, _features() (+51 more)
+Nodes (58): dnf_probability(), DataFrame, Series, Per-driver race DNF probability, shrunk toward the field rate of the history it, history: race result rows already cut to before the target lock. p = (dnfs + shr, _features(), _perf(), point_tables() (+50 more)
 
 ### Community 10 - "fastf1_pull.py"
 Cohesion: 0.11
-Nodes (40): Any, _available_sessions(), configure_cache(), _convert_laps(), event_inventory(), _existing(), FastF1IngestError, _inventory_one() (+32 more)
+Nodes (41): Any, _available_sessions(), configure_cache(), _convert_laps(), event_inventory(), _existing(), FastF1IngestError, _inventory_one() (+33 more)
 
 ### Community 11 - "walkforward_strength"
 Cohesion: 0.13
@@ -137,10 +136,6 @@ Nodes (18): baseline_mu(), lock(), mu_of(), points(), prices(), races(), rows: (
 Cohesion: 0.25
 Nodes (8): deviance(), fit(), ndarray, Poisson count helpers for overtakes: log-link regression and a gamma-Poisson shr, Posterior mean of a gamma(prior_rate*weight, weight) prior after `count` events, Mean Poisson deviance; lower is better., Penalised Newton fit of log E[y] = X @ beta. Column 0 must be the intercept (not, shrunk_rate()
 
-### Community 23 - "TeamState"
-Cohesion: 0.14
-Nodes (15): pytest, shutil, DataFrame, Observed race-to-race fantasy price changes derived from official price snapshot, Calculate observed price changes only between adjacent round snapshots.      The, realized_price_changes(), Path, raw_data() (+7 more)
-
 ## Knowledge Gaps
 - **1 isolated node(s):** `f1-fantasy`
   These have ≤1 connection - possible missing edges or undocumented components.
@@ -158,8 +153,8 @@ _Questions this graph is uniquely positioned to answer:_
 - **What connects `f1-fantasy` to the rest of the system?**
   _1 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `optimize` be split into smaller, more focused modules?**
-  _Cohesion score 0.05554628857381151 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06869254341164453 - nodes in this community are weakly interconnected._
 - **Should `crosscheck.py` be split into smaller, more focused modules?**
-  _Cohesion score 0.07769423558897243 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07539450613676213 - nodes in this community are weakly interconnected._
 - **Should `test_build_tables.py` be split into smaller, more focused modules?**
   _Cohesion score 0.10675990675990676 - nodes in this community are weakly interconnected._
