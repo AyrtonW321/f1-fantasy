@@ -77,3 +77,4 @@ Branch: codex/phase-3-plan. Phases 1-3 merged to main (8922035); Phase 4 work un
 - 2026-11-14: Phase 7 grilled and planned (local Task Scheduler). 7.1 `pipelines/weekly_update.py` built and merged; manual `--force` run wrote the Las Vegas report for teams 1-3; 222 tests. 7.2 (scheduler scripts) handed to ChatGPT: `docs/handoff-chatgpt-7.2-scheduler.md`.
 - 2026-11-14: 7.2 added Task Scheduler install/uninstall scripts for a daily 20:00 logged-on-user run, with catch-up and a one-hour limit; documented manual reruns and the report/log paths.
 - 2026-11-14: Phase 7 done. 7.2 scheduler scripts merged (b677118) but not installed; closed on manual `--force` runs by user call. Phase 8 may start: 8.1 recency prototype (Claude), 8.4 UI logic (Claude), 8.5 UI app (ChatGPT, `docs/handoff-chatgpt-8.5-ui-app.md`).
+- 2026-11-14: 8.1 recency prototype lost to `robust_mu` on rounds 1-10 for every h (best h=5, 6277 vs 6326 on 2023-2025); dropped, no code. Next: 8.4 UI logic.
