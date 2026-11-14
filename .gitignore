@@ -15,3 +15,5 @@ config/my_team.yaml
 config/my_team_[0-9].yaml
 reports/round_*.md
 reports/weekly_update.log
+config/backup/
+config/history/
