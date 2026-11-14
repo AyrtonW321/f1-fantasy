@@ -1,6 +1,6 @@
 # Phase 7 Plan: Local weekly automation
 
-**Status:** Planned 2026-11-14. Overrides the Phase 7 row in the master plan (GitHub Actions replaced by a local Task Scheduler job).
+**Status:** Done 2026-11-14. Closed on manual `--force` runs (acceptance 3 dropped by user). Planned 2026-11-14. Overrides the Phase 7 row in the master plan (GitHub Actions replaced by a local Task Scheduler job).
 
 ## Goal
 
@@ -28,5 +28,5 @@ One command pulls fresh data, rebuilds tables, picks all three teams, plans chip
 
 1. Tests: gate skips beyond 48 h or with a successful report, runs on a FAILED report or `--force`; a failing step writes the FAILED report; stale team-file warning; the module never mentions `F1_DATA_KEY` or the vault.
 2. A manual `--force` run writes a full report for the next 2026 round with all three teams.
-3. Task Scheduler runs it unattended once before a real 2026 lock (Las Vegas, lock 2026-11-21 04:00 UTC) and the user confirms the report appeared.
+3. ~~Task Scheduler runs it unattended once before a real 2026 lock.~~ Dropped 2026-11-14: user runs `--force` by hand before each lock; the task scripts stay available but are not installed.
 4. Decisions in `docs/decisions.md`.

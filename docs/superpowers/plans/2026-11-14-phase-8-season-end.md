@@ -1,6 +1,6 @@
 # Phase 8 Plan: Finish 2026, then prepare 2027
 
-**Status:** Planned 2026-11-14. Starts after Phase 7 acceptance (unattended Las Vegas run). Not in the master plan; added after Phase 7.
+**Status:** Planned 2026-11-14. Phase 7 accepted 2026-11-14 (manual runs), so Phase 8 may start. Not in the master plan; added after Phase 7.
 
 ## Goal
 
@@ -21,9 +21,9 @@ Get the most out of the last 2026 rounds (Qatar 22, Abu Dhabi 23), keep the 2026
 
 | # | Task | When | Who | Files | Status |
 |---|---|---|---|---|---|
-| 8.1 | Recency prototype; if it passes, add to `robust_mu` (default h = infinity keeps old behaviour) and set h in `config/model.yaml` | After Phase 7 acceptance, before Qatar lock (2026-11-28 18:00 UTC) | Claude: scratch first, then worktree `../f1-fantasy-8.1-recency`, branch `claude/8.1-recency` | `src/features/rolling.py`, `config/model.yaml`, test | Pending |
+| 8.1 | Recency prototype; if it passes, add to `robust_mu` (default h = infinity keeps old behaviour) and set h in `config/model.yaml` | Now, before Qatar lock (2026-11-28 18:00 UTC) | Claude: scratch first, then worktree `../f1-fantasy-8.1-recency`, branch `claude/8.1-recency` | `src/features/rolling.py`, `config/model.yaml`, test | Pending |
 | 8.2 | Final 2026 archive: snapshot after Abu Dhabi is scored, seal, commit | Week of 2026-12-07 | User runs `vault seal` (needs the key); Claude gives the commands and commits | `data/raw.tar.gz.enc` | Pending |
-| 8.4 | UI logic in `src/ui/logic.py`: `validate(team) -> list[str]`, `save_team(n, team)` (validated manual edit, backup first), `apply_transfers(n, decision, chip=None)` (backup, team file, history row), `top_teams(team_state or None, budget, n=5) -> list[Decision]`, `history_points(n) -> DataFrame` (round, points, cumulative, team_value, transfers, chip, lineup) | After Phase 7 acceptance, before Abu Dhabi lock (2026-12-05 14:00 UTC) | Claude, worktree `../f1-fantasy-8.4-ui-logic`, branch `claude/8.4-ui-logic` | `src/ui/logic.py`, `tests/test_ui_logic.py`, `.gitignore` | Pending |
+| 8.4 | UI logic in `src/ui/logic.py`: `validate(team) -> list[str]`, `save_team(n, team)` (validated manual edit, backup first), `apply_transfers(n, decision, chip=None)` (backup, team file, history row), `top_teams(team_state or None, budget, n=5) -> list[Decision]`, `history_points(n) -> DataFrame` (round, points, cumulative, team_value, transfers, chip, lineup) | Now, before Abu Dhabi lock (2026-12-05 14:00 UTC) | Claude, worktree `../f1-fantasy-8.4-ui-logic`, branch `claude/8.4-ui-logic` | `src/ui/logic.py`, `tests/test_ui_logic.py`, `.gitignore` | Pending |
 | 8.5 | Streamlit app on the 8.4 signatures (stubs until 8.4 merges), no game logic in the app | Same window, parallel with 8.4 | ChatGPT, worktree `../f1-fantasy-8.5-ui-app`, branch `chatgpt/8.5-ui-app`; Claude reviews and merges | `app.py`, `F1 Fantasy.bat`, `pyproject.toml` (`streamlit`, user approved), `docs/how-it-works.md` | Pending |
 | 8.3 | 2027 plumbing: seasons from config (not hardcoded in `build_data.py`), `BONUS_SEASONS`, `rules_2027.yaml` with `assumed`, ASSUMED line in the weekly report, fresh 2027 team files from the 100.0 budget | After 8.2 (December) | ChatGPT, worktree `../f1-fantasy-8.3-2027`, branch `chatgpt/8.3-2027`; Claude reviews | `pipelines/build_data.py`, `config/`, `pipelines/weekly_update.py` | Parked |
 
