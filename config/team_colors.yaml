@@ -1,0 +1,12 @@
+# constructor asset id -> livery colour and the id results.parquet uses (edit colours freely)
+MER: {color: "#27F4D2", results_id: mercedes}
+FER: {color: "#E80020", results_id: ferrari}
+MCL: {color: "#FF8000", results_id: mclaren}
+RED: {color: "#3671C6", results_id: red_bull}
+AST: {color: "#229971", results_id: aston_martin}
+ALP: {color: "#0093CC", results_id: alpine}
+WIL: {color: "#1868DB", results_id: williams}
+HAA: {color: "#FFFFFF", results_id: haas}
+VRB: {color: "#6692FF", results_id: rb}
+AUD: {color: "#F50537", results_id: audi}
+CAD: {color: "#1E1E1E", results_id: cadillac}
