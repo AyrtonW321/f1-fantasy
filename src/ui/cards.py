@@ -53,7 +53,7 @@ def team_row(label: str, constructors: list[str], x2: str | None, drivers: list[
     constructor_html = "".join(cards[a] for a in constructors if a in cards)
     x2_html = cards.get(x2, "") if x2 else ""
     driver_html = "".join(cards[a] for a in drivers if a in cards)
-    chips_column = f'<div class="chips">{chips_html}</div>' if chips_html else ""
+    chips_column = chips_html  # chip_badges already wraps in div.chips
     return (f'<div class="row"><div class="row-label">{html.escape(label)}</div>'
             f'<div class="asset-group">{constructor_html}</div><div class="asset-group">{x2_html}</div>'
             f'<div class="asset-grid">{driver_html}</div>'
