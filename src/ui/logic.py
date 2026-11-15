@@ -4,6 +4,7 @@ Paths are project-relative to ROOT so the app works from any start folder. Write
 old team file to config/backup/ first. History (config/history/team_N.csv) is what the timeline reads.
 """
 import csv
+import re
 from dataclasses import replace
 from datetime import datetime
 from pathlib import Path
@@ -221,3 +222,60 @@ def history_points(n: int, tables=None) -> pd.DataFrame:
     out = pd.DataFrame(rows).sort_values(["season", "round"]).reset_index(drop=True)
     out["cumulative"] = out.groupby("season")["points"].cumsum()
     return out[cols]
+
+
+def asset_mu(season: int, round_: int, tables=None) -> dict[str, float]:
+    """Asset id to this round's expected points (no exclusions)."""
+    return {a.id: a.mu for a in assets(season, round_, (), tables)}
+
+
+def saved_xpts(team: dict, mu: dict, rules: dict, chip: str | None) -> tuple[float | None, str | None]:
+    """(expected points, x2 driver) for the saved team with no transfers; x2 on the best driver,
+    x3_boost puts the extra multiplier on the best and x2 on the next. None if any asset has no mu."""
+    known = sorted((d for d in team["drivers"] if d in mu), key=lambda d: mu[d], reverse=True)
+    x3 = chip == "x3_boost" and len(known) > 1
+    x2 = known[1] if x3 else known[0] if known else None
+    picks = [*team["drivers"], *team["constructors"]]
+    if not known or any(a not in mu for a in picks):
+        return None, x2
+    boost = _rule(rules, "team.boost_multiplier")
+    total = sum(mu[a] for a in picks) + (boost - 1) * mu[known[0]]
+    if x3:
+        total += (_rule(rules, "chips.x3_boost.extra_multiplier") - boost) * mu[known[0]] + (boost - 1) * mu[known[1]]
+    return float(total), x2
+
+
+def _history(n: int) -> pd.DataFrame:
+    path = history_path(n)
+    if not path.exists():
+        return pd.DataFrame(columns=[*HISTORY_COLS, "si", "ri"])
+    h = pd.read_csv(path, dtype=str, keep_default_na=False)
+    return h.assign(si=h["season"].astype(int), ri=h["round"].astype(int)).sort_values(["si", "ri"])
+
+
+def swaps_log(n: int) -> list[dict]:
+    """Per logged round: assets out and in versus the previous logged lineup (first row: its transfers_in)."""
+    out, prev = [], None
+    for r in _history(n).itertuples():
+        now = [*r.drivers.split("|"), *r.constructors.split("|")]
+        if prev is None:
+            gone, came = [], [a for a in r.transfers_in.split("|") if a]
+        else:
+            gone, came = [a for a in prev if a not in now], [a for a in now if a not in prev]
+        out.append({"season": r.si, "round": r.ri, "out": gone, "in": came, "chip": r.chip or None})
+        if not (r.chip and load_rules(r.si)["chips"].get(r.chip, {}).get("team_reverts_next_round")):
+            prev = now  # a reverting chip (limitless) leaves the old team in place
+    return out
+
+
+def round_chip(n: int, season: int, round_: int) -> str | None:
+    """Chip logged for that round, if any."""
+    h = _history(n)
+    row = h[(h["si"] == season) & (h["ri"] == round_)]
+    return (row["chip"].iloc[-1] or None) if len(row) else None
+
+
+def advised_chip(advice: str | None, round_: int) -> str | None:
+    """Chip the plan_chips advice recommends for round_ ('Round N: <chip>;'), None for none/missing."""
+    match = re.search(rf"^Round {round_}: (\w+);", advice or "", re.M)
+    return match.group(1) if match and match.group(1) != "none" else None

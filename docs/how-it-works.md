@@ -24,21 +24,12 @@ One calculation decides keeps, sells, transfers and the boost: the legal team wi
 
 ## Using the app
 
-Start the local dashboard from the project folder with `uv run streamlit run app.py`, or double-click `F1 Fantasy.bat`. Each Team tab shows the saved lineup, the current best pick, alternatives, chip advice, a transfer action, a validated manual editor, and saved history. The Best teams tab compares the top lineups at a budget you choose. The Data tab shows the next lock and price status and can run the weekly update; its output streams into the page.
+Start the local dashboard from the project folder with `uv run streamlit run app.py`, or double-click `F1 Fantasy.bat`. Each Team tab shows the saved lineup, the current best pick, alternatives, chip advice, a transfer action, a validated manual editor, and saved history. The Best teams tab compares the top lineups at a budget you choose, without the assets in its exclude box (prefilled from the team files). The Data tab shows the next lock and price status and can run the weekly update; its output streams into the page.
 
 Manual edits and applied transfers back up the prior team file under `config/backup/`; transfer history is stored under `config/history/`. History starts with the first round saved through the app. The scheduled or manual update writes round reports under `reports/` and appends its log to `reports/weekly_update.log`. Sealing raw data remains a separate manual step.
-# Weekly report
 
-Install the daily 20:00 local Task Scheduler job from the project folder:
+## Weekly report
 
-```powershell
-.\scripts\install_task.ps1
-```
+Run before each lock: `uv run python -m pipelines.weekly_update --force` (or "Update data" in the app). It writes `reports/round_{season}_{round}.md` and logs to `reports/weekly_update.log`.
 
-Remove it with:
-
-```powershell
-.\scripts\uninstall_task.ps1
-```
-
-The job runs `uv run python -m pipelines.weekly_update`. The PC must be on and you must be logged in when it runs; missed starts are picked up when available. The report is written to `reports/round_{season}_{round}.md`, and the run log is `reports/weekly_update.log`. After editing team files, manually rerun with `uv run python -m pipelines.weekly_update --force`. To trigger a test run of the scheduled task, use `Start-ScheduledTask F1FantasyWeekly`. Sealing `data/raw` stays manual.
+Optional daily 20:00 job (not installed; read the battery note in `docs/known-issues.md` first): `.\scripts\install_task.ps1`, remove with `.\scripts\uninstall_task.ps1`.

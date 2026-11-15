@@ -105,3 +105,53 @@ def test_top_teams_chip_and_no_round_left(cfg):
     done = dict(t, races=t["races"].assign(completed=True))
     with pytest.raises(ValueError, match="no upcoming round"):
         logic.next_round(done)
+
+
+def test_saved_xpts_boost_and_x3():
+    rules = {"team": {"boost_multiplier": 2}, "chips": {"x3_boost": {"extra_multiplier": 3}}}
+    team = {"drivers": ["A", "B", "C", "D", "E"], "constructors": ["X", "Y"]}
+    mu = {"A": 10, "B": 8, "C": 1, "D": 1, "E": 1, "X": 5, "Y": 5}
+    assert logic.saved_xpts(team, mu, rules, None) == (41.0, "A")  # 31 + 10
+    assert logic.saved_xpts(team, mu, rules, "x3_boost") == (59.0, "B")  # 31 + 2*10 + 8; A tripled, B x2
+    assert logic.saved_xpts({"drivers": [], "constructors": ["X", "Y"]}, mu, rules, None) == (None, None)
+    assert logic.saved_xpts(team, {k: v for k, v in mu.items() if k != "C"}, rules, None) == (None, "A")
+
+
+def _two_rounds(cfg):
+    rows = [{"season": 2026, "round": 21, "drivers": "A|B|C|D|E", "constructors": "X|Y", "transfers_in": "A"},
+            {"season": 2026, "round": 22, "drivers": "A|B|C|D|F", "constructors": "X|Z", "chip": "wildcard"}]
+    for r in rows:
+        logic._log(1, r)
+
+
+def test_swaps_log_diffs_rows(cfg):
+    _two_rounds(cfg)
+    log = logic.swaps_log(1)
+    assert log[0]["out"] == [] and log[0]["in"] == ["A"]
+    assert sorted(log[1]["out"]) == ["E", "Y"] and sorted(log[1]["in"]) == ["F", "Z"]
+    assert log[1]["chip"] == "wildcard" and logic.swaps_log(9) == []
+
+
+def test_round_chip(cfg):
+    _two_rounds(cfg)
+    assert logic.round_chip(1, 2026, 22) == "wildcard"
+    assert logic.round_chip(1, 2026, 21) is None
+    assert logic.round_chip(1, 2026, 23) is None
+    assert logic.round_chip(9, 2026, 22) is None  # no history file
+
+
+def test_advised_chip():
+    text = "Round 21: no_negative; expected gain 11.8; swaps\nRound 22: none; expected gain 0.0"
+    assert logic.advised_chip(text, 21) == "no_negative"
+    assert logic.advised_chip(text, 22) is None
+    assert logic.advised_chip(text, 23) is None
+    assert logic.advised_chip(None, 21) is None
+
+
+def test_swaps_log_skips_reverting_chip(cfg):
+    for r in [{"season": 2026, "round": 20, "drivers": "A|B|C|D|E", "constructors": "X|Y"},
+              {"season": 2026, "round": 21, "drivers": "F|G|H|I|J", "constructors": "Z|W", "chip": "limitless"},
+              {"season": 2026, "round": 22, "drivers": "A|B|C|D|K", "constructors": "X|Y"}]:
+        logic._log(1, r)
+    log = logic.swaps_log(1)
+    assert log[2]["out"] == ["E"] and log[2]["in"] == ["K"]  # diffed against R20, not the limitless team

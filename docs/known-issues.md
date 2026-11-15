@@ -1,42 +1,52 @@
 # Known issues
 
-- 2023 free-transfer carry-over assumed; no source confirms.
+## Data sources
+
+- TracingInsights (TI) has no licence: its data never goes into git as plaintext.
+- Official 2026 feeds may vanish when the 2027 game launches: take the final snapshot first (8.2).
+- `snapshot_official` raises if the schedule feed fails, but a partial run is silent: check the "wrote N files" line (61 on a good run).
+- TI 2023 `roundNumber` runs one ahead of Jolpica from Monaco on: join on slug. mzafram files are numbered by Jolpica round.
+- TI lists non-participants and phantom rows (drivers under a team they did not drive for). Two participation rules exist: `build_tables` (TI positions / official IsActive) and the scoring gate (Jolpica results plus TI position).
+- Official 2026 feed grows from 33 to 37 players through seat swaps (LAW second PlayerId 116; TSU rounds 12-14; HIR round 19; Camara round 20 on). `build_tables` keys drivers by TLA and keeps the active row.
+- `prices.active` (official IsActive) does not identify benched drivers reliably (it also flags whole constructors in round 6). Benched drivers are handled by each team file's `exclude` list; team 1 has `exclude: []` while teams 2 and 3 exclude HIR.
+- Official 2026 round 6 (Monaco): 9 assets' session points do not add up to the feed's GamedayPoints; the TI row is used.
+- Bonus labels (fastest lap, DotD, pit times) exist only in raw TI rows; 23 of 220 2026 constructor-rounds have no pit time.
+- FP2 pace is not comparable across drivers (per-driver centring, no compound offset) and has gaps (149 of 667 FP2 rows without a usable long run). Not used by the picks.
+- The cloud session has no `F1_DATA_KEY` and cannot reach fantasy.formula1.com: data tests and snapshots run locally.
+
+## Rules and scoring
+
+- 2023 free-transfer carry-over is assumed; no source confirms it.
 - Never observed, left null: 2026 race DSQ, world-record pit stop, pre-2026 sprint DSQ, overall fastest stop before 2025.
-- Chip effects confirmed by user for 2026 only (config/rules_2026.yaml `chips`); 2023-2025 chips still unconfirmed.
-- TracingInsights has no licence; its data must never appear in git as plaintext.
-- TracingInsights 2023 roundNumber one ahead of Jolpica from Monaco on; join on slug.
-- TI lists non-participants (2026 Mexico: TSU under VRB); count only drivers in Jolpica results.
-- Official 2026 feeds may vanish when 2027 game launches: snapshot first.
-- snapshot_official now raises if the schedule feed fails; a partial run (some per-player feeds skipped) is still silent, so check the printed "wrote N files" line (61 on a good run).
-- Official 2026 feed grows from 33 to 37 players through mid-season seat swaps: Lawson to Red Bull with a second PlayerId (116) and Tsunoda in at Racing Bulls for rounds 12-14; Hirakawa (round 19) and Camara (round 20 on) for Ocon at Haas. build_tables keys drivers by TLA and keeps the active row, so the points are right.
-- Benched-driver exclusion remains unfixed. `prices.active` now carries official `IsActive`, but the rebuilt 2026 false rows are not exactly the benched drivers: round 6 has inactive ALP, MCL, RED and VRB constructors; rounds 12-14 have HAD; rounds 15-18 have TSU; round 19 has OCO and TSU; rounds 20-21 have HIR, OCO and TSU. This flag is unreliable for excluding rostered drivers, so `pick_team.py` must not filter on it until the feed semantics/timing are resolved. Previously HAD was picked in rounds 12-14 for zero points each.
-- Gate exception: 2025 Spanish GP race, AST. TI's team total includes withdrawn driver's -20 there; 2023 Azerbaijan sprint WIL row has same shape and TI excludes it. Pinned in KNOWN_SOURCE_EXCEPTIONS (tests/test_scoring_gate.py); data test fails if any other row mismatches or this one stops.
-- Official 2026 round 6 (Monaco): for 9 assets official session points do not add up to feed's own GamedayPoints. build_tables uses TI row (which matches GamedayPoints); gate records them as anomalies. If no TI row matches, official row kept unflagged.
-- TI phantom rows: some drivers listed under team they did not drive for (no position). build_tables dedupes by participation; gate skips them. Skipped rows checked against official feed only for 2026; in 2023-2025 no independent source.
-- Two participation definitions: build_tables (TI positions / official IsActive) and gate (Jolpica results plus TI position).
-- mzafram cross-check (report-only): 2023 round 4 SAR (ours -20, mzafram 0, the WD sprint line) and round 13 ALT (ours 36, mzafram 40) differ; 2024-2026 match exactly. mzafram files numbered by Jolpica round, not TI roundNumber.
-- Finish positions differ between TI and Jolpica for 2023 Qatar sprint (ZHO, STR, MAG) and 2025 Emilia-Romagna qualifying (BEA), likely post-race penalty reclassification. Data test allows at most 10 per season and writes data/processed/finish_mismatches.csv.
-- Fallback to TI row also takes TI's price; in real data all nine prices equal official ones.
-- pulp pinned below 4: version 4 drops bundled CBC solver and LpVariable API.
-- Process: Phase 2 committed before Phase 1 gate passed (see progress log).
-- True sprint-weekend lock time unverified; cutoff uses first competitive session.
-- FastF1 detailed archive is complete for 2025-2026 (220/220 expected sessions). The earlier all-years pull remains partial for 2023-2024 and is outside the current detailed-data scope. Race-control messages are enabled to identify deleted laps. Pace/status coverage is complete for 919 expected entrant/weekend rows, but 149 of 667 rows with scheduled FP2 have no usable long run; 181 estimates have fewer than eight laps, and one 2026 estimate has RMSE above five seconds. Preserve these missing/low-confidence states in downstream models. Sprint weekends without FP2 remain explicitly unavailable; all retained estimates pass the pre-lock timestamp check.
-- Official price snapshots available per gameday/round; realized adjacent-round deltas derived from `price`; local scraper currently on demand. Phase 7 must run it after each round to preserve live-season history.
-- `pace_seconds` not comparable across drivers: each fit centres lap number and tyre age at that driver's own medians, and the model has no compound offset, so values mix fuel load, tyre age and compound. 427/518 estimates are rank-deficient (single stint, lap and age collinear), so a common event reference is not identifiable for them. Resolve before Phase 4 uses pace.
-- graphify hooks in .claude/settings.json call bare `graphify`; install it on PATH (uv tool install graphifyy) or the hooks fail.
-- The cloud session has no F1_DATA_KEY and cannot reach fantasy.formula1.com, so data tests (-m data) and re-snapshots must run elsewhere.
-- Phase 4 form settings were tuned on 2026 rounds 1-10 and reported over rounds 1-20, so the all-rounds numbers partly include the tuning rounds.
-- `pick_team.py` without `config/my_team.yaml` uses the starting 100.0 budget, not the user's grown team value. Use `--team N` with `config/my_team_N.yaml` for the real team.
-- Bonus labels (fastest lap, DotD, pit times) exist only in raw TI rows, not in `data/processed/`; 23 of 220 2026 constructor-rounds have no pit time and stay missing. Re-audited 2026-11-10 (`reports/phase4_bonus_audit.md`).
-- Review finding (4.3, unfixed): `plan_chips.py` proxies rounds 22-23 prices with round 21 prices and uses the same robust-form expected points for all three rounds; chip gains for later rounds are rough.
-- Forecast weak spot (the main limit): `robust_mu` weighs the whole season equally, so it is slow to see a recent upturn (Round 21: it prefers BOR, 6.6 expected, over HUL, 4.9, although HUL scored 14, 2, 15, 19, 17, 7, 2, 4 in rounds 13-20). Five Phase 4 attempts to improve it (4.2, 4.4, 4.5, 4.6, 4.7) all lost on season total; see `docs/decisions.md`.
-- The optimizer plans one round at a time: the 10-point penalty is a flat cost, and it never holds a transfer back for a later round.
-- Chip timing: the round-to-chip assignment is mostly a tie-break, because gains are per-round averages and no sprint weekend is left in 2026. Autopilot is small (about +1 to +7). `final_fix` is not valued.
-- src/features/rolling.py:31 `fillna(0)` on an object-dtype frame raises a pandas FutureWarning (downcasting) when an asset has no history; harmless now, cast form_sum/k to float when next touching the baseline.
-- 2026-11-13 (review of 5.1) `pipelines/evaluate_seasons.py` appends to `reports/holdout_2026_log.md` on every run, so reruns duplicate entries.
-- 2026-11-13 (review of 5.1) `evaluate_seasons.py` rewrites `config/model.yaml` with `yaml.safe_dump` when adopting a new setting, which drops the file's comments.
-- 2026-11-13 (review of 5.1) `--predictor` factories receive `tables` without `results`; a predictor needing team lineups must load it itself.
-- 2026-11-13 `robust_mu` loses the 2023 season total to rolling-5 by 565 points; not investigated (user kept robust_mu).
-- 2026-11-14 For 2027: `pipelines/build_data.py` hardcodes seasons `[2023, 2024, 2025, 2026]` and `BONUS_SEASONS = [2026]`, and `config/rules_2027.yaml` does not exist. The weekly run will not see 2027 rounds until these are added.
-- 2026-11-14 (review of 7.2, merged as is by user call) `scripts/install_task.ps1` keeps Task Scheduler's battery defaults: the task does not start on battery and stops if unplugged mid-run. This PC has a battery, so an unplugged laptop at 20:00 gets no report until the next plugged-in run. Fix: add `-AllowStartIfOnBatteries -DontStopIfGoingOnBatteries` to `New-ScheduledTaskSettingsSet`. Also: `# Weekly report` in `docs/how-it-works.md` is H1 with no blank line before it; the run opens a console window at 20:00.
-- 2026-11-14 (review of 8.5, merged) Team 1 has `exclude: []` while teams 2 and 3 exclude HIR. With no round left each team tab shows the "no upcoming round" message twice (error and warning). The edit form cannot re-add a used chip.
+- Chip rules confirmed for 2026 only; 2023-2025 chips unconfirmed. `rules_2027.yaml` does not exist yet (8.3).
+- Scoring gate pins one source inconsistency (2025 Spanish GP race, AST, withdrawn driver's -20) in `KNOWN_SOURCE_EXCEPTIONS` (`tests/test_scoring_gate.py`).
+- mzafram cross-check differs on 2023 round 4 SAR and round 13 ALT; 2024-2026 match exactly. TI and Jolpica finish positions differ for 2023 Qatar sprint and 2025 Emilia-Romagna qualifying (likely penalties); the data test allows at most 10 per season.
+- True sprint-weekend lock time unverified; the cutoff uses the first competitive session.
+
+## Model and optimizer
+
+- Main limit: `robust_mu` weighs the whole season equally, so it is slow to see a recent upturn (round 21: BOR 6.6 expected over HUL 4.9, though HUL scored 14, 2, 15, 19, 17, 7, 2, 4 in rounds 13-20). Every fix tried so far lost on season total (`docs/decisions.md`).
+- `robust_mu` loses the 2023 season total to rolling-5 by 565 points; not investigated (user kept it).
+- The optimizer plans one round at a time: the 10-point penalty is a flat cost and it never holds a transfer back.
+- Prices are flat: no price-change prediction (f1fantasytools does predict them).
+- Chips: round-to-chip assignment is mostly a tie-break; `plan_chips.py` reuses round 21 prices and expected points for later rounds; autopilot is small (+1 to +7); `final_fix` is not valued. With a chip, `top_teams` returns one team, not five.
+- `src/features/rolling.py:31` `fillna(0)` on an object frame raises a pandas FutureWarning; cast to float when next touching it.
+
+## Pipelines and tools
+
+- `pipelines/build_data.py` hardcodes seasons `[2023, 2024, 2025, 2026]` and `BONUS_SEASONS = [2026]` (8.3 fixes this for 2027).
+- `pipelines/evaluate_seasons.py` appends to `reports/holdout_2026_log.md` on every run (reruns duplicate entries) and rewrites `config/model.yaml` without its comments when adopting a setting. `--predictor` factories get `tables` without `results`.
+- `pick_team.py` without a team file uses the starting 100.0 budget; use `--team N`.
+- `scripts/install_task.ps1` (not installed) keeps Task Scheduler's battery defaults; fix with `-AllowStartIfOnBatteries -DontStopIfGoingOnBatteries` before installing. Its run opens a console window.
+- pulp is pinned below 4 (version 4 drops the bundled CBC solver).
+- graphify hooks in `.claude/settings.json` call bare `graphify`: install it on PATH (`uv tool install graphifyy`).
+
+## App
+
+- `save_team` rewrites the team YAML, so comments in team files are lost.
+- With no round left, each team tab shows the "no upcoming round" message twice (error and warning).
+- The edit form cannot re-add a used chip.
+- First load solves every tab (~5.7 s); a new chip or team state costs one solve set (x3_boost ~3.8 s).
+- `config/my_team_1.yaml` has `exclude: []`, so benched HIR can appear in Team 1's alternatives (Teams 2 and 3 exclude it).
+- Streamlit does not reload `src/ui/*` modules on save; restart the app after editing them.
+- App calls `load_rules(season)` unguarded per team row; it reads a CWD-relative path, so launching from outside the repo root fails (same as the solve path). Use `F1 Fantasy.bat` or run from the repo root.

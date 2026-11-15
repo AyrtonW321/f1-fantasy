@@ -1,71 +1,48 @@
 # Decisions
 
-Format: date, decision. Why.
+Format: date, decision. Why. Grouped by topic; superseded and duplicate entries removed 2026-11-14 (full history in git).
 
-- 2026-11-09 Base = Phases 1-2, plan covers all 7. Scoring and optimizer must be proven before any model sits on them.
-- 2026-11-09 Data: TracingInsights pinned release for 2023-25, official feeds for 2026 and live, mzafram totals as cross-check, Jolpica for results and schedules. TI only 2023-25 source; official 2026 feeds may vanish; mzafram independent check.
-- 2026-11-09 Rules per season for all four seasons (rules_2023..2026.yaml), unseen values null. Exact-match scoring across seasons needs each season's real values; null stops guessing.
-- 2026-11-09 Chips wait for Phase 6. Timing needs forward view, chip rules unconfirmed.
-- 2026-11-09 Budget grows: bank plus current prices, carried round to round. Matches real game; fixed 100 forces fake transfers.
-- 2026-11-09 Baseline: same-season rolling 5, filled with price-based prior. Past seasons stay as answer key for backtests and tuning. Prior-season form misleads across regulation resets.
-- 2026-11-09 Tune on 2023-2025, hold out 2026 and log each evaluation, refit on all four for 2027. Tuning and scoring on same races is self-graded.
-- 2026-11-09 FastF1 laps move to Phase 3. Nothing in Phases 1-2 reads them.
-- 2026-11-09 Solver: PuLP. Bundles CBC, writes spec's formulation directly, problem about 30 assets.
-- 2026-11-09 Leakage cutoff = first competitive session of weekend. True sprint-weekend lock could not be verified; this cannot leak.
-- 2026-11-09 One public repo; raw data committed only as encrypted archive (F1_DATA_KEY). TracingInsights has no licence; user wants public code.
-- 2026-11-09 Execution: orchestrator on main session, Haiku builder and reviewer workers, every check re-run by orchestrator. (VOIDED 2026-11-10, see below.)
-- 2026-11-09 pulp pinned below 4. Version 4.2 has no bundled CBC and different API; 3.3.2 matches plan, needs no new dependency.
-- 2026-11-09 Gate participation rule: driver row counts only if Jolpica lists him that weekend and TI gives position other than WD. TI lists phantom rows for drivers who changed team; these distorted team totals.
-- 2026-11-09 Gate pins one genuine source inconsistency (2025 Spanish GP AST) instead of adding rule that would break 2023 case. Any other mismatch fails test.
-- 2026-11-09 mzafram totals joined by Jolpica round, not TI roundNumber (TI runs one ahead in 2023 from Monaco).
-- 2026-11-09 Baseline reports (reports/baseline_*.md) gitignored: derived from fantasy data that must not appear in git as plaintext.
-- 2026-11-09 Phase 2 tasks 6-8 built in parallel with Phase 1 to save time, against hard rule; recorded as process breach.
-- 2026-11-09 Phase 3 plan: ingest FastF1 sessions/laps to Parquet with cache outside OneDrive, add explicit track/event metadata, derive auditable FP2 long-run pace feature, estimate car strength sequentially with Kalman model. Aim: measure weekend performance signals unavailable in fantasy totals alone, then separate car, driver, circuit effects for better order predictions.
-- 2026-11-09 Phase 3 validation: tune only on 2023-2025, reserve 2026 for frozen holdout evaluations; log every evaluation. Enforce `known_at` and existing lock cutoff. Compare walk-forward rank correlation with last race's order. Avoids future leakage, tests whether added signal improves over simple baseline.
-- 2026-11-09 Phase 3 execution approved. FastF1 `>=3.9.2,<4` installed. Archive ingestion requires eligible F1 TV account, kept local. FP2 gaps are explicit statuses; no synthetic pace fallback allowed.
-- 2026-11-09 Fantasy price handling: retain actual official prices by gameday/round, compare adjacent rounds to measure realized changes. Current observed prices feed optimizer budget; future price changes need no prediction. Scraper is on-demand snapshot today; Phase 7 should capture each round on schedule and preserve round history.
-- 2026-11-09 F1 Fantasy prices: compare consecutive official per-round price snapshots to calculate realized changes, tagged as known at later round's lock. Optimizer continues to use current observed prices for budget; do not forecast future changes or use TracingInsights `priceChange`.
-- 2026-11-09 FastF1 archive access: current FastF1 3.9.x requires eligible F1 TV authentication for archive pulls. Credentials/token remain local and outside git. Successful schedule inventory does not count as successful lap-data pull; verify non-empty session/lap output.
-- 2026-11-09 FP2 coverage: preserve explicit statuses for missing or unusable sessions, never use pace learned after fantasy lock. Sprint-weekend FP2 may be absent or post-lock, so all-driver coverage means row/status for every entrant, not fabricated pace.
-- 2026-11-09 Kalman observation: use within-round standardized race finish order, predict each round before incorporating its result. Tune model parameters on 2023-2025 only; log every frozen 2026 holdout evaluation.
-- 2026-11-09 FP2 regression: fit eligible long-run laps pooled across stints for driver/weekend. Per-stint tyre-age and lap-number slopes underidentified when those predictors advance together; center tyre age by compound and lap number at documented reference values, report rank diagnostics.
-- 2026-11-09 Kalman identification/tuning: center car, driver, track effects to zero-sum after each race update. Tune Q, observation variance, previous-season prior weight/duration on 2023-2025; compare zero-prior run. Hold observation definition fixed as within-round standardized finishing position.
-- 2026-11-09 FastF1 archive pull: auth verified locally with active F1 TV subscription. FastF1 limits archive requests to 500 API calls/hour; keep successful cache responses and resume partial pulls rather than treating rate-limited gaps as unavailable source data.
-- 2026-11-09 FastF1 session identifiers: distinguish `SS` (Sprint Shootout, 2023) from `SQ` (Sprint Qualifying, 2024+); API uses separate identifiers though both occupy sprint-qualifying slot in weekend schedule.
-- 2026-11-11 4.6 sprint predictor stays disabled: tuned 2026 sprint backtest failed both sprint-round comparisons and the all-round picked-team total gate; keep `robust_mu` as the active predictor.
-- 2026-11-11 Do not filter picks by `prices.active` yet: official `IsActive` false includes non-bench constructors and multiple unconfirmed driver rows beyond HAD rounds 12-14, so the field does not reliably identify benching.
-- 2026-11-09 FastF1 time conversion: normalize both pandas and standard-library `timedelta` values to seconds; FastF1 returns latter for session-relative lap/weather times.
-- 2026-11-09 FastF1 rate-limit recovery: stop requesting at first 500-calls/hour limiter error, persist all fetched rows and full expected-session inventory, then retry from cache in later window. Avoids flooding logs, preserves which sessions remain incomplete.
-- 2026-11-09 FastF1 data horizon: build detailed session/lap and FP2 pace data only for 2025-2026. Do not fetch 2024 FastF1 data; preserve already-existing older-season tables for historical scoring and model context.
-- 2026-11-10 Pace data quality: load FastF1 race-control messages so `Deleted` lap flags are populated. For slow-lap screening, anchor to the faster half of each stint and cap the MAD allowance at 10 seconds; the previous uncapped MAD retained accurate-but-extremely-slow laps and produced RMSE as high as 41 seconds. Keep low-coverage statuses explicit instead of fabricating pace.
-- 2026-11-10 Pace minimum sample: retain the four-clean-lap-per-stint requirement. A fallback pooling two-lap stints with four total laps recovered 54 rows but yielded 49 estimates under eight laps and four fits above 5 seconds RMSE (maximum 10.13 seconds). A seven-lap pooled minimum recovered only five rows. Preserve the stricter long-run definition and report missingness.
-- 2026-11-10 Phase 3 coverage interpretation: complete coverage means an explicit estimate/status row for every entrant/weekend, not fabricated estimates for every FP2. Report usable pace coverage separately and keep `no_usable_longrun` as missing downstream. The current 919/919 status rows satisfy this contract; 518/667 rows with scheduled FP2 have usable pre-lock pace.
-- 2026-11-10 Orchestrator/Haiku-worker setup and Opus 5.5 xhigh effort voided by user. No builder/reviewer agents, no effort setting; main session does work directly. Caveman ultra is default response style.
-- 2026-11-10 Pace rows with unknown FP2 timing keep `known_at = NaT`, not `lock_utc`. Lock fallback made unknown-availability rows look pre-lock known to any downstream leakage check.
-- 2026-11-10 graphify installed as a uv tool, not a project dependency, and the graph built code-only. No pyproject change, and no repo data goes to an LLM. graphify-out/ is committed; its per-session hook state (graphify-out/cache/hook_sessions/) is gitignored.
-- 2026-11-10 snapshot_official raises when the schedule feed fails instead of returning []. A silent empty run looked like success.
-- 2026-11-10 Phase 4 revised after grilling: 2026-only data, robust per-weekend form, walk-forward over all 2026 rounds (tune on rounds 1-10), must beat rolling-5 baseline on MAE and season total, incremental pieces kept only if backtest improves. User wants a live Las Vegas pick (lock 2026-11-21 04:00 UTC) and to keep improving through Abu Dhabi.
-- 2026-11-10 Pace left out of Phase 4: values not comparable across drivers.
-- 2026-11-10 2026 chip rules confirmed by user and stored in config/rules_2026.yaml (Limitless, Wildcard, X3 boost (renamed from extra_drs 2026-11-12), No Negative, Autopilot, Final Fix; one chip per round, each once).
-- 2026-11-10 Bonus events (fastest lap, DotD, pit-stop times) are supported for 2026 from raw TracingInsights rows via existing `ti_lines` parsers. First audit checked only processed tables and wrongly marked them unsupported. Missing pit times stay missing.
-- 2026-11-10 Bonus events modeled as expected values (shrunk per-asset mean of bonus points added to trimmed non-bonus form), not per-draw samples: the optimizer only uses means. Kept disabled: better on tuning rounds 1-10 but worse over all 2026 rounds than robust form.
-- 2026-11-11 Phase 4.4 and 4.5 disabled: the qualifying simulator (total 4136) and the overtakes term (total 4252) both beat 4.1 or 4.2 on at least one metric but lose 100-230 points of season total vs 4.1 (4363). Extra terms shrink the top assets toward the field, and the optimizer picks top assets, so MAE gains do not carry to totals. 4.1 `robust_mu` stays the live predictor.
-- 2026-11-11 4.5 uses 2023-2025 overtakes for the track-difficulty coefficient only (exception to the 2026-only rule; all earlier than any 2026 round, so no leakage).
-- 2026-11-12 Chips `autopilot` and `no_negative` are valued by replaying earlier rounds with the team you would field and averaging the gain (`src/optimize/chip_history.py`), not from expected points, which carry no variance. `final_fix` stays unvalued (needs qualifying). Decision logic is written up in `docs/how-it-works.md`.
-- 2026-11-12 Phase 4 closed: 4.8 frozen at tag `phase4-freeze`, `robust_mu` live, Vegas picks printed for teams 1-3.
-- 2026-11-12 Phase 5 rescoped after grilling: goal is 2027 Round 1 readiness. Kalman Q and price lambda tuning dropped (neither feeds `pick_team.py`). Trim/prior weight tuned on 2023-2025, adopted only if 2026 total no worse.
-- 2026-11-12 Carry-over prior: previous season only, PPM at each race's price, driver prior = new team's car level x teammate points ratio (rookies 1.0), team renames mapped. Why: prices reset each season and mostly reflect the car; teammate ratio isolates the driver (Sainz 2024 0.77 of Leclerc, then Williams car near 0).
-- 2026-11-12 Carry-over tuned on 2024 and 2025 only; 2026 reported but no veto. Why: 2026 was a regulation reset, 2027 keeps the 2026 rules, so stable-rule transitions match 2027. Late-season decay tested.
-- 2026-11-12 Phase 5 split: ChatGPT 5.1-5.2 (metrics, multi-season walk-forward, re-tune) in `../f1-fantasy-5.1-metrics`; Claude 5.3-5.5 (carry-over, evaluation, wiring) in `../f1-fantasy-5.3-carryover`.
-- 2026-11-12 Form retune remains trim 0.3 / prior weight 2.0: it maximized combined 2023-2025 season points, and matched the current 2026 total (4363), satisfying the no-worse adoption rule.
-- 2026-11-13 Carry-over prior not enabled: fails the 2024/2025 rounds 1-4 gate both with transfer limits and with a fresh team each round (2024 735 vs 804, 2025 770 vs 749), though MAE improves. It wins 2026 (reset year) but 2026 has no veto. Prototype left uncommitted in `../f1-fantasy-5.3-carryover`.
-- 2026-11-13 `robust_mu` kept for 2027 despite losing 2023 season total to rolling-5 by 565 (combined 2023-2025 14830 vs 15309). User call: 2023 an outlier; robust wins Spearman every season, MAE 3 of 4, totals 2025-2026.
-- 2026-11-13 Phase 6 scope: rolling transfer horizon only; chips unchanged, flat prices, risk mode skipped (no rival leagues targeted). Horizon uses the same `robust_mu` every round, since per-round terms all lost in Phase 4.
-- 2026-11-13 Horizon rejected: prototype on rounds 1-10 of 2023-2025 gave k = 2, 3 identical to single-round (2739 / 1791 / 1796, same transfers and penalties). Why: with one mu for every round the best team is the same each round, so banking transfers has nothing to wait for. Not built; `pick_team.py` unchanged.
-- 2026-11-14 Phase 7 runs locally (Windows Task Scheduler, daily 20:00, 48 h lock window, `--force` reruns), not GitHub Actions. Why: the repo is public, so reports, logs and artifacts would expose picks; team files are updated by hand anyway. The run never reads `F1_DATA_KEY`; sealing stays manual. Split: Claude 7.1 `weekly_update.py`, ChatGPT 7.2 scheduler scripts.
-- 2026-11-14 UI is a local Streamlit app inside Phase 8 (tasks 8.4 logic by Claude, 8.5 app by ChatGPT), not Phase 9. Why: Phase 8 acceptance waits on December 2027 plumbing, so a Phase 9 UI would miss the rest of 2026. Editing team files by hand was the worst pain point. Team history logged from round 21 on; no backfill (no record of earlier 2026 teams).
-- 2026-11-14 Streamlit app uses a dark graphite motorsport theme with red action accents and clear neutral text, per user preference; no external brand assets are available or needed.
-- 2026-11-14 Task Scheduler uses an interactive, limited-privilege principal with no stored password. Why: the update is local user work, requires the PC on and user logged in, and should not require elevated privileges.
-- 2026-11-14 Phase 7 closed on manual runs: the user runs `uv run python -m pipelines.weekly_update --force` before each lock instead of installing the Task Scheduler job. Why: the PC may be off before a lock; manual runs are simpler and the unattended-run acceptance was dropped. Scripts kept in `scripts/` for later.
-- 2026-11-14 Recency weighting (8.1) dropped at prototype: weights 0.5^(races ago / h) inside `robust_mu`'s trimmed mean (trim 0.3, prior weight 2.0, k unchanged) on rounds 1-10 of 2023-2025 gave h=3 6247, h=5 6277, h=8 6232 vs robust_mu 6326 (2026: 2013 / 2020 / 2020 vs 2020). h=5 won 2023 only. Not built; `robust_mu` unchanged. Scratch check: h = infinity reproduces `robust_mu` exactly.
-- 2026-11-14 `top_teams(chip=...)` returns one team for limitless, wildcard and x3_boost (no alternatives). Why: x3 already solves once per driver; a top-5 forbid loop on top would be ~100 solves per click. Upgrade with forbid loops in `estimate_chip` if alternatives with a chip are wanted.
+## Project and process
+
+- 2026-11-09 One public repo; raw data committed only as encrypted `data/raw.tar.gz.enc` (`F1_DATA_KEY`). TracingInsights has no licence; user wants public code. Derived reports from fantasy data stay gitignored.
+- 2026-11-09 Tune on past seasons, hold out 2026 and log every holdout evaluation (`reports/holdout_2026_log.md`). Tuning and scoring on the same races is self-graded.
+- 2026-11-10 Main session does the work directly (earlier orchestrator/Haiku-worker setup voided by user). Parallel work goes to ChatGPT through handoff files, each in its own git worktree; Claude reviews and merges.
+- 2026-11-10 graphify installed as a uv tool, code-only graph, `graphify-out/` committed (hook state gitignored). No pyproject change, no repo data sent to an LLM.
+
+## Data
+
+- 2026-11-09 Sources: TracingInsights pinned release for 2023-2025, official feeds for 2026 and live, mzafram totals as cross-check, Jolpica for results and schedules. TI is the only 2023-2025 source; official feeds may vanish.
+- 2026-11-09 Prices: use actual official per-round prices; realized changes come from consecutive snapshots (known at the later lock). No price forecast. Never read TI `priceChange` (post-race data).
+- 2026-11-09 Leakage cutoff = first competitive session of the weekend. True sprint-weekend lock could not be verified; this cannot leak.
+- 2026-11-09 FastF1 detail only for 2025-2026 (auth via local F1 TV account; 500 calls/hour limit, resume from cache). FP2 gaps stay explicit statuses, never fabricated pace; unknown FP2 timing keeps `known_at = NaT`.
+- 2026-11-09 mzafram totals joined by Jolpica round, not TI roundNumber.
+- 2026-11-10 `snapshot_official` raises when the schedule feed fails. A silent empty run looked like success.
+- 2026-11-10 Bonus events (fastest lap, DotD, pit times) read from raw TI rows for 2026; missing pit times stay missing.
+- 2026-11-11 Do not filter picks by `prices.active`: official IsActive false also flags non-benched constructors and drivers. Benched drivers go in each team file's `exclude` list.
+
+## Rules and scoring
+
+- 2026-11-09 Rules per season in `config/rules_{season}.yaml`, unseen values null. Exact-match scoring needs each season's real values; null stops guessing.
+- 2026-11-09 Budget grows: bank plus current prices, carried round to round. Matches the real game.
+- 2026-11-09 Gate participation: a driver row counts only if Jolpica lists him and TI gives a position other than WD. One genuine source inconsistency (2025 Spanish GP AST) is pinned instead of a rule that would break 2023.
+- 2026-11-10 2026 chip rules confirmed by user (Limitless, Wildcard, X3 boost, No Negative, Autopilot, Final Fix; one chip per round, each once).
+
+## Model
+
+- 2026-11-09 Solver PuLP (bundled CBC, ~30 assets), pinned below 4 (version 4 drops CBC).
+- 2026-11-10 Phase 4: 2026-only, walk-forward, tune on rounds 1-10; a piece is kept only if it beats the live predictor on MAE and season total. Pace left out (not comparable across drivers).
+- 2026-11-10 to 2026-11-11 Live predictor `robust_mu` (trimmed season mean shrunk to a price prior). Disabled because they lost season total vs 4363: simulator 4.2 (4362), qualifying 4.4 (4136), overtakes 4.5 (4252), sprint 4.6 (4336), bonus 4.7 (4330). Why they lose: extra terms shrink top assets toward the field, and the optimizer picks top assets.
+- 2026-11-12 Chips `autopilot` and `no_negative` valued by replaying earlier rounds (`src/optimize/chip_history.py`); `final_fix` unvalued (needs qualifying). Logic in `docs/how-it-works.md`.
+- 2026-11-12 Form setting stays trim 0.3 / prior weight 2.0: maximized combined 2023-2025 points (14830) and matched 2026 (4363).
+- 2026-11-13 Carry-over prior for 2027 not enabled: fails the 2024/2025 rounds 1-4 gate (2024 735 vs 804, 2025 770 vs 749) though MAE improves.
+- 2026-11-13 `robust_mu` kept despite losing the 2023 total to rolling-5 by 565. User call: 2023 an outlier; robust wins Spearman every season, MAE 3 of 4.
+- 2026-11-13 Horizon (multi-round transfers) rejected: k = 2, 3 identical to single-round on 2023-2025 rounds 1-10. With one mu per round the best team is the same each round.
+- 2026-11-14 Recency weighting (8.1) dropped at prototype: h = 3, 5, 8 gave 6247, 6277, 6232 vs `robust_mu` 6326 on 2023-2025 rounds 1-10.
+
+## Automation and app
+
+- 2026-11-14 Weekly update runs locally by hand (`weekly_update --force`) before each lock, not GitHub Actions or an installed scheduler. Why: the repo is public (reports would expose picks) and the PC may be off before a lock. Scheduler scripts kept in `scripts/`.
+- 2026-11-14 UI is a local Streamlit app inside Phase 8 (logic in `src/ui/logic.py`, no game logic in `app.py`). Why: editing team files by hand was the worst pain point and a later phase would miss the rest of 2026. History logged from round 21 on, no backfill. Dark theme with red accents per user preference.
+- 2026-11-14 `top_teams(chip=...)` returns one team for limitless, wildcard and x3_boost. Why: x3 already solves once per driver; a top-5 loop on top would be ~100 solves per click.
+- 2026-11-14 App caches `top_teams` results keyed on team state, chip, budget, exclude and data/model/rules file times. Why: each solve costs ~0.2 s and every click reruns the page.
+- 2026-11-15 UI redesign (8.9): tabs My Team | Best Teams | Update; team rows of team-coloured cards (drivers filled, constructors outlined, black/white text by luminance). Stays Streamlit with HTML cards from `src/ui/cards.py`, no frontend rewrite. Team colours live in `config/team_colors.yaml`. No xΔ$ column (no price forecast). Row shows the saved team; swaps for the selected choice sit in a strip under it. Why: one glance across all teams, user-chosen in a grilling session.
