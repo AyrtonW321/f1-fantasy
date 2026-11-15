@@ -9,7 +9,7 @@ CSS = """<style>
 .asset-group{display:flex;gap:5px;align-items:flex-start;flex-wrap:wrap}.asset-grid{display:grid;grid-template-columns:repeat(2,56px);gap:4px}
 .card{box-sizing:border-box;width:56px;min-height:54px;border-radius:5px;padding:4px 3px;text-align:center;display:flex;flex-direction:column;justify-content:center;font-weight:700;overflow:hidden}
 .card-id{font-size:11px;line-height:14px}.card-stat{font:10px/12px ui-monospace,monospace;white-space:nowrap}.card-constructor{background:#171B20}.card-driver{box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
-.row-label{font-weight:700}.row.head{background:none;border:none;padding:0 10px;margin:8px 0 0;color:#858B93;font-size:11px;font-weight:700}.row-money,.row-xpts{font:11px/16px ui-monospace,monospace}.row-xpts{font-size:14px;font-weight:700}.chips{display:flex;flex-direction:column;gap:3px}.chip{font-size:10px;white-space:nowrap;color:#F2F3F4}.chip.used{color:#72E0A5}.chip.gone{color:#858B93}
+.row-label{font-weight:700}.row.head{background:none;border:none;padding:0 10px;margin:8px 0 0;color:#858B93;font-size:11px;font-weight:700}.row-money,.row-xpts{font:11px/16px ui-monospace,monospace}.row-xpts{font-size:14px;font-weight:700}.chips{display:flex;flex-wrap:wrap;gap:4px;align-content:center}.chip{font-size:10px;font-weight:700;white-space:nowrap;padding:3px 6px;border-radius:4px;background:#F2F3F4;color:#000}.chip.used{background:#2EB86A;color:#000}.chip.gone{background:#4A4F56;color:#B5BAC1}
 .swap-strip{padding:5px 9px;margin:3px 0 8px;background:#171B20;border-left:2px solid #E10600;border-radius:3px;color:#F2F3F4;font:12px ui-monospace,monospace}
 @media(max-width:850px){.row{grid-template-columns:40px 1fr 56px 1fr;}.row-money,.row-xpts,.chips{grid-row:2}}
 </style>"""
