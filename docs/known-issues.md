@@ -47,3 +47,5 @@
 - With no round left, each team tab shows the "no upcoming round" message twice (error and warning).
 - The edit form cannot re-add a used chip.
 - First load solves every tab (~5.7 s); a new chip or team state costs one solve set (x3_boost ~3.8 s).
+- `config/my_team_1.yaml` has `exclude: []`, so benched HIR can appear in Team 1's alternatives (Teams 2 and 3 exclude it).
+- Streamlit does not reload `src/ui/*` modules on save; restart the app after editing them.

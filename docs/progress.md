@@ -30,3 +30,4 @@
 
 - 2026-11-09 to 2026-11-13: Phases 1-6 (details in git history and `docs/decisions.md`).
 - 2026-11-14: Phase 7 closed on manual runs. Phase 8: 8.1 dropped; 8.4, 8.4b, 8.5 merged after review; app speed, cleanup and Best teams exclude box; docs cleaned (finished handoffs removed, progress/decisions/known-issues condensed).
+- 2026-11-15: 8.9 UI redesign on branch `ui-redesign`: My Team / Best Teams (top 10, Filters popover) / Update tabs; team-coloured asset cards with price and xPts, chip badges (✓ / struck / plain), swap strip and past-swaps log. Task 3 (cards) by ChatGPT, rest by Claude. Headless on real data: 13 rows, cached rerun ~0.4 s; saved-team xPts match the optimizer for all 3 teams. 241 passed. Not merged.

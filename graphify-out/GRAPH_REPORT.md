@@ -1,16 +1,16 @@
-# Graph Report - f1-fantasy  (2026-11-14)
+# Graph Report - f1-fantasy  (2026-11-15)
 
 ## Corpus Check
-- 79 files · ~38,042 words
+- 83 files · ~39,880 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 818 nodes · 2468 edges · 28 communities (27 shown, 1 thin omitted)
+- 869 nodes · 2577 edges · 26 communities (25 shown, 1 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 51 edges (avg confidence: 0.74)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `c1c76929`
+- Built from commit: `d5b929dc`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -24,7 +24,6 @@
 - test_jolpica_pull.py
 - pandas
 - test_community_pull.py
-- load_rules
 - fastf1_pull.py
 - walkforward_strength
 - fp2_longrun_pace
@@ -33,14 +32,12 @@
 - test_rolling.py
 - poisson.py
 - app.py
-- logic.py
-- ilp.py
-- TeamState
 - main
+- dnf_probability
 - f1-fantasy
 
 ## God Nodes (most connected - your core abstractions)
-1. `load_rules()` - 86 edges
+1. `load_rules()` - 88 edges
 2. `robust_mu()` - 40 edges
 3. `optimize()` - 34 edges
 4. `run_season()` - 32 edges
@@ -66,27 +63,27 @@
 ## Import Cycles
 - None detected.
 
-## Communities (28 total, 1 thin omitted)
+## Communities (26 total, 1 thin omitted)
 
 ### Community 0 - "optimize"
-Cohesion: 0.22
-Nodes (21): next_state(), TeamState, load_rules(), Path, _dec(), make_field(), Tests for the ILP team optimizer (src/optimize/ilp.py)., BOSS is the boost target and is always kept. N1-N3 each beat an owned O by 6 mu. (+13 more)
+Cohesion: 0.07
+Nodes (69): dataclasses, load_team(), main(), Path, main(), pulp, shutil, historical_value() (+61 more)
 
 ### Community 1 - "crosscheck.py"
-Cohesion: 0.05
-Nodes (89): driver_code(), Shared helper for Jolpica driver identity., Three-letter code of a Jolpica Driver dict; falls back to familyName[:3] upper w, _blank_zero(), _constructor_lines(), finish_mismatches(), _jolpica_finishes(), _load() (+81 more)
+Cohesion: 0.06
+Nodes (82): collections_abc, bonus_points(), driver_line(), parse_pit(), parse_teamwork(), _points(), _position(), Path (+74 more)
 
 ### Community 2 - "test_build_tables.py"
 Cohesion: 0.11
-Nodes (63): build_bonus(), build_overtakes(), main(), Path, Build normalized Parquet tables from data/raw into data/processed. Run from the, Per-asset bonus points per round (fastest lap, DotD, pit stop) for assets in fan, Race overtakes and positions gained per driver-round, 2023-2026 (TI raceOvertake, re (+55 more)
+Nodes (62): build_bonus(), build_overtakes(), main(), Path, Build normalized Parquet tables from data/raw into data/processed. Run from the, Per-asset bonus points per round (fastest lap, DotD, pit stop) for assets in fan, Race overtakes and positions gained per driver-round, 2023-2026 (TI raceOvertake, _asset() (+54 more)
 
 ### Community 3 - "test_scoring_gate.py"
-Cohesion: 0.16
-Nodes (40): gate_mismatches(), Every TI row of every completed session scored with the rules, compared with the, official_row(), _points(), DataFrame, Path, _races(), Scoring gate and cross-checks: hand-built raw trees (unit) and real raw data (ma (+32 more)
+Cohesion: 0.07
+Nodes (74): driver_code(), Shared helper for Jolpica driver identity., Three-letter code of a Jolpica Driver dict; falls back to familyName[:3] upper w, _blank_zero(), _constructor_lines(), finish_mismatches(), gate_mismatches(), _jolpica_finishes() (+66 more)
 
 ### Community 4 - "walkforward.py"
 Cohesion: 0.05
-Nodes (89): argparse, pandas, pathlib, Build the auditable FP2 pace feature table from normalized FastF1 data., main(), Phase 4.7: robust form + separate bonus mean vs robust form (4.1), 2026 walk-for, mae(), main() (+81 more)
+Nodes (80): argparse, pandas, pathlib, Build the auditable FP2 pace feature table from normalized FastF1 data., main(), Phase 4.7: robust form + separate bonus mean vs robust form (4.1), 2026 walk-for, mae(), main() (+72 more)
 
 ### Community 5 - "vault.py"
 Cohesion: 0.17
@@ -97,16 +94,12 @@ Cohesion: 0.15
 Nodes (23): _fetch(), _get_page(), pull_jolpica(), Path, Session, Snapshot Jolpica (Ergast-compatible) race data to {raw_dir}/jolpica/{season}/., Parsed JSON of one page. A 429 waits 5s and retries, up to RETRIES times., All races of one endpoint; pages merged by round, sorted by round. (+15 more)
 
 ### Community 7 - "pandas"
-Cohesion: 0.14
-Nodes (28): DataFrame, Aggregate walk-forward prediction and team-score metrics., Return asset MAE, picked-team totals and mean per-round Spearman correlation., season_metrics(), main(), _max_solve(), Path, SeasonResult (+20 more)
+Cohesion: 0.28
+Nodes (17): _frame(), _full_tables(), _kind(), _lock(), _mus(), _prices(), rules(), _spy() (+9 more)
 
 ### Community 8 - "test_community_pull.py"
-Cohesion: 0.05
-Nodes (69): io, json, os, _capture(), default_steps(), due(), execute(), _http() (+61 more)
-
-### Community 9 - "load_rules"
-Cohesion: 0.22
-Nodes (18): main(), Refresh pre-event safety-car rates from previously observed FastF1 race status., add_prior_safety_car_rates(), load_track_metadata(), DataFrame, Path, Validated event-level circuit metadata used by pre-lock features., Raised when static track metadata is incomplete or invalid. (+10 more)
+Cohesion: 0.06
+Nodes (65): io, json, _capture(), default_steps(), due(), execute(), _http(), latest_ti_tag() (+57 more)
 
 ### Community 10 - "fastf1_pull.py"
 Cohesion: 0.11
@@ -137,24 +130,16 @@ Cohesion: 0.25
 Nodes (8): deviance(), fit(), ndarray, Poisson count helpers for overtakes: log-link regression and a gamma-Poisson shr, Posterior mean of a gamma(prior_rate*weight, weight) prior after `count` events, Mean Poisson deviance; lower is better., Penalised Newton fit of log E[y] = X @ beta. Column 0 must be the intercept (not, shrunk_rate()
 
 ### Community 22 - "app.py"
-Cohesion: 0.17
-Nodes (25): _best_tab(), _cached_top(), _capture_chips(), _chip_advice(), _choose_and_apply(), _data_tab(), _decision_rows(), _inputs_stamp() (+17 more)
-
-### Community 23 - "logic.py"
-Cohesion: 0.12
-Nodes (32): _edit_form(), exclude(), load_team(), main(), DataFrame, Path, Benched or unavailable assets: expected points -1000, so the optimizer sells the, apply_transfers() (+24 more)
-
-### Community 24 - "ilp.py"
-Cohesion: 0.14
-Nodes (31): dataclasses, pulp, _actual_points(), DataFrame, estimate_chip(), plan_chips(), DataFrame, Forward chip-value estimates using the configured rules and team optimizer. (+23 more)
-
-### Community 25 - "TeamState"
-Cohesion: 0.09
-Nodes (23): pytest, shutil, DataFrame, Observed race-to-race fantasy price changes derived from official price snapshot, Calculate observed price changes only between adjacent round snapshots.      The, realized_price_changes(), dnf_probability(), DataFrame (+15 more)
+Cohesion: 0.05
+Nodes (84): _best_tab(), _cached_top(), _capture_chips(), _cards(), _chip_advice(), _chip_select(), _choose_and_apply(), _data_tab() (+76 more)
 
 ### Community 26 - "main"
-Cohesion: 0.28
-Nodes (8): collections_abc, historical_value(), DataFrame, Replay-based chip values for chips that expected points cannot rank (autopilot,, Points the chip would have added in one past round (points and mu already cut to, Mean replay gain over earlier completed rounds, sprint weekends vs normal ones k, replay_gain(), test_replay_autopilot_and_no_negative_use_actual_points()
+Cohesion: 0.22
+Nodes (18): main(), Refresh pre-event safety-car rates from previously observed FastF1 race status., add_prior_safety_car_rates(), load_track_metadata(), DataFrame, Path, Validated event-level circuit metadata used by pre-lock features., Raised when static track metadata is incomplete or invalid. (+10 more)
+
+### Community 33 - "dnf_probability"
+Cohesion: 0.08
+Nodes (20): os, pytest, DataFrame, Observed race-to-race fantasy price changes derived from official price snapshot, Calculate observed price changes only between adjacent round snapshots.      The, realized_price_changes(), dnf_probability(), DataFrame (+12 more)
 
 ## Knowledge Gaps
 - **1 isolated node(s):** `f1-fantasy`
@@ -164,17 +149,17 @@ Nodes (8): collections_abc, historical_value(), DataFrame, Replay-based chip val
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `load_rules()` connect `optimize` to `crosscheck.py`, `test_build_tables.py`, `test_scoring_gate.py`, `walkforward.py`, `pandas`, `app.py`, `logic.py`, `ilp.py`?**
-  _High betweenness centrality (0.088) - this node is a cross-community bridge._
-- **Why does `robust_mu()` connect `walkforward.py` to `test_rolling.py`, `app.py`, `logic.py`?**
-  _High betweenness centrality (0.024) - this node is a cross-community bridge._
-- **Why does `walkforward_strength()` connect `walkforward_strength` to `walkforward.py`?**
+- **Why does `load_rules()` connect `optimize` to `crosscheck.py`, `test_build_tables.py`, `test_scoring_gate.py`, `walkforward.py`, `pandas`, `app.py`?**
+  _High betweenness centrality (0.094) - this node is a cross-community bridge._
+- **Why does `robust_mu()` connect `walkforward.py` to `optimize`, `crosscheck.py`, `test_rolling.py`, `app.py`?**
   _High betweenness centrality (0.022) - this node is a cross-community bridge._
+- **Why does `walkforward_strength()` connect `walkforward_strength` to `crosscheck.py`?**
+  _High betweenness centrality (0.021) - this node is a cross-community bridge._
 - **What connects `f1-fantasy` to the rest of the system?**
   _1 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `optimize` be split into smaller, more focused modules?**
+  _Cohesion score 0.07040328092959672 - nodes in this community are weakly interconnected._
 - **Should `crosscheck.py` be split into smaller, more focused modules?**
-  _Cohesion score 0.05352743561030235 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.059499489274770175 - nodes in this community are weakly interconnected._
 - **Should `test_build_tables.py` be split into smaller, more focused modules?**
-  _Cohesion score 0.10675990675990676 - nodes in this community are weakly interconnected._
-- **Should `walkforward.py` be split into smaller, more focused modules?**
-  _Cohesion score 0.05214917825537294 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.10961538461538461 - nodes in this community are weakly interconnected._
