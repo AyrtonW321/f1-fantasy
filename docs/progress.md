@@ -1,87 +1,32 @@
 # Progress
 
-Branch: codex/phase-3-plan. Phases 1-3 merged to main (8922035); Phase 4 work uncommitted on this branch.
+## Status (2026-11-14)
 
-## Done
-- Spec and plan written (docs/superpowers/).
-- Orchestrator/worker setup written; Haiku builders and reviewer used for every task.
-- Phase 1 complete: official 2026 snapshot, encrypted vault, TracingInsights/mzafram/Jolpica pulls, per-season rules (2023-2026), scoring engine, Parquet tables.
-- Phase 1 acceptance PASSES (2026-11-09): `REQUIRE_DATA=1 uv run pytest -m data` gives 8 passed. Scoring reproduces every completed session total in 2023, 2024, 2025, 2026 (one documented exception, see known-issues). Full suite: 146 passed.
-- Phase 2 complete: baseline predictor, leakage guard, PuLP optimizer, walk-forward backtest. Baseline totals (no chips, same-season rolling 5 with price prior):
-
-| Season | Total | From round 5 | Rounds |
-|---|---|---|---|
-| 2023 | 6190 | 5067 | 22 |
-| 2024 | 4561 | 3834 | 24 |
-| 2025 | 4558 | 3924 | 24 |
-| 2026 | 4269 | 3562 | 20 |
-
-  Every round valid (5 drivers, 2 constructors), max solve 0.18 s. Reports in reports/baseline_{season}.md (gitignored).
+- Phases 1-7 done. Phase 8 (finish 2026, prepare 2027) in progress: `docs/superpowers/plans/2026-11-14-phase-8-season-end.md`.
+- Live predictor: `robust_mu` (trim 0.3, prior weight 2.0). Every add-on tried since (Phases 4-6, 8.1) lost on season total.
+- Weekly use: start the app (`F1 Fantasy.bat`), press "Update data" (or run `uv run python -m pipelines.weekly_update --force`) before each lock, then "I made these transfers" per team.
 
 ## Next
-- Phase 4 (revised plan, task list in `docs/superpowers/plans/2026-11-10-phase-4-event-models-simulator.md`): 4.1 done; 4.2 race order + DNF built but disabled (does not beat 4.1: MAE 13.56 vs 13.47, total 4362 vs 4363); 4.3 chip planner built (ChatGPT), real advice waits on user's team and `chips_left`; 4.7 bonus built and disabled (MAE 13.50 vs 13.47, total 4330 vs 4363); robust form (4.1) remains the live predictor; freeze Nov 20 for Las Vegas (lock 2026-11-21 04:00 UTC).
-- Phase 4 work not yet committed.
-- Investigate the extra players in the latest official gameday (37 vs 33); needs F1_DATA_KEY.
-- Rerun official snapshot after each remaining 2026 race, then reseal.
 
-## Outstanding
-- Pace/status coverage is complete for 919/919 entrant/weekend rows under the user's no-fabrication decision. Usable pace is available for 518/667 entrant rows where FP2 was scheduled; 149 remain explicitly `no_usable_longrun`. Downstream models must treat them as missing. All retained estimates pass the pre-lock cutoff; 181 are low-sample (<8 laps).
-- Investigate the extra players in the latest official gameday (37 vs 33); needs F1_DATA_KEY.
+1. Las Vegas lock 2026-11-21 04:00 UTC (Fri 23:00 Eastern): apply one real round through the app (Phase 8 acceptance 3).
+2. Week of 2026-12-07, after Abu Dhabi is scored: 8.2 final 2026 archive (`vault seal`, user runs it with the key).
+3. December: 8.3 2027 plumbing (ChatGPT; handoff not written yet).
+4. 2027 game launch: confirm `rules_2027.yaml`, run the weekly update on 2027 prices (Phase 8 acceptance 4).
+
+## Results by phase
+
+| Phase | Result |
+|---|---|
+| 1 Data and scoring | Scoring reproduces every official session total 2023-2026 (one pinned source exception). Raw data only in encrypted `data/raw.tar.gz.enc`. |
+| 2 Baseline | Rolling-5 predictor, PuLP optimizer, walk-forward backtest. Totals: 2023 6190, 2024 4561, 2025 4558, 2026 4269. |
+| 3 Pace and car strength | FastF1 2025-2026 ingest, FP2 long-run pace, Kalman car strength (2026 Spearman 0.64 vs 0.50 for last-race order). Neither feeds the picks. |
+| 4 Event models | `robust_mu` beats rolling-5 on 2026 (MAE 13.47 vs 14.36, total 4363 vs 4269). Simulator, qualifying, overtakes, sprint and bonus terms all lost and are disabled. Chip planner built. Tag `phase4-freeze`. |
+| 5 Backtest 2023-2026 | Retune kept trim 0.3 / prior 2.0 (2023-2025 total 14830). Carry-over prior for 2027 rejected. |
+| 6 Horizon | Multi-round transfer planning gave no gain; not built. |
+| 7 Automation | `pipelines/weekly_update.py` writes `reports/round_{season}_{round}.md`. Run by hand; scheduler scripts in `scripts/` not installed. |
+| 8 (so far) | 8.1 recency dropped. 8.4/8.5 Streamlit app (`app.py`, logic in `src/ui/logic.py`): picks, alternatives, chip-aware teams, one-click apply with backups and history. Cached solves (reruns 3.5 s to 0.2 s). 219 tests pass, 8 skipped without data. |
 
 ## Log
-- 2026-11-09: grilled spec, wrote spec and plan, created repo, set up orchestrator/worker files and effort setting.
-- 2026-11-09: Task 1 built by Haiku builders, re-run and reviewed by orchestrator; real snapshot sealed.
-- 2026-11-09: Tasks 2-8 built in parallel batches. Process breach: Phase 2 tasks committed before Phase 1 gate passed (done for speed). Gate has since passed; no Phase 2 code changed because of it.
 
-- 2026-11-09: Started this session on codex/phase-3-plan; wrote Phase 3 task-level plan and documented intended role of pace and car-strength data. Branch created before any project work. Existing untracked docs/HANDOFF.md preserved.
-
-- 2026-11-09: Clarified fantasy price requirement: actual round prices already captured in raw official per-gameday feeds and normalized to `prices` rows; consecutive rows support price-change comparisons, and optimizer carries current asset prices into next-round budget. No price-forecast model wanted. Scheduled capture stays for Phase 7.
-
-- 2026-11-10: Completed cached 2025-2026 FastF1 ingest with race-control messages, refreshed pace/status and prior safety-car features, reviewed residuals and missingness, and recorded the explicit-status coverage interpretation. Drafted the Phase 4 event-model/simulator plan for review; no Phase 4 code or tests run.
-
-- 2026-11-10: set up graphify (code-only graph in graphify-out/, hooks in .claude/settings.json, rule in CLAUDE.md); created local main (fast-forward of Phase 1-2 plus graphify); small fixes: clear ValueError for a race entry without `time`, snapshot_official raises when the schedule feed fails.
-
-- 2026-11-10: Fixed pace rows with unknown FP2 timing being stamped `known_at = lock_utc`; now NaT. Reran Phase 3 acceptance checks (184 unit, 8 data, walk-forward unchanged). Phase 3 complete pending commit; pace cross-driver comparability open for Phase 4.
-
-- 2026-11-10: Grilled and revised Phase 4 (2026-only, robust form, Las Vegas deadline). Built the base: `robust_mu` (trimmed mean trim 0.3, shrunk to price prior weight 2.0) beats rolling-5 on 2026 walk-forward, MAE 13.47 vs 14.36, season total 4363 vs 4269. `pipelines/pick_team.py` picks the next round; reads `config/my_team.yaml` when present. 189 unit, 8 data tests pass. Next: user's team and chip info, then race order + DNF piece.
-- 2026-11-10: Stored user-confirmed 2026 chip rules (null placeholders for 2023-2025, same-keys test passes). Wrote revised Phase 4 task list (4.1-4.8) into the plan, linked it from the master plan, refreshed HANDOFF.md. Delegated 4.2 to a side session.
-- 2026-11-10: 4.2 simulator (Plackett-Luce race order + DNF, Monte Carlo through scoring engine) built and tested, 199 tests pass; does not beat 4.1 so `pick_team.py` keeps `robust_mu`. Split remaining Phase 4 work between Claude and ChatGPT in HANDOFF.md.
-- 2026-11-10: Checked ChatGPT's 4.3 (`src/optimize/chips.py`, `pipelines/plan_chips.py`) and 4.7 (`src/models/bonus.py`, `reports/phase4_bonus_audit.md`): files present, no out-of-scope edits, 206 unit and 9 data tests pass, `plan_chips.py` runs on the example team. Uncommitted.
-- 2026-11-10: Re-audited 4.7 bonus sources from raw TracingInsights rows: fastest lap and DotD 20/20 rounds, sprint fastest lap 6/6, pit times 197/220 constructor-rounds. Rewrote `reports/phase4_bonus_audit.md`; all supported.
-- 2026-11-10: Built `data/processed/bonus.parquet` (672 2026 asset-rounds) and `bonus_mu` (trimmed non-bonus form + shrunk bonus mean). Tuned on rounds 1-10; does not beat 4.1 over all rounds (MAE 13.50 vs 13.47, total 4330 vs 4363), so disabled.
-- 2026-11-11: 4.4 qualifying order (`sim_mu(quali=True)`, `pipelines/evaluate_quali.py`): sampled qualifying order feeds the race order and scores qualifying points + Q2/Q3 teamwork. MAE 13.49 (4.2: 13.56, 4.1: 13.47) but total 4136 (4.2: 4362, 4.1: 4363), so disabled; `pick_team.py` keeps `robust_mu`.
-- 2026-11-11: 4.6 sprint backtest implemented and evaluated with `sprint_weight=10.0`: six sprint rounds MAE 15.76 vs 15.35 and picked-team points 1427 vs 1442; all-round MAE 13.46 vs 13.47 but points 4336 vs 4363. Fails acceptance and remains disabled; see `reports/phase4_sprint.md`.
-- 2026-11-11: Benched-driver data check: rebuilt normalized tables with `prices.active`; inactive rows include the expected HAD rounds 12-14 but also four inactive constructors in round 6 and additional drivers in rounds 15-21. Flag is unreliable for excluding rostered drivers, so `pick_team.py` was not changed; exact rows and finding are in known issues.
-- 2026-11-11: 4.5 overtakes/gained built (`data/processed/overtakes.parquet`, `src/models/poisson.py`, `src/features/overtakes.py`, `pipelines/evaluate_overtakes.py`). Gate 1: overtakes pass narrowly (track effect from 2023-2025 helps), gained fails. Gate 2: MAE 13.48 vs 13.47, total 4252 vs 4363, so disabled; `pick_team.py` keeps `robust_mu`.
-- 2026-11-12: Per-team files (`--team N`), `exclude` list, replay-based chip values for autopilot/no_negative, season and rounds no longer hardcoded in `plan_chips.py`/`pick_team.py`. Wrote `docs/how-it-works.md`; weaknesses in known-issues. `main` pushed (6decbff).
-- 2026-11-12: Fixed x3_boost valuation: the old code could never put the 3x on the best driver (gains understated, e.g. team 3 15.9, now 41.9). Chip rounds now print `3x X, 2x Y`; `pick_team.py` and `plan_chips.py` print `Swaps: OUT -> IN`.
-- 2026-11-12: 4.8 done, Phase 4 closed (tag `phase4-freeze`). Grilled Phase 5: 2027 cold-start scope, plan `docs/superpowers/plans/2026-11-12-phase-5-backtest.md`; ChatGPT handoff `docs/handoff-chatgpt-5.1-metrics.md`. 217 tests pass.
-- 2026-11-12: 5.1 added shared walk-forward metrics and evaluated rolling-5 and `robust_mu` across 2023-2026; aggregate 2026 metrics appended to the holdout log and full season table written to `reports/phase5_seasons.md`.
-- 2026-11-12: 5.2 selected trim 0.3 / prior weight 2.0 by combined 2023-2025 season points (14830); 2026 total tied current 4363, so setting retained with no value change to `config/model.yaml`.
-- 2026-11-13: Phase 5 done. Reviewed and merged ChatGPT 5.1-5.2; carry-over prior prototyped and rejected (fresh-team retest too); `robust_mu` 0.3 / 2.0 kept for 2027. `reports/phase5_backtest.md`.
-
-## Phase 3 completed work
-- Added FastF1 3.9.x as pinned-major dependency and external-cache ingestion pipeline. FastF1/Jolpica inventory matched all 93 scheduled events (0 name mismatches). Local F1 TV auth active. Prior all-years archive attempt hit FastF1's 500 API calls/hour limit and loaded 174/450 sessions, 93,178 laps, 17,039 weather rows, 1,335 track-status rows. Scope now narrowed to 2025-2026.
-- Added normalized sessions, laps, weather, track-status Parquet ingestion with restartable keys, season/round filters, explicit missing-session warnings, and machine-readable expected/loaded inventory. Fixed real-data handling for Python `datetime.timedelta` and distinguished FastF1's `SS` Sprint Shootout identifier from `SQ` Sprint Qualifying. Unit coverage exercises mocked pull. Session loading now includes race-control messages so deleted laps can be identified.
-- Added `pipelines/resume_fastf1.ps1`: waits out the hourly limiter, retries 2025-2026 from external cache, and continues in hourly windows only while the report shows rate-limit misses. The helper has now exited successfully after loading all 220 target-season sessions.
-- Pulled the full 2025-2026 FastF1 session archive: 220/220 expected sessions, 124,876 laps, 21,946 weather observations, 2,555 track-status observations, 0 missing sessions, and 0 ingest warnings. Race-control messages are loaded so deleted-lap flags are populated (316 deleted laps in FP2 across the target seasons). Data is stored in normalized processed Parquet tables and the external FastF1 cache.
-- Built `data/processed/pace.parquet` and refreshed `reports/phase3_pace_coverage.md` for 919 entrant/weekend rows. The robust slow-lap screen removed 2,603 FP2 laps; residual RMSE median/p95 is 0.32s/1.24s for 2025 and 0.41s/2.31s for 2026. All 518 retained pace estimates are pre-lock. However, 149 of 667 entrant rows with scheduled FP2 have no usable long run, so pace coverage acceptance is not met; 181 estimates use fewer than 8 laps. See `reports/phase3_data_review.md`.
-- Reviewed a looser two-lap-stint fallback: it recovers 54 rows at a four-lap pooled minimum but has 49 low-sample estimates and 4 RMSE values above five seconds. A seven-lap pooled minimum recovers only 5. Kept the four-clean-laps-per-stint definition to preserve the long-run meaning and avoid unreliable pace inputs.
-- Refreshed `data/static/tracks.csv` using prior race track status only. Safety-car rates are known for 67/93 event rows; blank rates are first observations or circuits without prior same-track history.
-- Added event-level `data/static/tracks.csv`: 93 scheduled events across 26 circuits, with manually assigned track type/overtaking difficulty and event-specific sprint flags. Prior-only safety-car rates refreshed; rates remain blank where no earlier same-track status exists.
-- Added FP2 long-run pace extraction and `pipelines/build_pace.py`. Emits coverage/status row per entrant; filters invalid, deleted, pit, non-green and extreme laps; fits pace model with diagnostics; marks post-lock data unusable for pre-lock prediction. Now distinguishes scheduled-but-not-loaded FP2 from weekends without FP2 session and writes fit-quality and coverage diagnostics to `reports/phase3_pace_coverage.md`.
-- Added additive Kalman model and walk-forward evaluator. Tuned only on 2023-2025; each frozen 2026 holdout evaluation logged in `reports/holdout_2026_log.md` as aggregate metrics only. Latest run: 2023-2025 mean Spearman 0.5862 vs 0.4743 for last-race order; 2026 0.6356 vs 0.5001 across 19 comparable rounds.
-- Added adjacent-round observed price changes derived only from per-round `price` snapshots. `pipelines/build_data.py` now writes `data/processed/price_changes.parquet`; rebuild produced 2,754 rows. No price-change forecast used.
-- Full suite: 184 passed (2026-11-09). Phase 1 real-data gate: 8 passed. Phase 2 walk-forward totals unchanged: 2023 6190, 2024 4561, 2025 4558, 2026 4269.
-- 2026-11-13: Phase 6 done. Grilled scope (horizon only), wrote `docs/superpowers/plans/2026-11-13-phase-6-horizon.md`; horizon prototype gave no gain on 2023-2025 rounds 1-10, so not built. Next: grill Phase 7 (automation).
-- 2026-11-14: Phase 7 grilled and planned (local Task Scheduler). 7.1 `pipelines/weekly_update.py` built and merged; manual `--force` run wrote the Las Vegas report for teams 1-3; 222 tests. 7.2 (scheduler scripts) handed to ChatGPT: `docs/handoff-chatgpt-7.2-scheduler.md`.
-- 2026-11-14: 7.2 added Task Scheduler install/uninstall scripts for a daily 20:00 logged-on-user run, with catch-up and a one-hour limit; documented manual reruns and the report/log paths.
-- 2026-11-14: Phase 7 done. 7.2 scheduler scripts merged (b677118) but not installed; closed on manual `--force` runs by user call. Phase 8 may start: 8.1 recency prototype (Claude), 8.4 UI logic (Claude), 8.5 UI app (ChatGPT, `docs/handoff-chatgpt-8.5-ui-app.md`).
-- 2026-11-14: 8.1 recency prototype lost to `robust_mu` on rounds 1-10 for every h (best h=5, 6277 vs 6326 on 2023-2025); dropped, no code. Next: 8.4 UI logic.
-- 2026-11-14: 8.4 UI logic merged: `src/ui/logic.py` (validate, save_team, apply_transfers, top_teams, history_points) and `forbid=` no-good cut in `optimize`; 226 tests. Real-data check on Vegas matches the weekly report. 8.5 handoff updated to the final signatures. Next: user pastes 8.5 handoff to ChatGPT.
-- 2026-11-14: Reviewed 8.5 app (6dc18dd): runs on real 8.4 logic, all tabs render, but ignores team `exclude`, applies no-chip teams when a chip is played, keeps stale data after Update, crashes when prices or rounds are missing. Logic side fixed and merged (8.4b: `top_teams(chip=)`, `next_round` ValueError). App fixes handed to ChatGPT: `docs/handoff-chatgpt-8.5b-ui-fixes.md`.
-- 2026-11-14: 8.5 Streamlit dashboard uses the merged 8.4/8.4b logic; review fixes add team exclusions, chip-aware choices, update refresh, missing-data handling, selected-team summary, and remove temporary stubs.
-- 2026-11-14: 8.5 Streamlit app merged after review: all 6 fixes checked headless on a data copy (x3_boost apply saved team, boost3 and history row; no-round case warns, Data tab works); 227 tests. Start with `F1 Fantasy.bat` or `uv run streamlit run app.py`. Next: apply the Vegas transfers through the app (Phase 8 acceptance 3), then 8.2 archive week of 2026-12-07.
-- 2026-11-14: App speed: `top_teams` results cached in `app.py` (keyed on team state, chip, budget, exclude and the data/model/rules file times) and team tabs run as `st.fragment`. Headless on real data: rerun 3.5 s to 0.2 s, cached x3 chip 3.8 s to 0.16 s; first load still ~5.7 s. Next: app cleanup (split `_team_tab`, move duplicated price/state code into `src/ui/logic.py`).
-- 2026-11-14: App cleanup: `_team_tab` split into `_picks`, `_chip_advice`, `_choose_and_apply`, `_edit_form`; new `logic.team_state(n)` replaces the price-map and `load_team` code in `app.py` and `apply_transfers`. Rendered output identical before and after on real data (headless dump diff); 219 passed, 8 skipped. Next: UI look changes (user to describe).
-- 2026-11-14: Best teams tab has an "Exclude from picks" box, prefilled with every id excluded in any team file (HIR now); HIR gone from its top 5 on real data, back when cleared. 219 passed, 8 skipped.
+- 2026-11-09 to 2026-11-13: Phases 1-6 (details in git history and `docs/decisions.md`).
+- 2026-11-14: Phase 7 closed on manual runs. Phase 8: 8.1 dropped; 8.4, 8.4b, 8.5 merged after review; app speed, cleanup and Best teams exclude box; docs cleaned (finished handoffs removed, progress/decisions/known-issues condensed).
