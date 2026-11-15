@@ -178,8 +178,13 @@ def _chip_select(n, team, season, round_):
     advised = advised_chip(_report_chip_advice(n)[0], round_) if round_ is not None else None
     default = played_now or (advised if advised in options else None) or "None"
     choice = st.selectbox("Chip this weekend", options, index=options.index(default), key=f"chip_{n}",
-                          disabled=played_now is not None)
+                          disabled=_applied(n, season, round_))
     return (None if choice == "None" else choice), played_now
+
+
+def _applied(n, season, round_):
+    """True once 'I made these transfers' logged this round (with or without a chip)."""
+    return any(r["season"] == season and r["round"] == round_ for r in swaps_log(n))
 
 
 def _picks(n, team, state, chip):
@@ -214,7 +219,7 @@ def _selected(choices, choice_key):
     return index, (choices[index] if index is not None else None)
 
 
-def _choose_and_apply(n, choices, chip, choice_key):
+def _choose_and_apply(n, choices, chip, choice_key, applied=False):
     if not choices:
         st.caption("No alternative lineups are available.")
     else:
@@ -228,7 +233,9 @@ def _choose_and_apply(n, choices, chip, choice_key):
         st.write(f"Selected: #{index + 1}")
         st.write(f"Drivers: {', '.join(selected.drivers)}")
         st.write(f"Constructors: {', '.join(selected.constructors)}")
-    if st.button("I made these transfers", key=f"apply_{n}", disabled=selected is None):
+    if applied:
+        st.caption("Transfers already applied for this round.")
+    if st.button("I made these transfers", key=f"apply_{n}", disabled=selected is None or applied):
         try:
             apply_transfers(n, selected, chip)
             st.success("Team updated.")
@@ -306,8 +313,11 @@ def _team_row(n, next_round, races):
         owned = [*drivers, *constructors]
         picked = [*selected.drivers, *selected.constructors]
         st.html(swap_strip([a for a in owned if a not in picked], [a for a in picked if a not in owned]))
+        st.caption(f"{', '.join(selected.drivers)} | {', '.join(selected.constructors)} · x2 {selected.boost}"
+                   f"{f' · x3 {selected.boost3}' if selected.boost3 else ''} · cost {selected.cost:.1f}"
+                   f" · {selected.expected_points:.1f} xPts")
     with st.expander("Alternatives"):
-        _choose_and_apply(n, choices, chip, choice_key)
+        _choose_and_apply(n, choices, chip, choice_key, round_ is not None and _applied(n, season, round_))
     with st.expander("Chip advice"):
         _chip_advice(n)
     with st.expander("Edit team"):

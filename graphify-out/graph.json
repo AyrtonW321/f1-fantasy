@@ -169,10 +169,21 @@
       "norm_label": "_chip_select()"
     },
     {
-      "label": "_picks()",
+      "label": "_applied()",
       "file_type": "code",
       "source_file": "app.py",
       "source_location": "L185",
+      "_origin": "ast",
+      "id": "app_applied",
+      "community": 22,
+      "community_name": "app.py",
+      "norm_label": "_applied()"
+    },
+    {
+      "label": "_picks()",
+      "file_type": "code",
+      "source_file": "app.py",
+      "source_location": "L190",
       "_origin": "ast",
       "id": "app_picks",
       "community": 22,
@@ -183,7 +194,7 @@
       "label": "_chip_advice()",
       "file_type": "code",
       "source_file": "app.py",
-      "source_location": "L198",
+      "source_location": "L203",
       "_origin": "ast",
       "id": "app_chip_advice",
       "community": 22,
@@ -194,7 +205,7 @@
       "label": "_selected()",
       "file_type": "code",
       "source_file": "app.py",
-      "source_location": "L212",
+      "source_location": "L217",
       "_origin": "ast",
       "id": "app_selected",
       "community": 22,
@@ -205,7 +216,7 @@
       "label": "_choose_and_apply()",
       "file_type": "code",
       "source_file": "app.py",
-      "source_location": "L217",
+      "source_location": "L222",
       "_origin": "ast",
       "id": "app_choose_and_apply",
       "community": 22,
@@ -216,7 +227,7 @@
       "label": "_edit_form()",
       "file_type": "code",
       "source_file": "app.py",
-      "source_location": "L240",
+      "source_location": "L247",
       "_origin": "ast",
       "id": "app_edit_form",
       "community": 22,
@@ -227,7 +238,7 @@
       "label": "_team_row()",
       "file_type": "code",
       "source_file": "app.py",
-      "source_location": "L272",
+      "source_location": "L279",
       "_origin": "ast",
       "id": "app_team_row",
       "community": 22,
@@ -238,7 +249,7 @@
       "label": "_data_tab()",
       "file_type": "code",
       "source_file": "app.py",
-      "source_location": "L323",
+      "source_location": "L333",
       "_origin": "ast",
       "id": "app_data_tab",
       "community": 22,
@@ -249,7 +260,7 @@
       "label": "_best_tab()",
       "file_type": "code",
       "source_file": "app.py",
-      "source_location": "L368",
+      "source_location": "L378",
       "_origin": "ast",
       "id": "app_best_tab",
       "community": 22,
@@ -260,7 +271,7 @@
       "label": "main()",
       "file_type": "code",
       "source_file": "app.py",
-      "source_location": "L389",
+      "source_location": "L399",
       "_origin": "ast",
       "id": "app_main",
       "community": 22,
@@ -323,12 +334,23 @@
       "norm_label": "per-team chip picker: defaults to the chip advice; locked to the logged chip onc"
     },
     {
-      "label": "Top choices for the chip; returns (choices, session key of the chosen index).",
+      "label": "True once 'I made these transfers' logged this round (with or without a chip).",
       "file_type": "rationale",
       "source_file": "app.py",
       "source_location": "L186",
       "_origin": "ast",
       "id": "app_rationale_186",
+      "community": 22,
+      "community_name": "app.py",
+      "norm_label": "true once 'i made these transfers' logged this round (with or without a chip)."
+    },
+    {
+      "label": "Top choices for the chip; returns (choices, session key of the chosen index).",
+      "file_type": "rationale",
+      "source_file": "app.py",
+      "source_location": "L191",
+      "_origin": "ast",
+      "id": "app_rationale_191",
       "community": 22,
       "community_name": "app.py",
       "norm_label": "top choices for the chip; returns (choices, session key of the chosen index)."
@@ -340,8 +362,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_build_data",
-      "community": 2,
-      "community_name": "test_build_tables.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "build_data.py"
     },
     {
@@ -395,8 +417,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_build_data_rationale_1",
-      "community": 2,
-      "community_name": "test_build_tables.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "build normalized parquet tables from data/raw into data/processed. run from the"
     },
     {
@@ -428,8 +450,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_build_pace",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "build_pace.py"
     },
     {
@@ -450,8 +472,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_build_pace_rationale_1",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "build the auditable fp2 pace feature table from normalized fastf1 data."
     },
     {
@@ -472,8 +494,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "pipelines_build_tracks_main",
-      "community": 26,
-      "community_name": "main",
+      "community": 11,
+      "community_name": "walkforward_strength",
       "norm_label": "main()"
     },
     {
@@ -494,8 +516,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_evaluate_bonus",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "evaluate_bonus.py"
     },
     {
@@ -516,8 +538,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_evaluate_bonus_rationale_1",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "phase 4.7: robust form + separate bonus mean vs robust form (4.1), 2026 walk-for"
     },
     {
@@ -527,8 +549,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_evaluate_form",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "evaluate_form.py"
     },
     {
@@ -538,8 +560,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "pipelines_evaluate_form_mae",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "mae()"
     },
     {
@@ -549,8 +571,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "pipelines_evaluate_form_main",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "main()"
     },
     {
@@ -560,8 +582,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_evaluate_form_rationale_1",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "phase 4 base: robust 2026 form vs rolling-5 baseline, walk-forward.  settings tu"
     },
     {
@@ -637,8 +659,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_evaluate_overtakes",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "evaluate_overtakes.py"
     },
     {
@@ -648,8 +670,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "pipelines_evaluate_overtakes_count_scores",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "count_scores()"
     },
     {
@@ -659,8 +681,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "pipelines_evaluate_overtakes_main",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "main()"
     },
     {
@@ -670,8 +692,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_evaluate_overtakes_rationale_1",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "phase 4.5: overtakes (poisson) and positions gained (shrunk mean), 2026 walk-for"
     },
     {
@@ -681,8 +703,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "pipelines_evaluate_overtakes_rationale_29",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "(overtake deviance of model, of flat mean; gained sse of model, of flat 0) over"
     },
     {
@@ -692,8 +714,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_evaluate_quali",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "evaluate_quali.py"
     },
     {
@@ -703,8 +725,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "pipelines_evaluate_quali_main",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "main()"
     },
     {
@@ -714,8 +736,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_evaluate_quali_rationale_1",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "phase 4.4: simulator with qualifying order vs the 4.2 simulator and robust form"
     },
     {
@@ -725,8 +747,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_evaluate_seasons",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 23,
+      "community_name": "evaluate_seasons.py",
       "norm_label": "evaluate_seasons.py"
     },
     {
@@ -736,8 +758,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "pipelines_evaluate_seasons_external_predictors",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 23,
+      "community_name": "evaluate_seasons.py",
       "norm_label": "_external_predictors()"
     },
     {
@@ -747,8 +769,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "pipelines_evaluate_seasons_main",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 23,
+      "community_name": "evaluate_seasons.py",
       "norm_label": "main()"
     },
     {
@@ -758,8 +780,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_evaluate_seasons_rationale_1",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 23,
+      "community_name": "evaluate_seasons.py",
       "norm_label": "evaluate multi-season baselines and re-tune robust form for phase 5."
     },
     {
@@ -769,8 +791,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_evaluate_sim",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "evaluate_sim.py"
     },
     {
@@ -780,8 +802,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "pipelines_evaluate_sim_main",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "main()"
     },
     {
@@ -791,8 +813,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_evaluate_sim_rationale_1",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "phase 4.2: race-order + dnf monte carlo simulator vs robust form (4.1), 2026 wal"
     },
     {
@@ -802,8 +824,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_evaluate_sprint",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "evaluate_sprint.py"
     },
     {
@@ -824,8 +846,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_evaluate_sprint_rationale_1",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "tune and evaluate the phase 4.6 sprint term on 2026 walk-forward data."
     },
     {
@@ -835,8 +857,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_pick_team",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "pick_team.py"
     },
     {
@@ -868,8 +890,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "pipelines_pick_team_exclude",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "exclude()"
     },
     {
@@ -879,8 +901,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "pipelines_pick_team_py_dataframe",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "dataframe"
     },
     {
@@ -890,8 +912,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "pipelines_pick_team_swaps",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "swaps()"
     },
     {
@@ -912,8 +934,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_pick_team_rationale_1",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "pick the team for the next unlocked round from robust season form.  reads conf"
     },
     {
@@ -923,8 +945,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "pipelines_pick_team_rationale_34",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "benched or unavailable assets: expected points -1000, so the optimizer sells the"
     },
     {
@@ -934,8 +956,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "pipelines_pick_team_rationale_42",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "out -> in' for each transfer, drivers and constructors paired separately (counts"
     },
     {
@@ -945,8 +967,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_plan_chips",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "plan_chips.py"
     },
     {
@@ -956,8 +978,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "pipelines_plan_chips_main",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 22,
+      "community_name": "app.py",
       "norm_label": "main()"
     },
     {
@@ -967,8 +989,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_plan_chips_rationale_1",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "plan chips for the rest of the season (default: the season with unplayed rounds)"
     },
     {
@@ -1000,8 +1022,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_weekly_update",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "weekly_update.py"
     },
     {
@@ -1176,8 +1198,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_weekly_update_rationale_1",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "weekly round report: pull data, rebuild tables, pick every team, plan chips, wri"
     },
     {
@@ -1278,8 +1300,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_backtest_metrics",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 23,
+      "community_name": "evaluate_seasons.py",
       "norm_label": "metrics.py"
     },
     {
@@ -1289,8 +1311,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_backtest_metrics_season_metrics",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 23,
+      "community_name": "evaluate_seasons.py",
       "norm_label": "season_metrics()"
     },
     {
@@ -1300,8 +1322,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_backtest_metrics_py_dataframe",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 23,
+      "community_name": "evaluate_seasons.py",
       "norm_label": "dataframe"
     },
     {
@@ -1311,8 +1333,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_backtest_metrics_rationale_1",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 23,
+      "community_name": "evaluate_seasons.py",
       "norm_label": "aggregate walk-forward prediction and team-score metrics."
     },
     {
@@ -1322,8 +1344,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_backtest_metrics_rationale_12",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 23,
+      "community_name": "evaluate_seasons.py",
       "norm_label": "return asset mae, picked-team totals and mean per-round spearman correlation."
     },
     {
@@ -1333,8 +1355,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_backtest_walkforward",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "walkforward.py"
     },
     {
@@ -1344,8 +1366,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_backtest_walkforward_roundresult",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "roundresult"
     },
     {
@@ -1355,8 +1377,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "src_backtest_walkforward_seasonresult",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 23,
+      "community_name": "evaluate_seasons.py",
       "norm_label": "seasonresult"
     },
     {
@@ -1366,8 +1388,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "src_backtest_walkforward_actual_points",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "_actual_points()"
     },
     {
@@ -1377,8 +1399,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_backtest_walkforward_py_dataframe",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "dataframe"
     },
     {
@@ -1388,8 +1410,8 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "src_backtest_walkforward_run_season",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "run_season()"
     },
     {
@@ -1399,8 +1421,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "predictor",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "predictor"
     },
     {
@@ -1410,8 +1432,8 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "src_backtest_walkforward_max_solve",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 23,
+      "community_name": "evaluate_seasons.py",
       "norm_label": "_max_solve()"
     },
     {
@@ -1421,8 +1443,8 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "src_backtest_walkforward_write_report",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 23,
+      "community_name": "evaluate_seasons.py",
       "norm_label": "write_report()"
     },
     {
@@ -1432,8 +1454,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_backtest_walkforward_py_path",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 23,
+      "community_name": "evaluate_seasons.py",
       "norm_label": "path"
     },
     {
@@ -1443,8 +1465,8 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "src_backtest_walkforward_main",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 23,
+      "community_name": "evaluate_seasons.py",
       "norm_label": "main()"
     },
     {
@@ -1454,8 +1476,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_backtest_walkforward_rationale_1",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "walk-forward baseline backtest: predict, optimize and score each completed round"
     },
     {
@@ -1542,8 +1564,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_features_overtakes_design",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 25,
+      "community_name": "expected",
       "norm_label": "_design()"
     },
     {
@@ -1553,8 +1575,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_features_overtakes_py_dataframe",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 25,
+      "community_name": "expected",
       "norm_label": "dataframe"
     },
     {
@@ -1564,8 +1586,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_features_overtakes_py_ndarray",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 25,
+      "community_name": "expected",
       "norm_label": "ndarray"
     },
     {
@@ -1575,8 +1597,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_features_overtakes_expected",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 25,
+      "community_name": "expected",
       "norm_label": "expected()"
     },
     {
@@ -1608,8 +1630,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "src_features_overtakes_rationale_25",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 25,
+      "community_name": "expected",
       "norm_label": "expected overtakes and gained per driver for a race; none without earlier curren"
     },
     {
@@ -1630,8 +1652,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_pace",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 13,
+      "community_name": "fp2_longrun_pace",
       "norm_label": "pace.py"
     },
     {
@@ -1718,8 +1740,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_pace_rationale_1",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 13,
+      "community_name": "fp2_longrun_pace",
       "norm_label": "pre-lock fp2 long-run pace estimates with explicit coverage and fit diagnostics."
     },
     {
@@ -1949,8 +1971,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_tracks",
-      "community": 26,
-      "community_name": "main",
+      "community": 11,
+      "community_name": "walkforward_strength",
       "norm_label": "tracks.py"
     },
     {
@@ -1960,8 +1982,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "src_features_tracks_trackmetadataerror",
-      "community": 26,
-      "community_name": "main",
+      "community": 11,
+      "community_name": "walkforward_strength",
       "norm_label": "trackmetadataerror"
     },
     {
@@ -1971,8 +1993,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "valueerror",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "valueerror"
     },
     {
@@ -1982,8 +2004,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_features_tracks_load_track_metadata",
-      "community": 26,
-      "community_name": "main",
+      "community": 11,
+      "community_name": "walkforward_strength",
       "norm_label": "load_track_metadata()"
     },
     {
@@ -1993,8 +2015,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_features_tracks_py_path",
-      "community": 26,
-      "community_name": "main",
+      "community": 11,
+      "community_name": "walkforward_strength",
       "norm_label": "path"
     },
     {
@@ -2004,8 +2026,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_features_tracks_py_dataframe",
-      "community": 26,
-      "community_name": "main",
+      "community": 11,
+      "community_name": "walkforward_strength",
       "norm_label": "dataframe"
     },
     {
@@ -2015,8 +2037,8 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "src_features_tracks_add_prior_safety_car_rates",
-      "community": 26,
-      "community_name": "main",
+      "community": 11,
+      "community_name": "walkforward_strength",
       "norm_label": "add_prior_safety_car_rates()"
     },
     {
@@ -2026,8 +2048,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_tracks_rationale_1",
-      "community": 26,
-      "community_name": "main",
+      "community": 11,
+      "community_name": "walkforward_strength",
       "norm_label": "validated event-level circuit metadata used by pre-lock features."
     },
     {
@@ -2037,8 +2059,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_features_tracks_rationale_17",
-      "community": 26,
-      "community_name": "main",
+      "community": 11,
+      "community_name": "walkforward_strength",
       "norm_label": "raised when static track metadata is incomplete or invalid."
     },
     {
@@ -2048,8 +2070,8 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "src_features_tracks_rationale_50",
-      "community": 26,
-      "community_name": "main",
+      "community": 11,
+      "community_name": "walkforward_strength",
       "norm_label": "attach each event's circuit sc rate using only earlier observed race sessions."
     },
     {
@@ -2345,8 +2367,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ingest_community_pull",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "community_pull.py"
     },
     {
@@ -2411,8 +2433,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ingest_community_pull_rationale_1",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "pull tracinginsights season json and mzafram round json into {raw_dir}."
     },
     {
@@ -2774,8 +2796,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ingest_fantasy_scrape",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "fantasy_scrape.py"
     },
     {
@@ -2785,8 +2807,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_ingest_fantasy_scrape_get",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "_get()"
     },
     {
@@ -2796,8 +2818,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_ingest_fantasy_scrape_py_session",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "session"
     },
     {
@@ -2807,8 +2829,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "src_ingest_fantasy_scrape_rows",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "_rows()"
     },
     {
@@ -2840,8 +2862,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "src_ingest_fantasy_scrape_snapshot_official",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "snapshot_official()"
     },
     {
@@ -2851,8 +2873,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ingest_fantasy_scrape_rationale_1",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "snapshot the official f1 fantasy feeds to {out_dir}/official/{season}/."
     },
     {
@@ -2862,8 +2884,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_ingest_fantasy_scrape_rationale_14",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "parsed json if the response is valid (200, parses, non-empty), else none."
     },
     {
@@ -2873,8 +2895,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "src_ingest_fantasy_scrape_rationale_26",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "data.value of a feed if it is a list, else []."
     },
     {
@@ -3214,8 +3236,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ingest_jolpica_pull",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "jolpica_pull.py"
     },
     {
@@ -3280,8 +3302,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ingest_jolpica_pull_rationale_1",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "snapshot jolpica (ergast-compatible) race data to {raw_dir}/jolpica/{season}/."
     },
     {
@@ -4171,8 +4193,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_optimize_chip_history",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "chip_history.py"
     },
     {
@@ -4215,8 +4237,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_optimize_chip_history_rationale_1",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "replay-based chip values for chips that expected points cannot rank (autopilot,"
     },
     {
@@ -4677,8 +4699,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_sim_scoring",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "scoring.py"
     },
     {
@@ -4732,8 +4754,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "src_sim_scoring_load_rules",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "load_rules()"
     },
     {
@@ -4743,8 +4765,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_sim_scoring_py_path",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "path"
     },
     {
@@ -4754,8 +4776,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "src_sim_scoring_rule",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "_rule()"
     },
     {
@@ -4809,8 +4831,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_sim_scoring_rationale_1",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "official f1 fantasy scoring. game values come from config/rules_{season}.yaml, n"
     },
     {
@@ -4930,8 +4952,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ui_logic",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "logic.py"
     },
     {
@@ -4941,8 +4963,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "src_ui_logic_tables",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "_tables()"
     },
     {
@@ -4952,8 +4974,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_ui_logic_py_dataframe",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "dataframe"
     },
     {
@@ -4985,8 +5007,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "src_ui_logic_history_path",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "history_path()"
     },
     {
@@ -5007,8 +5029,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "src_ui_logic_next_round",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "next_round()"
     },
     {
@@ -5029,8 +5051,8 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "src_ui_logic_assets",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "assets()"
     },
     {
@@ -5040,8 +5062,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "src_ui_logic_validate",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "validate()"
     },
     {
@@ -5051,8 +5073,8 @@
       "source_location": "L105",
       "_origin": "ast",
       "id": "src_ui_logic_save_team",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "save_team()"
     },
     {
@@ -5062,8 +5084,8 @@
       "source_location": "L120",
       "_origin": "ast",
       "id": "src_ui_logic_log",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "_log()"
     },
     {
@@ -5073,8 +5095,8 @@
       "source_location": "L130",
       "_origin": "ast",
       "id": "src_ui_logic_apply_transfers",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "apply_transfers()"
     },
     {
@@ -5084,8 +5106,8 @@
       "source_location": "L162",
       "_origin": "ast",
       "id": "src_ui_logic_top_teams",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "top_teams()"
     },
     {
@@ -5095,8 +5117,8 @@
       "source_location": "L191",
       "_origin": "ast",
       "id": "src_ui_logic_history_points",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "history_points()"
     },
     {
@@ -5125,18 +5147,18 @@
       "label": "_history()",
       "file_type": "code",
       "source_file": "src/ui/logic.py",
-      "source_location": "L247",
+      "source_location": "L248",
       "_origin": "ast",
       "id": "src_ui_logic_history",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "_history()"
     },
     {
       "label": "swaps_log()",
       "file_type": "code",
       "source_file": "src/ui/logic.py",
-      "source_location": "L255",
+      "source_location": "L256",
       "_origin": "ast",
       "id": "src_ui_logic_swaps_log",
       "community": 22,
@@ -5147,7 +5169,7 @@
       "label": "round_chip()",
       "file_type": "code",
       "source_file": "src/ui/logic.py",
-      "source_location": "L269",
+      "source_location": "L271",
       "_origin": "ast",
       "id": "src_ui_logic_round_chip",
       "community": 22,
@@ -5158,7 +5180,7 @@
       "label": "advised_chip()",
       "file_type": "code",
       "source_file": "src/ui/logic.py",
-      "source_location": "L276",
+      "source_location": "L278",
       "_origin": "ast",
       "id": "src_ui_logic_advised_chip",
       "community": 22,
@@ -5172,8 +5194,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ui_logic_rationale_1",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "team-file logic for the streamlit app (phase 8.4). the app holds no game logic;"
     },
     {
@@ -5183,8 +5205,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "src_ui_logic_rationale_48",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "(season, round) of the first round not yet completed, as pick_team uses."
     },
     {
@@ -5205,8 +5227,8 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "src_ui_logic_rationale_65",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "this round's assets with robust_mu (config/model.yaml form); excluded ids get mu"
     },
     {
@@ -5216,8 +5238,8 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "src_ui_logic_rationale_76",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "error messages for a team dict (team-file keys); empty when valid. counts and ch"
     },
     {
@@ -5227,8 +5249,8 @@
       "source_location": "L106",
       "_origin": "ast",
       "id": "src_ui_logic_rationale_106",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "validate, back up the old file to config/backup/, write config/my_team_{n}.yaml."
     },
     {
@@ -5238,8 +5260,8 @@
       "source_location": "L121",
       "_origin": "ast",
       "id": "src_ui_logic_rationale_121",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "append (or replace) this round's history row."
     },
     {
@@ -5249,8 +5271,8 @@
       "source_location": "L131",
       "_origin": "ast",
       "id": "src_ui_logic_rationale_131",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "i made these transfers': write the decision as team n for the next round and log"
     },
     {
@@ -5260,8 +5282,8 @@
       "source_location": "L165",
       "_origin": "ast",
       "id": "src_ui_logic_rationale_165",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "best n distinct teams for the next round, best first. state=none: overall best u"
     },
     {
@@ -5271,8 +5293,8 @@
       "source_location": "L192",
       "_origin": "ast",
       "id": "src_ui_logic_rationale_192",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "per logged round: points (boost, chip and penalties applied; nan until scored),"
     },
     {
@@ -5301,9 +5323,9 @@
       "label": "Per logged round: assets out and in versus the previous logged lineup (first row",
       "file_type": "rationale",
       "source_file": "src/ui/logic.py",
-      "source_location": "L256",
+      "source_location": "L257",
       "_origin": "ast",
-      "id": "src_ui_logic_rationale_256",
+      "id": "src_ui_logic_rationale_257",
       "community": 22,
       "community_name": "app.py",
       "norm_label": "per logged round: assets out and in versus the previous logged lineup (first row"
@@ -5312,9 +5334,9 @@
       "label": "Chip logged for that round, if any.",
       "file_type": "rationale",
       "source_file": "src/ui/logic.py",
-      "source_location": "L270",
+      "source_location": "L272",
       "_origin": "ast",
-      "id": "src_ui_logic_rationale_270",
+      "id": "src_ui_logic_rationale_272",
       "community": 22,
       "community_name": "app.py",
       "norm_label": "chip logged for that round, if any."
@@ -5323,9 +5345,9 @@
       "label": "Chip the plan_chips advice recommends for round_ ('Round N: <chip>;'), None for",
       "file_type": "rationale",
       "source_file": "src/ui/logic.py",
-      "source_location": "L277",
+      "source_location": "L279",
       "_origin": "ast",
-      "id": "src_ui_logic_rationale_277",
+      "id": "src_ui_logic_rationale_279",
       "community": 22,
       "community_name": "app.py",
       "norm_label": "chip the plan_chips advice recommends for round_ ('round n: <chip>;'), none for"
@@ -5425,8 +5447,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_conftest",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "conftest.py"
     },
     {
@@ -5436,8 +5458,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "tests_conftest_raw_data",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "raw_data()"
     },
     {
@@ -5447,8 +5469,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "tests_conftest_py_path",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "path"
     },
     {
@@ -5458,8 +5480,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_backtest_metrics",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 23,
+      "community_name": "evaluate_seasons.py",
       "norm_label": "test_backtest_metrics.py"
     },
     {
@@ -5469,8 +5491,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "tests_test_backtest_metrics_test_season_metrics_aggregates_asset_error_team_totals_and_rank",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 23,
+      "community_name": "evaluate_seasons.py",
       "norm_label": "test_season_metrics_aggregates_asset_error_team_totals_and_rank()"
     },
     {
@@ -6239,8 +6261,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "test_fantasy_scrape.py"
     },
     {
@@ -6250,8 +6272,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_url",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "url()"
     },
     {
@@ -6261,8 +6283,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_raceday",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "raceday()"
     },
     {
@@ -6272,8 +6294,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_drivers",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "drivers()"
     },
     {
@@ -6283,8 +6305,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_fakeresponse",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "fakeresponse"
     },
     {
@@ -6294,8 +6316,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_fakeresponse_init",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": ".__init__()"
     },
     {
@@ -6305,8 +6327,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_fakeresponse_json",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": ".json()"
     },
     {
@@ -6316,8 +6338,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_fakesession",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "fakesession"
     },
     {
@@ -6327,8 +6349,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_fakesession_init",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": ".__init__()"
     },
     {
@@ -6338,8 +6360,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_fakesession_get",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": ".get()"
     },
     {
@@ -6349,8 +6371,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_seed",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "seed()"
     },
     {
@@ -6360,8 +6382,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_py_path",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "path"
     },
     {
@@ -6371,8 +6393,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_test_snapshot_writes_every_gameday",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "test_snapshot_writes_every_gameday()"
     },
     {
@@ -6382,8 +6404,8 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_test_failed_fetch_keeps_existing_file",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "test_failed_fetch_keeps_existing_file()"
     },
     {
@@ -6393,8 +6415,8 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_test_empty_driver_feed_keeps_existing_file",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "test_empty_driver_feed_keeps_existing_file()"
     },
     {
@@ -6404,8 +6426,8 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_test_schedule_404_raises_and_writes_nothing",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "test_schedule_404_raises_and_writes_nothing()"
     },
     {
@@ -6415,8 +6437,8 @@
       "source_location": "L106",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_test_schedule_empty_value_raises",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "test_schedule_empty_value_raises()"
     },
     {
@@ -6426,8 +6448,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_rationale_31",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "maps full url to (status, payload). unknown urls answer 404."
     },
     {
@@ -7295,8 +7317,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_overtakes",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 25,
+      "community_name": "expected",
       "norm_label": "test_overtakes.py"
     },
     {
@@ -7306,8 +7328,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "tests_test_overtakes_test_poisson_fit_recovers_log_rate_and_shrunk_rate_limits",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 25,
+      "community_name": "expected",
       "norm_label": "test_poisson_fit_recovers_log_rate_and_shrunk_rate_limits()"
     },
     {
@@ -7317,8 +7339,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "tests_test_overtakes_test_expected_uses_only_earlier_rounds_and_track_effect",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 25,
+      "community_name": "expected",
       "norm_label": "test_expected_uses_only_earlier_rounds_and_track_effect()"
     },
     {
@@ -7427,8 +7449,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_pick_team",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "test_pick_team.py"
     },
     {
@@ -7438,8 +7460,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "tests_test_pick_team_test_load_team_reads_state_and_rejects_unknown_assets",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "test_load_team_reads_state_and_rejects_unknown_assets()"
     },
     {
@@ -7449,8 +7471,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "tests_test_pick_team_test_exclude_pushes_asset_below_everyone_and_rejects_unknown",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 0,
+      "community_name": "optimize",
       "norm_label": "test_exclude_pushes_asset_below_everyone_and_rejects_unknown()"
     },
     {
@@ -7460,8 +7482,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "tests_test_pick_team_test_swaps_pair_sold_with_bought_by_kind",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "norm_label": "test_swaps_pair_sold_with_bought_by_kind()"
     },
     {
@@ -8582,8 +8604,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_tracks",
-      "community": 26,
-      "community_name": "main",
+      "community": 11,
+      "community_name": "walkforward_strength",
       "norm_label": "test_tracks.py"
     },
     {
@@ -8593,8 +8615,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "tests_test_tracks_write_tracks",
-      "community": 26,
-      "community_name": "main",
+      "community": 11,
+      "community_name": "walkforward_strength",
       "norm_label": "write_tracks()"
     },
     {
@@ -8604,8 +8626,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "tests_test_tracks_test_load_track_metadata_covers_schedule_and_allows_unknown_safety_car_rate",
-      "community": 26,
-      "community_name": "main",
+      "community": 11,
+      "community_name": "walkforward_strength",
       "norm_label": "test_load_track_metadata_covers_schedule_and_allows_unknown_safety_car_rate()"
     },
     {
@@ -8615,8 +8637,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "tests_test_tracks_test_load_track_metadata_rejects_missing_scheduled_event",
-      "community": 26,
-      "community_name": "main",
+      "community": 11,
+      "community_name": "walkforward_strength",
       "norm_label": "test_load_track_metadata_rejects_missing_scheduled_event()"
     },
     {
@@ -8626,8 +8648,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "tests_test_tracks_test_load_track_metadata_rejects_duplicate_event_key",
-      "community": 26,
-      "community_name": "main",
+      "community": 11,
+      "community_name": "walkforward_strength",
       "norm_label": "test_load_track_metadata_rejects_duplicate_event_key()"
     },
     {
@@ -8637,8 +8659,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "tests_test_tracks_test_load_track_metadata_requires_manual_categories",
-      "community": 26,
-      "community_name": "main",
+      "community": 11,
+      "community_name": "walkforward_strength",
       "norm_label": "test_load_track_metadata_requires_manual_categories()"
     },
     {
@@ -8648,8 +8670,8 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "tests_test_tracks_test_load_track_metadata_requires_identity_and_sprint_flag",
-      "community": 26,
-      "community_name": "main",
+      "community": 11,
+      "community_name": "walkforward_strength",
       "norm_label": "test_load_track_metadata_requires_identity_and_sprint_flag()"
     },
     {
@@ -8659,8 +8681,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "tests_test_tracks_test_load_track_metadata_checks_category_and_rate_ranges",
-      "community": 26,
-      "community_name": "main",
+      "community": 11,
+      "community_name": "walkforward_strength",
       "norm_label": "test_load_track_metadata_checks_category_and_rate_ranges()"
     },
     {
@@ -8670,8 +8692,8 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "tests_test_tracks_test_safety_car_rate_uses_only_prior_observed_races_at_same_track",
-      "community": 26,
-      "community_name": "main",
+      "community": 11,
+      "community_name": "walkforward_strength",
       "norm_label": "test_safety_car_rate_uses_only_prior_observed_races_at_same_track()"
     },
     {
@@ -8769,8 +8791,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_ui_logic",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 33,
+      "community_name": "dnf_probability",
       "norm_label": "test_ui_logic.py"
     },
     {
@@ -8780,8 +8802,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "tests_test_ui_logic_tables",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 33,
+      "community_name": "dnf_probability",
       "norm_label": "tables()"
     },
     {
@@ -8791,8 +8813,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "tests_test_ui_logic_cfg",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 33,
+      "community_name": "dnf_probability",
       "norm_label": "cfg()"
     },
     {
@@ -8802,8 +8824,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "tests_test_ui_logic_test_validate",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 33,
+      "community_name": "dnf_probability",
       "norm_label": "test_validate()"
     },
     {
@@ -8813,8 +8835,8 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "tests_test_ui_logic_test_top_teams_distinct_and_in_budget",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 33,
+      "community_name": "dnf_probability",
       "norm_label": "test_top_teams_distinct_and_in_budget()"
     },
     {
@@ -8824,8 +8846,8 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "tests_test_ui_logic_test_apply_transfers_writes_backup_team_and_history",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 33,
+      "community_name": "dnf_probability",
       "norm_label": "test_apply_transfers_writes_backup_team_and_history()"
     },
     {
@@ -8835,8 +8857,8 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "tests_test_ui_logic_test_history_points_applies_boost_chip_and_penalty",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 33,
+      "community_name": "dnf_probability",
       "norm_label": "test_history_points_applies_boost_chip_and_penalty()"
     },
     {
@@ -8846,8 +8868,8 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "tests_test_ui_logic_test_top_teams_chip_and_no_round_left",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 33,
+      "community_name": "dnf_probability",
       "norm_label": "test_top_teams_chip_and_no_round_left()"
     },
     {
@@ -8857,53 +8879,64 @@
       "source_location": "L110",
       "_origin": "ast",
       "id": "tests_test_ui_logic_test_saved_xpts_boost_and_x3",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 33,
+      "community_name": "dnf_probability",
       "norm_label": "test_saved_xpts_boost_and_x3()"
     },
     {
       "label": "_two_rounds()",
       "file_type": "code",
       "source_file": "tests/test_ui_logic.py",
-      "source_location": "L119",
+      "source_location": "L120",
       "_origin": "ast",
       "id": "tests_test_ui_logic_two_rounds",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 33,
+      "community_name": "dnf_probability",
       "norm_label": "_two_rounds()"
     },
     {
       "label": "test_swaps_log_diffs_rows()",
       "file_type": "code",
       "source_file": "tests/test_ui_logic.py",
-      "source_location": "L126",
+      "source_location": "L127",
       "_origin": "ast",
       "id": "tests_test_ui_logic_test_swaps_log_diffs_rows",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 33,
+      "community_name": "dnf_probability",
       "norm_label": "test_swaps_log_diffs_rows()"
     },
     {
       "label": "test_round_chip()",
       "file_type": "code",
       "source_file": "tests/test_ui_logic.py",
-      "source_location": "L134",
+      "source_location": "L135",
       "_origin": "ast",
       "id": "tests_test_ui_logic_test_round_chip",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 33,
+      "community_name": "dnf_probability",
       "norm_label": "test_round_chip()"
     },
     {
       "label": "test_advised_chip()",
       "file_type": "code",
       "source_file": "tests/test_ui_logic.py",
-      "source_location": "L142",
+      "source_location": "L143",
       "_origin": "ast",
       "id": "tests_test_ui_logic_test_advised_chip",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 33,
+      "community_name": "dnf_probability",
       "norm_label": "test_advised_chip()"
+    },
+    {
+      "label": "test_swaps_log_skips_reverting_chip()",
+      "file_type": "code",
+      "source_file": "tests/test_ui_logic.py",
+      "source_location": "L151",
+      "_origin": "ast",
+      "id": "tests_test_ui_logic_test_swaps_log_skips_reverting_chip",
+      "community": 33,
+      "community_name": "dnf_probability",
+      "norm_label": "test_swaps_log_skips_reverting_chip()"
     },
     {
       "label": "test_ui_style.py",
@@ -9220,8 +9253,8 @@
       "source_location": "L145",
       "_origin": "ast",
       "id": "tests_test_walkforward_test_report_prints_assumptions",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 23,
+      "community_name": "evaluate_seasons.py",
       "norm_label": "test_report_prints_assumptions()"
     },
     {
@@ -9264,8 +9297,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_weekly_update",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "test_weekly_update.py"
     },
     {
@@ -9275,8 +9308,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "tests_test_weekly_update_races",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "races()"
     },
     {
@@ -9286,8 +9319,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "tests_test_weekly_update_test_due_gate",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "test_due_gate()"
     },
     {
@@ -9297,8 +9330,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "tests_test_weekly_update_test_failing_step_writes_failed_report",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "test_failing_step_writes_failed_report()"
     },
     {
@@ -9308,8 +9341,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "tests_test_weekly_update_test_stale_team_warning",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "test_stale_team_warning()"
     },
     {
@@ -9319,8 +9352,8 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "tests_test_weekly_update_test_never_reads_data_key",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "test_never_reads_data_key()"
     },
     {
@@ -9347,8 +9380,8 @@
     },
     {
       "label": "time",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "external": true,
       "file_type": "concept",
       "norm_label": "time",
@@ -9369,8 +9402,8 @@
     },
     {
       "label": "pandas",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "external": true,
       "file_type": "concept",
       "norm_label": "pandas",
@@ -9380,8 +9413,8 @@
     },
     {
       "label": "re",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "external": true,
       "file_type": "concept",
       "norm_label": "re",
@@ -9402,8 +9435,8 @@
     },
     {
       "label": "argparse",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "external": true,
       "file_type": "concept",
       "norm_label": "argparse",
@@ -9413,8 +9446,8 @@
     },
     {
       "label": "collections_abc",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "external": true,
       "file_type": "concept",
       "norm_label": "collections_abc",
@@ -9435,8 +9468,8 @@
     },
     {
       "label": "yaml",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "external": true,
       "file_type": "concept",
       "norm_label": "yaml",
@@ -9446,8 +9479,8 @@
     },
     {
       "label": "os",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "external": true,
       "file_type": "concept",
       "norm_label": "os",
@@ -9457,8 +9490,8 @@
     },
     {
       "label": "pathlib",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "external": true,
       "file_type": "concept",
       "norm_label": "pathlib",
@@ -9468,8 +9501,8 @@
     },
     {
       "label": "shutil",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 33,
+      "community_name": "dnf_probability",
       "external": true,
       "file_type": "concept",
       "norm_label": "shutil",
@@ -9501,8 +9534,8 @@
     },
     {
       "label": "tempfile",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 5,
+      "community_name": "vault.py",
       "external": true,
       "file_type": "concept",
       "norm_label": "tempfile",
@@ -9512,8 +9545,8 @@
     },
     {
       "label": "io",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "external": true,
       "file_type": "concept",
       "norm_label": "io",
@@ -9523,8 +9556,8 @@
     },
     {
       "label": "json",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 13,
+      "community_name": "fp2_longrun_pace",
       "external": true,
       "file_type": "concept",
       "norm_label": "json",
@@ -9534,8 +9567,8 @@
     },
     {
       "label": "requests",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "external": true,
       "file_type": "concept",
       "norm_label": "requests",
@@ -9545,8 +9578,8 @@
     },
     {
       "label": "sys",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 26,
+      "community_name": "main",
       "external": true,
       "file_type": "concept",
       "norm_label": "sys",
@@ -9571,7 +9604,18 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L368",
+      "source_location": "L185",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app",
+      "target": "app_applied",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app.py",
+      "source_location": "L378",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app",
@@ -9615,7 +9659,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L198",
+      "source_location": "L203",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app",
@@ -9637,7 +9681,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L217",
+      "source_location": "L222",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app",
@@ -9648,7 +9692,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L323",
+      "source_location": "L333",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app",
@@ -9670,7 +9714,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L240",
+      "source_location": "L247",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app",
@@ -9692,7 +9736,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L389",
+      "source_location": "L399",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app",
@@ -9714,7 +9758,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L185",
+      "source_location": "L190",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app",
@@ -9758,7 +9802,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L212",
+      "source_location": "L217",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app",
@@ -9791,7 +9835,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L272",
+      "source_location": "L279",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app",
@@ -10327,7 +10371,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L291",
+      "source_location": "L298",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -10386,7 +10430,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L377",
+      "source_location": "L387",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_best_tab",
@@ -10398,7 +10442,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L190",
+      "source_location": "L195",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_picks",
@@ -10434,7 +10478,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L291",
+      "source_location": "L298",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -10446,7 +10490,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L380",
+      "source_location": "L390",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_best_tab",
@@ -10529,7 +10573,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L298",
+      "source_location": "L305",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -10541,7 +10585,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L333",
+      "source_location": "L343",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_data_tab",
@@ -10577,7 +10621,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L396",
+      "source_location": "L406",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_main",
@@ -10601,7 +10645,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L370",
+      "source_location": "L380",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_best_tab",
@@ -10613,7 +10657,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L280",
+      "source_location": "L287",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -10625,7 +10669,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L199",
+      "source_location": "L204",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_chip_advice",
@@ -10673,7 +10717,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L207",
+      "source_location": "L212",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_chip_advice",
@@ -10697,7 +10741,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L320",
+      "source_location": "L330",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -10721,11 +10765,23 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L221",
+      "source_location": "L226",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_choose_and_apply",
       "target": "app_table_of",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app.py",
+      "source_location": "L181",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_chip_select",
+      "target": "app_applied",
       "confidence_score": 1.0
     },
     {
@@ -10768,11 +10824,23 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L288",
+      "source_location": "L295",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
       "target": "app_chip_select",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app.py",
+      "source_location": "L187",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_applied",
+      "target": "src_ui_logic_swaps_log",
       "confidence_score": 1.0
     },
     {
@@ -10783,67 +10851,30 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_rationale_186",
+      "target": "app_applied",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app.py",
+      "source_location": "L320",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_team_row",
+      "target": "app_applied",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "app.py",
+      "source_location": "L191",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_rationale_191",
       "target": "app_picks",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "app.py",
-      "source_location": "L303",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_team_row",
-      "target": "app_picks",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "app.py",
-      "source_location": "L312",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_team_row",
-      "target": "app_chip_advice",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "app.py",
-      "source_location": "L226",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_choose_and_apply",
-      "target": "app_selected",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "app.py",
-      "source_location": "L304",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_team_row",
-      "target": "app_selected",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "app.py",
-      "source_location": "L233",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_choose_and_apply",
-      "target": "src_ui_logic_apply_transfers",
       "confidence_score": 1.0
     },
     {
@@ -10855,6 +10886,66 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
+      "target": "app_picks",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app.py",
+      "source_location": "L322",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_team_row",
+      "target": "app_chip_advice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app.py",
+      "source_location": "L231",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_choose_and_apply",
+      "target": "app_selected",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app.py",
+      "source_location": "L311",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_team_row",
+      "target": "app_selected",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app.py",
+      "source_location": "L240",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_choose_and_apply",
+      "target": "src_ui_logic_apply_transfers",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app.py",
+      "source_location": "L320",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_team_row",
       "target": "app_choose_and_apply",
       "confidence_score": 1.0
     },
@@ -10863,7 +10954,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L264",
+      "source_location": "L271",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_edit_form",
@@ -10875,7 +10966,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L257",
+      "source_location": "L264",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_edit_form",
@@ -10887,7 +10978,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L314",
+      "source_location": "L324",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -10899,7 +10990,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L404",
+      "source_location": "L414",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_main",
@@ -10912,7 +11003,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L300",
+      "source_location": "L307",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -10924,7 +11015,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L286",
+      "source_location": "L293",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -10936,7 +11027,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L299",
+      "source_location": "L306",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -10948,7 +11039,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L296",
+      "source_location": "L303",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -10960,7 +11051,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L308",
+      "source_location": "L315",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -10972,7 +11063,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L296",
+      "source_location": "L303",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -10984,7 +11075,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L277",
+      "source_location": "L284",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -10996,7 +11087,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L294",
+      "source_location": "L301",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -11008,7 +11099,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L316",
+      "source_location": "L326",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -11020,7 +11111,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L273",
+      "source_location": "L280",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -11032,7 +11123,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L282",
+      "source_location": "L289",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -11043,7 +11134,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L343",
+      "source_location": "L353",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_data_tab",
@@ -11055,7 +11146,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L408",
+      "source_location": "L418",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_main",
@@ -11068,7 +11159,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L381",
+      "source_location": "L391",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_best_tab",
@@ -11080,7 +11171,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L381",
+      "source_location": "L391",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_best_tab",
@@ -11092,7 +11183,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L369",
+      "source_location": "L379",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_best_tab",
@@ -11103,7 +11194,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L406",
+      "source_location": "L416",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_main",
@@ -29041,6 +29132,18 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/logic.py",
+      "source_location": "L266",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_ui_logic_swaps_log",
+      "target": "src_sim_scoring_load_rules",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/logic.py",
       "source_location": "L172",
       "weight": 1.0,
       "_origin": "ast",
@@ -29809,7 +29912,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/logic.py",
-      "source_location": "L240",
+      "source_location": "L241",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_logic_saved_xpts",
@@ -30316,7 +30419,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/logic.py",
-      "source_location": "L276",
+      "source_location": "L278",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_logic",
@@ -30360,7 +30463,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/logic.py",
-      "source_location": "L247",
+      "source_location": "L248",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_logic",
@@ -30426,7 +30529,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/logic.py",
-      "source_location": "L269",
+      "source_location": "L271",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_logic",
@@ -30459,7 +30562,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/logic.py",
-      "source_location": "L255",
+      "source_location": "L256",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_logic",
@@ -30645,7 +30748,7 @@
       "context": "return_type",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/logic.py",
-      "source_location": "L247",
+      "source_location": "L248",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_logic_history",
@@ -30741,7 +30844,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/logic.py",
-      "source_location": "L248",
+      "source_location": "L249",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_logic_history",
@@ -31030,7 +31133,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/logic.py",
-      "source_location": "L271",
+      "source_location": "L273",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_logic_round_chip",
@@ -31042,7 +31145,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/logic.py",
-      "source_location": "L258",
+      "source_location": "L259",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_logic_swaps_log",
@@ -31053,10 +31156,10 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/logic.py",
-      "source_location": "L256",
+      "source_location": "L257",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "src_ui_logic_rationale_256",
+      "source": "src_ui_logic_rationale_257",
       "target": "src_ui_logic_swaps_log",
       "confidence_score": 1.0
     },
@@ -31064,10 +31167,10 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/logic.py",
-      "source_location": "L270",
+      "source_location": "L272",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "src_ui_logic_rationale_270",
+      "source": "src_ui_logic_rationale_272",
       "target": "src_ui_logic_round_chip",
       "confidence_score": 1.0
     },
@@ -31075,10 +31178,10 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/logic.py",
-      "source_location": "L277",
+      "source_location": "L279",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "src_ui_logic_rationale_277",
+      "source": "src_ui_logic_rationale_279",
       "target": "src_ui_logic_advised_chip",
       "confidence_score": 1.0
     },
@@ -38716,7 +38819,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_logic.py",
-      "source_location": "L142",
+      "source_location": "L143",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_logic",
@@ -38749,7 +38852,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_logic.py",
-      "source_location": "L134",
+      "source_location": "L135",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_logic",
@@ -38771,11 +38874,22 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_logic.py",
-      "source_location": "L126",
+      "source_location": "L127",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_logic",
       "target": "tests_test_ui_logic_test_swaps_log_diffs_rows",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_ui_logic.py",
+      "source_location": "L151",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_test_ui_logic",
+      "target": "tests_test_ui_logic_test_swaps_log_skips_reverting_chip",
       "confidence_score": 1.0
     },
     {
@@ -38815,7 +38929,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_logic.py",
-      "source_location": "L119",
+      "source_location": "L120",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_logic",
@@ -38899,7 +39013,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_logic.py",
-      "source_location": "L135",
+      "source_location": "L136",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_logic_test_round_chip",
@@ -38911,7 +39025,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_logic.py",
-      "source_location": "L127",
+      "source_location": "L128",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_logic_test_swaps_log_diffs_rows",
@@ -39787,5 +39901,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "d5b929dc6d3feed1fef8b911350bcd9babab1c5b"
+  "built_at_commit": "7e201067836c00faa6d834132844f8835cd28a6e"
 }

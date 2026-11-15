@@ -233,13 +233,14 @@ def saved_xpts(team: dict, mu: dict, rules: dict, chip: str | None) -> tuple[flo
     """(expected points, x2 driver) for the saved team with no transfers; x2 on the best driver,
     x3_boost puts the extra multiplier on the best and x2 on the next. None if any asset has no mu."""
     known = sorted((d for d in team["drivers"] if d in mu), key=lambda d: mu[d], reverse=True)
-    x2 = known[0] if known else None
+    x3 = chip == "x3_boost" and len(known) > 1
+    x2 = known[1] if x3 else known[0] if known else None
     picks = [*team["drivers"], *team["constructors"]]
-    if any(a not in mu for a in picks):
+    if not known or any(a not in mu for a in picks):
         return None, x2
     boost = _rule(rules, "team.boost_multiplier")
     total = sum(mu[a] for a in picks) + (boost - 1) * mu[known[0]]
-    if chip == "x3_boost" and len(known) > 1:
+    if x3:
         total += (_rule(rules, "chips.x3_boost.extra_multiplier") - boost) * mu[known[0]] + (boost - 1) * mu[known[1]]
     return float(total), x2
 
@@ -262,7 +263,8 @@ def swaps_log(n: int) -> list[dict]:
         else:
             gone, came = [a for a in prev if a not in now], [a for a in now if a not in prev]
         out.append({"season": r.si, "round": r.ri, "out": gone, "in": came, "chip": r.chip or None})
-        prev = now
+        if not (r.chip and load_rules(r.si)["chips"].get(r.chip, {}).get("team_reverts_next_round")):
+            prev = now  # a reverting chip (limitless) leaves the old team in place
     return out
 
 
