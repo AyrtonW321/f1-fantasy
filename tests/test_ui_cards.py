@@ -35,3 +35,7 @@ def test_team_row_columns_and_no_chips():
 def test_swap_strip():
     assert "OUT HUL → IN BEA" in cards.swap_strip(["HUL"], ["BEA"])
     assert "No transfers" in cards.swap_strip([], [])
+
+
+def test_header_row():
+    assert "Chips" in cards.header_row() and "Chips" not in cards.header_row("#", chips=False)

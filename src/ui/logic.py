@@ -247,7 +247,7 @@ def saved_xpts(team: dict, mu: dict, rules: dict, chip: str | None) -> tuple[flo
 def _history(n: int) -> pd.DataFrame:
     path = history_path(n)
     if not path.exists():
-        return pd.DataFrame(columns=HISTORY_COLS)
+        return pd.DataFrame(columns=[*HISTORY_COLS, "si", "ri"])
     h = pd.read_csv(path, dtype=str, keep_default_na=False)
     return h.assign(si=h["season"].astype(int), ri=h["round"].astype(int)).sort_values(["si", "ri"])
 

@@ -136,6 +136,7 @@ def test_round_chip(cfg):
     assert logic.round_chip(1, 2026, 22) == "wildcard"
     assert logic.round_chip(1, 2026, 21) is None
     assert logic.round_chip(1, 2026, 23) is None
+    assert logic.round_chip(9, 2026, 22) is None  # no history file
 
 
 def test_advised_chip():
