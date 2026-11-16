@@ -39,3 +39,21 @@ def test_swap_strip():
 
 def test_header_row():
     assert "Chips" in cards.header_row() and "Chips" not in cards.header_row("#", chips=False)
+
+
+CHIPS = ["limitless", "wildcard", "x3_boost", "no_negative", "autopilot", "final_fix"]
+
+
+def test_chip_grid_tiles_and_states():
+    html = cards.chip_grid(CHIPS, ["limitless", "x3_boost", "no_negative"], "x3_boost", None)
+    assert html.count('class="chip-tile') == 6 and 'class="chip-grid"' in html
+    assert 'chip-tile used' in html and html.count("chip-tile gone") == 3
+    assert ">X3<" in html and ">NN<" in html and 'title="no_negative"' in html
+
+
+def test_team_card_has_every_asset_once():
+    ids = ["MER", "FER", "ANT", "HUL", "BEA", "ALB", "CAM"]
+    card = cards.team_card(["MER", "FER"], "ANT", ["HUL", "BEA", "ALB", "CAM"], 112.7, ["bank 0.3", "2 FT"],
+                           207.1, {a: f"<i>{a}</i>" for a in ids})
+    assert all(card.count(f"<i>{a}</i>") == 1 for a in ids)
+    assert "112.7" in card and "207.1" in card and "2 FT" in card
