@@ -420,8 +420,8 @@
     "semantic_hash": ""
   },
   "app.py": {
-    "mtime": 1794727342.0802085,
-    "ast_hash": "3ca5e03c32a93e44df70e67df2d7b7bc",
+    "mtime": 1794789285.8506973,
+    "ast_hash": "d35425133a5942e1cec711d1c8a091cf",
     "semantic_hash": ""
   },
   "src/ui/style.py": {
@@ -440,13 +440,23 @@
     "semantic_hash": ""
   },
   "src/ui/cards.py": {
-    "mtime": 1794727342.102762,
-    "ast_hash": "22414fa8a0de5374584bfa7e80edae00",
+    "mtime": 1794788860.9741156,
+    "ast_hash": "52984538a8529adf2de4c86bdac48980",
     "semantic_hash": ""
   },
   "tests/test_ui_cards.py": {
-    "mtime": 1794727342.1072738,
-    "ast_hash": "f595d725b6fdb3caaed797185f7ecd57",
+    "mtime": 1794788722.2541597,
+    "ast_hash": "3dbfd68259eb07ba31f7fd24dfdb264e",
+    "semantic_hash": ""
+  },
+  "src/ui/timeline.py": {
+    "mtime": 1794789343.2289684,
+    "ast_hash": "788ac237662808f240e06159a78dc00b",
+    "semantic_hash": ""
+  },
+  "tests/test_ui_timeline.py": {
+    "mtime": 1794789285.5977664,
+    "ast_hash": "9d5be2be4214a5bc18ea33ddc35ee266",
     "semantic_hash": ""
   }
 }

@@ -24,13 +24,13 @@
   "22": "app.py",
   "23": "evaluate_seasons.py",
   "24": "run_season",
-  "25": "expected",
-  "26": "main",
   "27": "scoring.py",
-  "28": "community_pull.py",
-  "29": "DataFrame",
-  "30": "Path",
+  "30": "pick_team.py",
+  "31": "load_track_metadata",
   "33": "dnf_probability",
+  "34": "test_chips.py",
+  "35": "test_community_pull.py",
+  "38": "ilp.py",
   "41": "test_smoke.py",
   "42": "f1-fantasy"
 }

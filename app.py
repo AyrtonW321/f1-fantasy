@@ -16,9 +16,10 @@ from pipelines.weekly_update import stale_warning, unsealed
 from src.optimize.ilp import TeamState
 from src.sim.scoring import load_rules
 from src.ui.cards import CSS, HEADER, asset_card, chip_grid, header_row, swap_strip, team_card, team_row
-from src.ui.logic import (advised_chip, apply_transfers, asset_mu, history_points, load, next_round,
+from src.ui.logic import (advised_chip, apply_transfers, asset_mu, load, next_round,
                           round_chip, save_team, saved_xpts, swaps_log, team_path, team_state, top_teams,
                           validate)
+from src.ui.timeline import timeline_frame, timeline_spec
 from src.ui.style import driver_teams, team_colors
 
 
@@ -123,47 +124,13 @@ def _decision_rows(decisions):
              "Expected points": d.expected_points} for d in decisions]
 
 
-def _timeline(n):
-    try:
-        history = history_points(n)
-    except ValueError as exc:
-        st.warning(str(exc))
+def _timeline_tab(numbers):
+    frame = timeline_frame(numbers)
+    if frame.empty:
+        st.info("No scored round yet this season.")
         return
-    if history.empty:
-        st.info("History starts at the first round saved through the app.")
-        return
-    frame = history.copy()
-    frame["transfer_marker"] = frame["transfers"].fillna("").astype(str).str.len().gt(0) | frame["chip"].fillna("").astype(str).ne("")
-    frame["lineup"] = frame["lineup"].fillna("").astype(str)
-    values = frame.melt(id_vars=["round", "lineup", "transfers", "chip", "transfer_marker"],
-                        value_vars=["points", "cumulative", "team_value"],
-                        var_name="Series", value_name="Value")
-    spec = {
-        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-        "data": {"values": values.to_dict("records")},
-        "layer": [
-            {"mark": {"type": "line", "point": False},
-             "encoding": {"x": {"field": "round", "type": "quantitative", "title": "Round"},
-                          "y": {"field": "Value", "type": "quantitative", "title": "Points / team value"},
-                          "color": {"field": "Series", "type": "nominal",
-                                    "scale": {"domain": ["points", "cumulative", "team_value"],
-                                              "range": ["#E10600", "#F2F3F4", "#54C9A6"]}},
-                          "tooltip": [{"field": "round"}, {"field": "Series"}, {"field": "Value"},
-                                      {"field": "transfers"}, {"field": "chip"}]}},
-            {"transform": [{"filter": "datum.transfer_marker"}],
-             "mark": {"type": "point", "filled": True, "size": 80},
-             "encoding": {"x": {"field": "round", "type": "quantitative"},
-                          "y": {"field": "Value", "type": "quantitative"},
-                          "color": {"field": "Series", "type": "nominal",
-                                    "scale": {"domain": ["points", "cumulative", "team_value"],
-                                              "range": ["#E10600", "#F2F3F4", "#54C9A6"]}},
-                          "tooltip": [{"field": "round"},
-                                      {"field": "transfers"}, {"field": "chip"}]}}
-        ],
-        "resolve": {"scale": {"y": "independent"}},
-        "height": 300,
-    }
-    st.vega_lite_chart(spec, width="stretch")
+    st.caption("Solid = real points. Dashed = expected points for the current best pick. Hover a race for transfers.")
+    st.vega_lite_chart(timeline_spec(frame), width="stretch")
 
 
 def _table_of(decisions):
@@ -420,7 +387,7 @@ def main():
     with best:
         _best_tab(next_round, numbers)
     with timeline:
-        st.info("Timeline arrives with the timeline branch.")
+        _timeline_tab(numbers)
     with update:
         _data_tab(next_round, next_error)
 

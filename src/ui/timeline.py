@@ -86,6 +86,14 @@ def timeline_frame(numbers: list[int], tables=None) -> pd.DataFrame:
 def timeline_spec(frame: pd.DataFrame) -> dict:
     """Return a dark-background Vega-Lite v5 cumulative points chart."""
     values = frame[FRAME_COLUMNS].where(pd.notna(frame[FRAME_COLUMNS]), None).to_dict("records") if not frame.empty else []
+    for v in values:
+        v["bridge"] = False
+    # bridge: copy each team's last actual row into the expected series so the dashed line starts there
+    for team, rows in frame.groupby("team") if not frame.empty else []:
+        actual = rows[rows["kind"] == "actual"]
+        if len(actual) and (rows["kind"] == "expected").any():
+            last = actual.iloc[-1][FRAME_COLUMNS].where(pd.notna(actual.iloc[-1][FRAME_COLUMNS]), None).to_dict()
+            values.append({**last, "kind": "expected", "bridge": True})
     return {
         "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
         "background": None,
@@ -93,13 +101,19 @@ def timeline_spec(frame: pd.DataFrame) -> dict:
         "width": "container",
         "height": 300,
         "encoding": {
-            "x": {"field": "round", "type": "ordinal", "sort": "ascending", "title": "Round"},
+            "x": {"field": "round", "type": "ordinal", "sort": "ascending", "title": "Round", "axis": {"labelAngle": 0}},
             "y": {"field": "cumulative", "type": "quantitative", "title": "Cumulative points"},
             "color": {"field": "team", "type": "nominal",
                       "scale": {"range": ["#55A7E8", "#C98CEB", "#F0C96A"]}},
             "strokeDash": {"field": "kind", "type": "nominal",
-                           "scale": {"domain": ["actual", "expected"], "range": [[1, 0], [6, 4]]}},
-            "tooltip": [
+                           "scale": {"domain": ["actual", "expected"], "range": [[1, 0], [6, 4]]},
+                           "legend": {"title": None, "symbolType": "stroke", "symbolStrokeColor": "#F2F3F4"}},
+        },
+        "layer": [
+            {"mark": {"type": "line"}, "encoding": {"detail": {"field": "kind"}}},
+            {"transform": [{"filter": "!datum.bridge"}], "mark": {"type": "point", "filled": True, "size": 70},
+             "encoding": {"strokeDash": {"value": [1, 0]},
+                          "tooltip": [
                 {"field": "team", "type": "nominal", "title": "Team"},
                 {"field": "round", "type": "ordinal", "title": "Round"},
                 {"field": "points", "type": "quantitative", "title": "Points", "format": ".1f"},
@@ -109,8 +123,8 @@ def timeline_spec(frame: pd.DataFrame) -> dict:
                 {"field": "chip", "type": "nominal", "title": "Chip"},
                 {"field": "boost", "type": "nominal", "title": "x2 driver"},
             ],
-        },
-        "mark": {"type": "line", "point": {"filled": True, "size": 60}},
+                          }},
+        ],
         "config": {"view": {"stroke": None}, "axis": {"labelColor": "#F2F3F4", "titleColor": "#F2F3F4", "gridColor": "#30363D"},
                    "legend": {"labelColor": "#F2F3F4", "titleColor": "#F2F3F4"}},
     }
