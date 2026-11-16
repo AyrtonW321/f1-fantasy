@@ -11,6 +11,19 @@ CSS = """<style>
 .card-id{font-size:11px;line-height:14px}.card-stat{font:10px/12px ui-monospace,monospace;white-space:nowrap}.card-constructor{background:#171B20}.card-driver{box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
 .row-label{font-weight:700}.row.head{background:none;border:none;padding:0 10px;margin:8px 0 0;color:#858B93;font-size:11px;font-weight:700}.row-money,.row-xpts{font:11px/16px ui-monospace,monospace}.row-xpts{font-size:14px;font-weight:700}.chips{display:flex;flex-wrap:wrap;gap:4px;align-content:center}.chip{font-size:10px;font-weight:700;white-space:nowrap;padding:3px 6px;border-radius:4px;background:#F2F3F4;color:#000}.chip.used{background:#2EB86A;color:#000}.chip.gone{background:#4A4F56;color:#B5BAC1}
 .swap-strip{padding:5px 9px;margin:3px 0 8px;background:#171B20;border-left:2px solid #E10600;border-radius:3px;color:#F2F3F4;font:12px ui-monospace,monospace}
+.tcard{display:grid;grid-template-columns:auto auto auto 1fr;gap:8px;align-items:center;padding:10px;background:#111418;border:1px solid #2A2F36;border-radius:10px;color:#F2F3F4;font:12px sans-serif}
+.tcol{display:flex;flex-direction:column;gap:4px}.tstat{display:flex;flex-direction:column;gap:4px;align-items:stretch}
+.tbox{background:#1B1F25;border:1px solid #2A2F36;border-radius:6px;padding:6px 8px;text-align:center;font:12px/16px ui-monospace,monospace;color:#C9CDD2}.tbox.big{font-size:15px;font-weight:700;color:#F2F3F4}
+.chip-grid{display:grid;grid-template-columns:repeat(3,52px);gap:6px;justify-content:center}
+.chip-tile{box-sizing:border-box;width:52px;height:52px;border-radius:8px;display:flex;align-items:center;justify-content:center;font:700 14px sans-serif;background:#F2F3F4;color:#000;border:1px solid #F2F3F4;transition:transform .15s}
+.chip-tile:hover{transform:translateY(-2px)}.chip-tile.used{background:#2EB86A;border-color:#2EB86A}.chip-tile.gone{background:#2A2F36;border-color:#3A4048;color:#7D838B;text-decoration:line-through}
+.app-head{display:flex;align-items:center;gap:10px;margin:-8px 0 4px}.app-mark{width:6px;height:26px;border-radius:3px;background:#E10600;box-shadow:0 0 12px rgba(225,6,0,.6)}
+.app-title{font:800 24px/1 sans-serif;letter-spacing:.5px;color:#F2F3F4}.app-title span{color:#E10600}
+[role="tablist"]{gap:6px;border:none}.react-aria-SelectionIndicator{display:none}
+[data-testid="stTab"]{padding:6px 16px;border-radius:999px;color:#9AA0A6;transition:background .2s,color .2s,transform .15s}
+[data-testid="stTab"]:hover{background:#1B1F25;color:#F2F3F4;transform:translateY(-1px)}
+[data-testid="stTab"][aria-selected="true"]{background:#E10600;color:#FFF}
+[data-testid="stTab"][aria-selected="true"] p{color:#FFF}
 @media(max-width:850px){.row{grid-template-columns:40px 1fr 56px 1fr;}.row-money,.row-xpts,.chips{grid-row:2}}
 </style>"""
 
@@ -45,6 +58,33 @@ def chip_badges(all_chips: list[str], chips_left: list[str], selected: str | Non
         else:
             badges.append(f'<span class="chip">{safe}</span>')
     return f'<div class="chips">{"".join(badges)}</div>' if badges else ""
+
+
+HEADER = '<div class="app-head"><div class="app-mark"></div><div class="app-title">F1 <span>Fantasy</span></div></div>'
+CHIP_LABELS = {"limitless": "LL", "wildcard": "WC", "x3_boost": "X3", "no_negative": "NN",
+               "autopilot": "AP", "final_fix": "FF"}
+
+
+def chip_grid(all_chips: list[str], chips_left: list[str], selected: str | None, played_now: str | None) -> str:
+    """Square chip tiles, 3 per row: green = this weekend, struck grey = played, white = left."""
+    checked = played_now or selected
+    tiles = []
+    for chip in all_chips:
+        state = " used" if chip == checked else " gone" if chip not in chips_left else ""
+        label = html.escape(CHIP_LABELS.get(chip, chip[:2].upper()))
+        tiles.append(f'<span class="chip-tile{state}" title="{html.escape(chip)}">{label}</span>')
+    return f'<div class="chip-grid">{"".join(tiles)}</div>'
+
+
+def team_card(constructors: list[str], x2: str | None, drivers: list[str], cost: float | None,
+              money_lines: list[str], xpts: float | None, cards: dict[str, str]) -> str:
+    """Boxed team card: constructors, x2 driver, 2x2 drivers, then cost / bank / xPts boxes."""
+    col = lambda ids: "".join(cards[a] for a in ids if a in cards)
+    money = "".join(f'<div class="tbox">{html.escape(x)}</div>' for x in money_lines)
+    return (f'<div class="tcard"><div class="tcol">{col(constructors)}</div>'
+            f'<div class="tcol">{col([x2] if x2 else [])}</div><div class="asset-grid">{col(drivers)}</div>'
+            f'<div class="tstat"><div class="tbox">$ {_number(cost)}</div>{money}'
+            f'<div class="tbox big">{_number(xpts)} xPts</div></div></div>')
 
 
 def team_row(label: str, constructors: list[str], x2: str | None, drivers: list[str],

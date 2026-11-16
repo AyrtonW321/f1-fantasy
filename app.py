@@ -15,10 +15,11 @@ sys.path.insert(0, str(ROOT))
 from pipelines.weekly_update import stale_warning, unsealed
 from src.optimize.ilp import TeamState
 from src.sim.scoring import load_rules
-from src.ui.cards import CSS, asset_card, chip_badges, header_row, swap_strip, team_row
-from src.ui.logic import (advised_chip, apply_transfers, asset_mu, history_points, load, next_round,
+from src.ui.cards import CSS, HEADER, asset_card, chip_grid, header_row, swap_strip, team_card, team_row
+from src.ui.logic import (advised_chip, apply_transfers, asset_mu, load, next_round,
                           round_chip, save_team, saved_xpts, swaps_log, team_path, team_state, top_teams,
                           validate)
+from src.ui.timeline import timeline_frame, timeline_spec
 from src.ui.style import driver_teams, team_colors
 
 
@@ -123,47 +124,13 @@ def _decision_rows(decisions):
              "Expected points": d.expected_points} for d in decisions]
 
 
-def _timeline(n):
-    try:
-        history = history_points(n)
-    except ValueError as exc:
-        st.warning(str(exc))
+def _timeline_tab(numbers):
+    frame = timeline_frame(numbers)
+    if frame.empty:
+        st.info("No scored round yet this season.")
         return
-    if history.empty:
-        st.info("History starts at the first round saved through the app.")
-        return
-    frame = history.copy()
-    frame["transfer_marker"] = frame["transfers"].fillna("").astype(str).str.len().gt(0) | frame["chip"].fillna("").astype(str).ne("")
-    frame["lineup"] = frame["lineup"].fillna("").astype(str)
-    values = frame.melt(id_vars=["round", "lineup", "transfers", "chip", "transfer_marker"],
-                        value_vars=["points", "cumulative", "team_value"],
-                        var_name="Series", value_name="Value")
-    spec = {
-        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-        "data": {"values": values.to_dict("records")},
-        "layer": [
-            {"mark": {"type": "line", "point": False},
-             "encoding": {"x": {"field": "round", "type": "quantitative", "title": "Round"},
-                          "y": {"field": "Value", "type": "quantitative", "title": "Points / team value"},
-                          "color": {"field": "Series", "type": "nominal",
-                                    "scale": {"domain": ["points", "cumulative", "team_value"],
-                                              "range": ["#E10600", "#F2F3F4", "#54C9A6"]}},
-                          "tooltip": [{"field": "round"}, {"field": "Series"}, {"field": "Value"},
-                                      {"field": "transfers"}, {"field": "chip"}]}},
-            {"transform": [{"filter": "datum.transfer_marker"}],
-             "mark": {"type": "point", "filled": True, "size": 80},
-             "encoding": {"x": {"field": "round", "type": "quantitative"},
-                          "y": {"field": "Value", "type": "quantitative"},
-                          "color": {"field": "Series", "type": "nominal",
-                                    "scale": {"domain": ["points", "cumulative", "team_value"],
-                                              "range": ["#E10600", "#F2F3F4", "#54C9A6"]}},
-                          "tooltip": [{"field": "round"},
-                                      {"field": "transfers"}, {"field": "chip"}]}}
-        ],
-        "resolve": {"scale": {"y": "independent"}},
-        "height": 300,
-    }
-    st.vega_lite_chart(spec, width="stretch")
+    st.caption("Solid = real points. Dashed = expected points for the current best pick. Hover a race for transfers.")
+    st.vega_lite_chart(timeline_spec(frame), width="stretch")
 
 
 def _table_of(decisions):
@@ -292,7 +259,10 @@ def _team_row(n, next_round, races):
         st.warning(str(exc))
     rules = load_rules(season)
 
-    chip, played_now = _chip_select(n, team, season, round_)
+    left, mid, right = st.columns([5, 2, 4], gap="medium")
+    with mid:
+        chip, played_now = _chip_select(n, team, season, round_)
+        st.html(chip_grid(list(rules["chips"]), team.get("chips_left", []), chip, played_now))
     drivers, constructors = team.get("drivers", []), team.get("constructors", [])
     try:
         mu = _mu(season, round_, _inputs_stamp()) if round_ is not None else {}
@@ -300,34 +270,36 @@ def _team_row(n, next_round, races):
         mu = {}
     xpts, x2 = saved_xpts(team, mu, rules, chip)
     cost = sum(state.owned.values()) if state is not None else None
-    st.html(header_row() + team_row(f"Team {n}", constructors, x2, [d for d in drivers if d != x2], cost,
-                     [f"bank {float(team.get('bank', 0.0)):.1f}", f"{int(team.get('free_transfers', 0))} FT"],
-                     xpts, _cards([*drivers, *constructors], season, round_),
-                     chip_badges(list(rules["chips"]), team.get("chips_left", []), chip, played_now)))
-    if round_ is not None and not races.empty and (warning := stale_warning(config_path, races, season, round_)):
-        st.warning(warning)
-
-    choices, choice_key = _picks(n, team, state, chip)
-    _, selected = _selected(choices, choice_key)
-    if selected is not None:
-        owned = [*drivers, *constructors]
-        picked = [*selected.drivers, *selected.constructors]
-        st.html(swap_strip([a for a in owned if a not in picked], [a for a in picked if a not in owned]))
-        st.caption(f"{', '.join(selected.drivers)} | {', '.join(selected.constructors)} · x2 {selected.boost}"
-                   f"{f' · x3 {selected.boost3}' if selected.boost3 else ''} · cost {selected.cost:.1f}"
-                   f" · {selected.expected_points:.1f} xPts")
-    with st.expander("Alternatives"):
-        _choose_and_apply(n, choices, chip, choice_key, round_ is not None and _applied(n, season, round_))
-    with st.expander("Chip advice"):
-        _chip_advice(n)
-    with st.expander("Edit team"):
-        _edit_form(n, team, prices)
-    with st.expander("Past swaps"):
-        log = swaps_log(n)
-        for r in log:
-            chip_note = f" · {r['chip']}" if r["chip"] else ""
-            st.text(f"R{r['round']}: OUT {', '.join(r['out']) or '—'} → IN {', '.join(r['in']) or '—'}{chip_note}")
-        _timeline(n)
+    with left:
+        st.markdown(f"**Team {n}**")
+        st.html(team_card(constructors, x2, [d for d in drivers if d != x2], cost,
+                          [f"bank {float(team.get('bank', 0.0)):.1f}", f"{int(team.get('free_transfers', 0))} FT"],
+                          xpts, _cards([*drivers, *constructors], season, round_)))
+        if round_ is not None and not races.empty and (warning := stale_warning(config_path, races, season, round_)):
+            st.warning(warning)
+        choices, choice_key = _picks(n, team, state, chip)
+        _, selected = _selected(choices, choice_key)
+        if selected is not None:
+            owned = [*drivers, *constructors]
+            picked = [*selected.drivers, *selected.constructors]
+            st.html(swap_strip([a for a in owned if a not in picked], [a for a in picked if a not in owned]))
+            st.caption(f"{', '.join(selected.drivers)} | {', '.join(selected.constructors)} · x2 {selected.boost}"
+                       f"{f' · x3 {selected.boost3}' if selected.boost3 else ''} · cost {selected.cost:.1f}"
+                       f" · {selected.expected_points:.1f} xPts")
+    with right:
+        with st.expander("Alternatives"):
+            _choose_and_apply(n, choices, chip, choice_key, round_ is not None and _applied(n, season, round_))
+        with st.expander("Chip advice"):
+            _chip_advice(n)
+        with st.expander("Edit team"):
+            _edit_form(n, team, prices)
+        with st.expander("Past swaps"):
+            log = swaps_log(n)
+            if not log:
+                st.caption("No swaps logged yet.")
+            for r in log:
+                chip_note = f" · {r['chip']}" if r["chip"] else ""
+                st.text(f"R{r['round']}: OUT {', '.join(r['out']) or '—'} → IN {', '.join(r['in']) or '—'}{chip_note}")
 
 
 def _data_tab(next_round, next_error):
@@ -399,14 +371,14 @@ def _best_tab(next_round, team_numbers):
 def main():
     st.set_page_config(page_title="F1 Fantasy", layout="wide")
     st.html(CSS)
-    st.title("F1 Fantasy")
+    st.html(HEADER)
     if "update_output" in st.session_state:
         st.success("Update finished.")
         st.code("\n".join(st.session_state.pop("update_output")))
     next_round, races, next_error = _round_info()
     team_files = sorted((ROOT / "config").glob("my_team_[0-9].yaml"), key=lambda p: int(p.stem.rsplit("_", 1)[1]))
     numbers = [int(p.stem.rsplit("_", 1)[1]) for p in team_files]
-    mine, best, update = st.tabs(["My Team", "Best Teams", "Update"])
+    mine, best, timeline, update = st.tabs(["My Team", "Best Teams", "Timeline", "Update"])
     with mine:
         for i, n in enumerate(numbers):
             if i:
@@ -414,6 +386,8 @@ def main():
             _team_row(n, next_round, races)
     with best:
         _best_tab(next_round, numbers)
+    with timeline:
+        _timeline_tab(numbers)
     with update:
         _data_tab(next_round, next_error)
 
