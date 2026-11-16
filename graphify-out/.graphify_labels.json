@@ -25,6 +25,7 @@
   "23": "evaluate_seasons.py",
   "24": "run_season",
   "25": "dnf_probability",
+  "26": "InfeasibleTeam",
   "27": "scoring.py",
   "30": "pick_team.py",
   "31": "load_track_metadata",
