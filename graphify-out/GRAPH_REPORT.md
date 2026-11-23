@@ -1,16 +1,16 @@
 # Graph Report - f1-fantasy  (2026-11-23)
 
 ## Corpus Check
-- 85 files · ~42,058 words
+- 85 files · ~42,151 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 901 nodes · 2667 edges · 34 communities (33 shown, 1 thin omitted)
+- 901 nodes · 2668 edges · 34 communities (33 shown, 1 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 51 edges (avg confidence: 0.74)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `eff16d6c`
+- Built from commit: `188a373c`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -98,8 +98,8 @@ Cohesion: 0.17
 Nodes (24): RuntimeError, _key(), main(), MissingKeyError, _openssl(), _openssl_enc(), Exception, Path (+16 more)
 
 ### Community 6 - "test_jolpica_pull.py"
-Cohesion: 0.21
-Nodes (17): pull_jolpica(), Path, empty_routes(), FakeResponse, FakeSession, page(), Path, race() (+9 more)
+Cohesion: 0.19
+Nodes (17): _get(), Session, Parsed JSON if the response is valid (200, parses, non-empty), else None., snapshot_official(), drivers(), FakeResponse, FakeSession, Path (+9 more)
 
 ### Community 7 - "pandas"
 Cohesion: 0.28
@@ -122,8 +122,8 @@ Cohesion: 0.08
 Nodes (40): main(), Refresh pre-event safety-car rates from previously observed FastF1 race status., _format_metrics(), main(), DataFrame, Tune the strength filter on 2023-2025, then evaluate 2026 once as a holdout., _summary_for(), add_prior_safety_car_rates() (+32 more)
 
 ### Community 12 - "weekly_update.py"
-Cohesion: 0.19
-Nodes (17): _get(), Session, Parsed JSON if the response is valid (200, parses, non-empty), else None., snapshot_official(), drivers(), FakeResponse, FakeSession, Path (+9 more)
+Cohesion: 0.21
+Nodes (17): pull_jolpica(), Path, empty_routes(), FakeResponse, FakeSession, page(), Path, race() (+9 more)
 
 ### Community 13 - "fp2_longrun_pace"
 Cohesion: 0.22
@@ -154,12 +154,12 @@ Cohesion: 0.20
 Nodes (18): main(), Phase 4.7: robust form + separate bonus mean vs robust form (4.1), 2026 walk-for, mae(), main(), Phase 4 base: robust 2026 form vs rolling-5 baseline, walk-forward.  Settings tu, main(), Phase 4.4: simulator with qualifying order vs the 4.2 simulator and robust form, main() (+10 more)
 
 ### Community 24 - "run_season"
-Cohesion: 0.15
-Nodes (15): json, requests, Path, Snapshot the official F1 Fantasy feeds to {out_dir}/official/{season}/., Data.Value of a feed if it is a list, else []., Atomic write: temp file in the same folder, then os.replace., _rows(), _write() (+7 more)
-
-### Community 25 - "dnf_probability"
 Cohesion: 0.21
 Nodes (15): _external_predictors(), main(), Evaluate multi-season baselines and re-tune robust form for Phase 5., DataFrame, Aggregate walk-forward prediction and team-score metrics., Return asset MAE, picked-team totals and mean per-round Spearman correlation., season_metrics(), main() (+7 more)
+
+### Community 25 - "dnf_probability"
+Cohesion: 0.25
+Nodes (13): pull_mzafram(), pull_tracing_insights(), Path, Session, body(), FakeResponse, FakeSession, make_zip() (+5 more)
 
 ### Community 26 - "InfeasibleTeam"
 Cohesion: 0.40
@@ -178,8 +178,8 @@ Cohesion: 0.08
 Nodes (20): pytest, shutil, DataFrame, Observed race-to-race fantasy price changes derived from official price snapshot, Calculate observed price changes only between adjacent round snapshots.      The, realized_price_changes(), Path, raw_data() (+12 more)
 
 ### Community 35 - "test_community_pull.py"
-Cohesion: 0.18
-Nodes (18): io, _check_member(), pull_mzafram(), pull_tracing_insights(), Path, Session, Pull TracingInsights season JSON and mzafram round JSON into {raw_dir}., Refuse zip members that could leave the target folder (.., absolute, drive colon (+10 more)
+Cohesion: 0.11
+Nodes (20): io, json, requests, _check_member(), Pull TracingInsights season JSON and mzafram round JSON into {raw_dir}., Refuse zip members that could leave the target folder (.., absolute, drive colon, Path, Snapshot the official F1 Fantasy feeds to {out_dir}/official/{season}/. (+12 more)
 
 ## Knowledge Gaps
 - **1 isolated node(s):** `f1-fantasy`
@@ -189,9 +189,9 @@ Nodes (18): io, _check_member(), pull_mzafram(), pull_tracing_insights(), Path, 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `load_rules()` connect `optimize` to `crosscheck.py`, `test_build_tables.py`, `test_scoring_gate.py`, `walkforward.py`, `pandas`, `test_community_pull.py`, `test_rolling.py`, `app.py`, `evaluate_seasons.py`, `dnf_probability`, `evaluate_overtakes.py`?**
+- **Why does `load_rules()` connect `optimize` to `crosscheck.py`, `test_build_tables.py`, `test_scoring_gate.py`, `walkforward.py`, `pandas`, `test_community_pull.py`, `test_rolling.py`, `app.py`, `evaluate_seasons.py`, `run_season`, `evaluate_overtakes.py`?**
   _High betweenness centrality (0.098) - this node is a cross-community bridge._
-- **Why does `robust_mu()` connect `evaluate_seasons.py` to `optimize`, `walkforward.py`, `test_community_pull.py`, `test_rolling.py`, `dnf_probability`, `InfeasibleTeam`, `evaluate_overtakes.py`?**
+- **Why does `robust_mu()` connect `evaluate_seasons.py` to `optimize`, `walkforward.py`, `test_community_pull.py`, `test_rolling.py`, `run_season`, `InfeasibleTeam`, `evaluate_overtakes.py`?**
   _High betweenness centrality (0.021) - this node is a cross-community bridge._
 - **Why does `walkforward_strength()` connect `walkforward_strength` to `test_rolling.py`?**
   _High betweenness centrality (0.020) - this node is a cross-community bridge._

@@ -286,7 +286,9 @@ def _team_row(n, next_round, races):
     xpts, x2 = saved_xpts(team, mu, rules, chip)
     cost = sum(state.owned.values()) if state is not None else None
     with left:
-        st.markdown(f"**Team {n}**")
+        race = races.loc[(races["season"] == season) & (races["round"] == round_), "slug"]
+        label = f" · Round {round_} · {race.iloc[0].replace('-', ' ').title()}" if len(race) else ""
+        st.markdown(f"**Team {n}**{label}")
         st.html(team_card(constructors, x2, [d for d in drivers if d != x2], cost,
                           [f"bank {float(team.get('bank', 0.0)):.1f}", f"{int(team.get('free_transfers', 0))} FT"],
                           xpts, _cards([*drivers, *constructors], season, round_)))

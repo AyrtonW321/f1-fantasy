@@ -1,4 +1,6 @@
 """Timeline data and Vega-Lite chart for a team's season points."""
+import json
+
 import pandas as pd
 
 from src.backtest.walkforward import _actual_points
@@ -80,6 +82,8 @@ def timeline_frame(numbers: list[int], tables=None) -> pd.DataFrame:
     if not frame.empty:
         frame = frame.sort_values(["team", "round"]).reset_index(drop=True)
         frame["cumulative"] = frame.groupby("team")["points"].cumsum()
+        names = t["races"][t["races"]["season"] == season].set_index("round")["slug"]
+        frame["race"] = frame["round"].map(lambda r: names.get(r, "").removesuffix("-grand-prix").replace("-", " ").title())
     return frame
 
 
@@ -94,6 +98,8 @@ def timeline_spec(frame: pd.DataFrame) -> dict:
         if len(actual) and (rows["kind"] == "expected").any():
             last = actual.iloc[-1][FRAME_COLUMNS].where(pd.notna(actual.iloc[-1][FRAME_COLUMNS]), None).to_dict()
             values.append({**last, "kind": "expected", "bridge": True})
+    names = ({str(int(r)): n for r, n in zip(frame["round"], frame["race"])}
+             if "race" in frame else {})  # round -> race name for axis labels
     return {
         "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
         "background": None,
@@ -101,7 +107,8 @@ def timeline_spec(frame: pd.DataFrame) -> dict:
         "width": "container",
         "height": 300,
         "encoding": {
-            "x": {"field": "round", "type": "ordinal", "sort": "ascending", "title": "Round", "axis": {"labelAngle": 0}},
+            "x": {"field": "round", "type": "ordinal", "sort": "ascending", "title": "Round",
+                  "axis": {"labelAngle": 0, "labelExpr": f"datum.value + ' ' + ({json.dumps(names)}[datum.value] || '')"}},
             "y": {"field": "cumulative", "type": "quantitative", "title": "Cumulative points"},
             "color": {"field": "team", "type": "nominal",
                       "scale": {"range": ["#55A7E8", "#C98CEB", "#F0C96A"]}},

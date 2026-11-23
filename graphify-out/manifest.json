@@ -420,8 +420,8 @@
     "semantic_hash": ""
   },
   "app.py": {
-    "mtime": 1795412536.638014,
-    "ast_hash": "2e5a99fece2d56d6f66cf58c33735288",
+    "mtime": 1795415253.435627,
+    "ast_hash": "6819616babfb249c7c8e1d14d28989ad",
     "semantic_hash": ""
   },
   "src/ui/style.py": {
@@ -450,13 +450,13 @@
     "semantic_hash": ""
   },
   "src/ui/timeline.py": {
-    "mtime": 1794789492.6345296,
-    "ast_hash": "788ac237662808f240e06159a78dc00b",
+    "mtime": 1795415280.8531754,
+    "ast_hash": "1a232b73ce372c12b5f0fb121d6839e7",
     "semantic_hash": ""
   },
   "tests/test_ui_timeline.py": {
-    "mtime": 1794789492.6365411,
-    "ast_hash": "9d5be2be4214a5bc18ea33ddc35ee266",
+    "mtime": 1795415307.3483407,
+    "ast_hash": "7e562740be4428584c702a62882f09d0",
     "semantic_hash": ""
   }
 }

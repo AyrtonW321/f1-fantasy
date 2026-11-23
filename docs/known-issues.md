@@ -52,5 +52,5 @@
 - App calls `load_rules(season)` unguarded per team row; it reads a CWD-relative path, so launching from outside the repo root fails (same as the solve path). Use `F1 Fantasy.bat` or run from the repo root.
 - A failed weekly update overwrites `reports/round_{season}_{round}.md` with the FAILED page, so the last good report for that round is lost (reports are gitignored). Happened to round 21 on 2026-11-23.
 - TracingInsights posts `race_all.json` a few days after `race.json`; until then the latest round has no bonus or overtakes rows (picks unaffected).
-- 2026-11-23: 3 real-data tests fail until TI posts Vegas `_all.json` files (2 scoring-gate tests) and `test_real_team_frame_uses_round20` is updated (it hardcodes round 20 as last scored; now 21).
+- 2026-11-23: 2 real-data tests fail until TI posts Vegas `_all.json` files (2 scoring-gate tests).
 - History rows from Edit team and snapshots log penalty 0 and the current bank; a snapshot is only as right as the team file at the last weekly update before lock. Vegas x2 boosts (RUS, VER, HAD) are assumed, not confirmed.

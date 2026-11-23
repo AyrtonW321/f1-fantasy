@@ -249,7 +249,7 @@
       "label": "_data_tab()",
       "file_type": "code",
       "source_file": "app.py",
-      "source_location": "L322",
+      "source_location": "L324",
       "_origin": "ast",
       "id": "app_data_tab",
       "community": 22,
@@ -260,7 +260,7 @@
       "label": "_best_tab()",
       "file_type": "code",
       "source_file": "app.py",
-      "source_location": "L367",
+      "source_location": "L369",
       "_origin": "ast",
       "id": "app_best_tab",
       "community": 22,
@@ -271,7 +271,7 @@
       "label": "main()",
       "file_type": "code",
       "source_file": "app.py",
-      "source_location": "L388",
+      "source_location": "L390",
       "_origin": "ast",
       "id": "app_main",
       "community": 22,
@@ -758,8 +758,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_evaluate_seasons",
-      "community": 25,
-      "community_name": "dnf_probability",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "evaluate_seasons.py"
     },
     {
@@ -769,8 +769,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "pipelines_evaluate_seasons_external_predictors",
-      "community": 25,
-      "community_name": "dnf_probability",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "_external_predictors()"
     },
     {
@@ -780,8 +780,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "pipelines_evaluate_seasons_main",
-      "community": 25,
-      "community_name": "dnf_probability",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "main()"
     },
     {
@@ -791,8 +791,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_evaluate_seasons_rationale_1",
-      "community": 25,
-      "community_name": "dnf_probability",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "evaluate multi-season baselines and re-tune robust form for phase 5."
     },
     {
@@ -1311,8 +1311,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_backtest_metrics",
-      "community": 25,
-      "community_name": "dnf_probability",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "metrics.py"
     },
     {
@@ -1322,8 +1322,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_backtest_metrics_season_metrics",
-      "community": 25,
-      "community_name": "dnf_probability",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "season_metrics()"
     },
     {
@@ -1333,8 +1333,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_backtest_metrics_py_dataframe",
-      "community": 25,
-      "community_name": "dnf_probability",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "dataframe"
     },
     {
@@ -1344,8 +1344,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_backtest_metrics_rationale_1",
-      "community": 25,
-      "community_name": "dnf_probability",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "aggregate walk-forward prediction and team-score metrics."
     },
     {
@@ -1355,8 +1355,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_backtest_metrics_rationale_12",
-      "community": 25,
-      "community_name": "dnf_probability",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "return asset mae, picked-team totals and mean per-round spearman correlation."
     },
     {
@@ -1366,8 +1366,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_backtest_walkforward",
-      "community": 25,
-      "community_name": "dnf_probability",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "walkforward.py"
     },
     {
@@ -1388,8 +1388,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "src_backtest_walkforward_seasonresult",
-      "community": 25,
-      "community_name": "dnf_probability",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "seasonresult"
     },
     {
@@ -1443,8 +1443,8 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "src_backtest_walkforward_max_solve",
-      "community": 25,
-      "community_name": "dnf_probability",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "_max_solve()"
     },
     {
@@ -1454,8 +1454,8 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "src_backtest_walkforward_write_report",
-      "community": 25,
-      "community_name": "dnf_probability",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "write_report()"
     },
     {
@@ -1465,8 +1465,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_backtest_walkforward_py_path",
-      "community": 25,
-      "community_name": "dnf_probability",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "path"
     },
     {
@@ -1476,8 +1476,8 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "src_backtest_walkforward_main",
-      "community": 25,
-      "community_name": "dnf_probability",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "main()"
     },
     {
@@ -1487,8 +1487,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_backtest_walkforward_rationale_1",
-      "community": 25,
-      "community_name": "dnf_probability",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "walk-forward baseline backtest: predict, optimize and score each completed round"
     },
     {
@@ -2400,8 +2400,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "src_ingest_community_pull_pull_tracing_insights",
-      "community": 35,
-      "community_name": "test_community_pull.py",
+      "community": 25,
+      "community_name": "dnf_probability",
       "norm_label": "pull_tracing_insights()"
     },
     {
@@ -2411,8 +2411,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_ingest_community_pull_py_path",
-      "community": 35,
-      "community_name": "test_community_pull.py",
+      "community": 25,
+      "community_name": "dnf_probability",
       "norm_label": "path"
     },
     {
@@ -2422,8 +2422,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_ingest_community_pull_py_session",
-      "community": 35,
-      "community_name": "test_community_pull.py",
+      "community": 25,
+      "community_name": "dnf_probability",
       "norm_label": "session"
     },
     {
@@ -2433,8 +2433,8 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "src_ingest_community_pull_pull_mzafram",
-      "community": 35,
-      "community_name": "test_community_pull.py",
+      "community": 25,
+      "community_name": "dnf_probability",
       "norm_label": "pull_mzafram()"
     },
     {
@@ -2807,8 +2807,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ingest_fantasy_scrape",
-      "community": 24,
-      "community_name": "run_season",
+      "community": 35,
+      "community_name": "test_community_pull.py",
       "norm_label": "fantasy_scrape.py"
     },
     {
@@ -2818,8 +2818,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_ingest_fantasy_scrape_get",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "_get()"
     },
     {
@@ -2829,8 +2829,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_ingest_fantasy_scrape_py_session",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "session"
     },
     {
@@ -2840,8 +2840,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "src_ingest_fantasy_scrape_rows",
-      "community": 24,
-      "community_name": "run_season",
+      "community": 35,
+      "community_name": "test_community_pull.py",
       "norm_label": "_rows()"
     },
     {
@@ -2851,8 +2851,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "src_ingest_fantasy_scrape_write",
-      "community": 24,
-      "community_name": "run_season",
+      "community": 35,
+      "community_name": "test_community_pull.py",
       "norm_label": "_write()"
     },
     {
@@ -2862,8 +2862,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_ingest_fantasy_scrape_py_path",
-      "community": 24,
-      "community_name": "run_season",
+      "community": 35,
+      "community_name": "test_community_pull.py",
       "norm_label": "path"
     },
     {
@@ -2873,8 +2873,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "src_ingest_fantasy_scrape_snapshot_official",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "snapshot_official()"
     },
     {
@@ -2884,8 +2884,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ingest_fantasy_scrape_rationale_1",
-      "community": 24,
-      "community_name": "run_season",
+      "community": 35,
+      "community_name": "test_community_pull.py",
       "norm_label": "snapshot the official f1 fantasy feeds to {out_dir}/official/{season}/."
     },
     {
@@ -2895,8 +2895,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_ingest_fantasy_scrape_rationale_14",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "parsed json if the response is valid (200, parses, non-empty), else none."
     },
     {
@@ -2906,8 +2906,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "src_ingest_fantasy_scrape_rationale_26",
-      "community": 24,
-      "community_name": "run_season",
+      "community": 35,
+      "community_name": "test_community_pull.py",
       "norm_label": "data.value of a feed if it is a list, else []."
     },
     {
@@ -2917,8 +2917,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "src_ingest_fantasy_scrape_rationale_35",
-      "community": 24,
-      "community_name": "run_season",
+      "community": 35,
+      "community_name": "test_community_pull.py",
       "norm_label": "atomic write: temp file in the same folder, then os.replace."
     },
     {
@@ -3247,8 +3247,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ingest_jolpica_pull",
-      "community": 24,
-      "community_name": "run_season",
+      "community": 35,
+      "community_name": "test_community_pull.py",
       "norm_label": "jolpica_pull.py"
     },
     {
@@ -3258,8 +3258,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_ingest_jolpica_pull_get_page",
-      "community": 24,
-      "community_name": "run_season",
+      "community": 35,
+      "community_name": "test_community_pull.py",
       "norm_label": "_get_page()"
     },
     {
@@ -3269,8 +3269,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_ingest_jolpica_pull_py_session",
-      "community": 24,
-      "community_name": "run_season",
+      "community": 35,
+      "community_name": "test_community_pull.py",
       "norm_label": "session"
     },
     {
@@ -3280,8 +3280,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "src_ingest_jolpica_pull_fetch",
-      "community": 24,
-      "community_name": "run_season",
+      "community": 35,
+      "community_name": "test_community_pull.py",
       "norm_label": "_fetch()"
     },
     {
@@ -3291,8 +3291,8 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "src_ingest_jolpica_pull_pull_jolpica",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "pull_jolpica()"
     },
     {
@@ -3302,8 +3302,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_ingest_jolpica_pull_py_path",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "path"
     },
     {
@@ -3313,8 +3313,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ingest_jolpica_pull_rationale_1",
-      "community": 24,
-      "community_name": "run_season",
+      "community": 35,
+      "community_name": "test_community_pull.py",
       "norm_label": "snapshot jolpica (ergast-compatible) race data to {raw_dir}/jolpica/{season}/."
     },
     {
@@ -3324,8 +3324,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "src_ingest_jolpica_pull_rationale_24",
-      "community": 24,
-      "community_name": "run_season",
+      "community": 35,
+      "community_name": "test_community_pull.py",
       "norm_label": "parsed json of one page. a 429 waits 5s and retries, up to retries times."
     },
     {
@@ -3335,8 +3335,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "src_ingest_jolpica_pull_rationale_38",
-      "community": 24,
-      "community_name": "run_season",
+      "community": 35,
+      "community_name": "test_community_pull.py",
       "norm_label": "all races of one endpoint; pages merged by round, sorted by round."
     },
     {
@@ -5554,7 +5554,7 @@
       "label": "_transfer_text()",
       "file_type": "code",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L14",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "src_ui_timeline_transfer_text",
       "community": 0,
@@ -5565,7 +5565,7 @@
       "label": "timeline_frame()",
       "file_type": "code",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L20",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "src_ui_timeline_timeline_frame",
       "community": 0,
@@ -5587,7 +5587,7 @@
       "label": "timeline_spec()",
       "file_type": "code",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L86",
+      "source_location": "L90",
       "_origin": "ast",
       "id": "src_ui_timeline_timeline_spec",
       "community": 0,
@@ -5609,9 +5609,9 @@
       "label": "Build actual and expected point rows from the highest scored round to season end",
       "file_type": "rationale",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L21",
+      "source_location": "L23",
       "_origin": "ast",
-      "id": "src_ui_timeline_rationale_21",
+      "id": "src_ui_timeline_rationale_23",
       "community": 0,
       "community_name": "optimize",
       "norm_label": "build actual and expected point rows from the highest scored round to season end"
@@ -5620,9 +5620,9 @@
       "label": "Return a dark-background Vega-Lite v5 cumulative points chart.",
       "file_type": "rationale",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L87",
+      "source_location": "L91",
       "_origin": "ast",
-      "id": "src_ui_timeline_rationale_87",
+      "id": "src_ui_timeline_rationale_91",
       "community": 0,
       "community_name": "optimize",
       "norm_label": "return a dark-background vega-lite v5 cumulative points chart."
@@ -5667,8 +5667,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_backtest_metrics",
-      "community": 25,
-      "community_name": "dnf_probability",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "test_backtest_metrics.py"
     },
     {
@@ -5678,8 +5678,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "tests_test_backtest_metrics_test_season_metrics_aggregates_asset_error_team_totals_and_rank",
-      "community": 25,
-      "community_name": "dnf_probability",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "test_season_metrics_aggregates_asset_error_team_totals_and_rank()"
     },
     {
@@ -6261,8 +6261,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_community_pull",
-      "community": 35,
-      "community_name": "test_community_pull.py",
+      "community": 25,
+      "community_name": "dnf_probability",
       "norm_label": "test_community_pull.py"
     },
     {
@@ -6272,8 +6272,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "tests_test_community_pull_fakeresponse",
-      "community": 35,
-      "community_name": "test_community_pull.py",
+      "community": 25,
+      "community_name": "dnf_probability",
       "norm_label": "fakeresponse"
     },
     {
@@ -6283,8 +6283,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "tests_test_community_pull_fakeresponse_init",
-      "community": 35,
-      "community_name": "test_community_pull.py",
+      "community": 25,
+      "community_name": "dnf_probability",
       "norm_label": ".__init__()"
     },
     {
@@ -6294,8 +6294,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "tests_test_community_pull_fakeresponse_json",
-      "community": 35,
-      "community_name": "test_community_pull.py",
+      "community": 25,
+      "community_name": "dnf_probability",
       "norm_label": ".json()"
     },
     {
@@ -6305,8 +6305,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "tests_test_community_pull_fakesession",
-      "community": 35,
-      "community_name": "test_community_pull.py",
+      "community": 25,
+      "community_name": "dnf_probability",
       "norm_label": "fakesession"
     },
     {
@@ -6316,8 +6316,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "tests_test_community_pull_fakesession_init",
-      "community": 35,
-      "community_name": "test_community_pull.py",
+      "community": 25,
+      "community_name": "dnf_probability",
       "norm_label": ".__init__()"
     },
     {
@@ -6327,8 +6327,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "tests_test_community_pull_fakesession_get",
-      "community": 35,
-      "community_name": "test_community_pull.py",
+      "community": 25,
+      "community_name": "dnf_probability",
       "norm_label": ".get()"
     },
     {
@@ -6338,8 +6338,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "tests_test_community_pull_body",
-      "community": 35,
-      "community_name": "test_community_pull.py",
+      "community": 25,
+      "community_name": "dnf_probability",
       "norm_label": "body()"
     },
     {
@@ -6349,8 +6349,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "tests_test_community_pull_make_zip",
-      "community": 35,
-      "community_name": "test_community_pull.py",
+      "community": 25,
+      "community_name": "dnf_probability",
       "norm_label": "make_zip()"
     },
     {
@@ -6360,8 +6360,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "tests_test_community_pull_test_ti_extracts_only_season_json",
-      "community": 35,
-      "community_name": "test_community_pull.py",
+      "community": 25,
+      "community_name": "dnf_probability",
       "norm_label": "test_ti_extracts_only_season_json()"
     },
     {
@@ -6371,8 +6371,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "tests_test_community_pull_test_ti_drops_circuit_map",
-      "community": 35,
-      "community_name": "test_community_pull.py",
+      "community": 25,
+      "community_name": "dnf_probability",
       "norm_label": "test_ti_drops_circuit_map()"
     },
     {
@@ -6382,8 +6382,8 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "tests_test_community_pull_test_ti_rejects_path_traversal",
-      "community": 35,
-      "community_name": "test_community_pull.py",
+      "community": 25,
+      "community_name": "dnf_probability",
       "norm_label": "test_ti_rejects_path_traversal()"
     },
     {
@@ -6393,8 +6393,8 @@
       "source_location": "L91",
       "_origin": "ast",
       "id": "tests_test_community_pull_test_mzafram_ignores_missing_rounds",
-      "community": 35,
-      "community_name": "test_community_pull.py",
+      "community": 25,
+      "community_name": "dnf_probability",
       "norm_label": "test_mzafram_ignores_missing_rounds()"
     },
     {
@@ -6404,8 +6404,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "tests_test_community_pull_rationale_23",
-      "community": 35,
-      "community_name": "test_community_pull.py",
+      "community": 25,
+      "community_name": "dnf_probability",
       "norm_label": "maps full url to a fakeresponse. unknown urls answer 404."
     },
     {
@@ -6448,8 +6448,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "test_fantasy_scrape.py"
     },
     {
@@ -6459,8 +6459,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_url",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "url()"
     },
     {
@@ -6470,8 +6470,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_raceday",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "raceday()"
     },
     {
@@ -6481,8 +6481,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_drivers",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "drivers()"
     },
     {
@@ -6492,8 +6492,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_fakeresponse",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "fakeresponse"
     },
     {
@@ -6503,8 +6503,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_fakeresponse_init",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": ".__init__()"
     },
     {
@@ -6514,8 +6514,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_fakeresponse_json",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": ".json()"
     },
     {
@@ -6525,8 +6525,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_fakesession",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "fakesession"
     },
     {
@@ -6536,8 +6536,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_fakesession_init",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": ".__init__()"
     },
     {
@@ -6547,8 +6547,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_fakesession_get",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": ".get()"
     },
     {
@@ -6558,8 +6558,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_seed",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "seed()"
     },
     {
@@ -6569,8 +6569,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_py_path",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "path"
     },
     {
@@ -6580,8 +6580,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_test_snapshot_writes_every_gameday",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "test_snapshot_writes_every_gameday()"
     },
     {
@@ -6591,8 +6591,8 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_test_failed_fetch_keeps_existing_file",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "test_failed_fetch_keeps_existing_file()"
     },
     {
@@ -6602,8 +6602,8 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_test_empty_driver_feed_keeps_existing_file",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "test_empty_driver_feed_keeps_existing_file()"
     },
     {
@@ -6613,8 +6613,8 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_test_schedule_404_raises_and_writes_nothing",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "test_schedule_404_raises_and_writes_nothing()"
     },
     {
@@ -6624,8 +6624,8 @@
       "source_location": "L106",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_test_schedule_empty_value_raises",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "test_schedule_empty_value_raises()"
     },
     {
@@ -6635,8 +6635,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "tests_test_fantasy_scrape_rationale_31",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "maps full url to (status, payload). unknown urls answer 404."
     },
     {
@@ -7108,8 +7108,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_jolpica_pull",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "test_jolpica_pull.py"
     },
     {
@@ -7119,8 +7119,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "tests_test_jolpica_pull_url",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "url()"
     },
     {
@@ -7130,8 +7130,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "tests_test_jolpica_pull_page",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "page()"
     },
     {
@@ -7141,8 +7141,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "tests_test_jolpica_pull_race",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "race()"
     },
     {
@@ -7152,8 +7152,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "tests_test_jolpica_pull_fakeresponse",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "fakeresponse"
     },
     {
@@ -7163,8 +7163,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "tests_test_jolpica_pull_fakeresponse_init",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": ".__init__()"
     },
     {
@@ -7174,8 +7174,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "tests_test_jolpica_pull_fakeresponse_json",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": ".json()"
     },
     {
@@ -7185,8 +7185,8 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "tests_test_jolpica_pull_fakesession",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "fakesession"
     },
     {
@@ -7196,8 +7196,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "tests_test_jolpica_pull_fakesession_init",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": ".__init__()"
     },
     {
@@ -7207,8 +7207,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "tests_test_jolpica_pull_fakesession_get",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": ".get()"
     },
     {
@@ -7218,8 +7218,8 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "tests_test_jolpica_pull_empty_routes",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "empty_routes()"
     },
     {
@@ -7229,8 +7229,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "tests_test_jolpica_pull_read",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "read()"
     },
     {
@@ -7240,8 +7240,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "tests_test_jolpica_pull_py_path",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "path"
     },
     {
@@ -7251,8 +7251,8 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "tests_test_jolpica_pull_test_jolpica_merges_race_split_across_pages",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "test_jolpica_merges_race_split_across_pages()"
     },
     {
@@ -7262,8 +7262,8 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "tests_test_jolpica_pull_test_jolpica_retries_429",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "test_jolpica_retries_429()"
     },
     {
@@ -7273,8 +7273,8 @@
       "source_location": "L84",
       "_origin": "ast",
       "id": "tests_test_jolpica_pull_test_jolpica_writes_all_endpoints_even_when_empty",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "test_jolpica_writes_all_endpoints_even_when_empty()"
     },
     {
@@ -7284,8 +7284,8 @@
       "source_location": "L94",
       "_origin": "ast",
       "id": "tests_test_jolpica_pull_test_jolpica_raises_after_three_429s",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "test_jolpica_raises_after_three_429s()"
     },
     {
@@ -7295,8 +7295,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "tests_test_jolpica_pull_rationale_22",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "race dict; drivers become rows under key (results, qualifyingresults, sprintresu"
     },
     {
@@ -7306,8 +7306,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "tests_test_jolpica_pull_rationale_39",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "maps full url to a queue of (status, payload); the last entry repeats. unknown u"
     },
     {
@@ -7317,8 +7317,8 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "tests_test_jolpica_pull_rationale_51",
-      "community": 6,
-      "community_name": "test_jolpica_pull.py",
+      "community": 12,
+      "community_name": "weekly_update.py",
       "norm_label": "every endpoint answers total 0 on its first page."
     },
     {
@@ -9239,7 +9239,7 @@
       "label": "timeline_config()",
       "file_type": "code",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L42",
+      "source_location": "L43",
       "_origin": "ast",
       "id": "tests_test_ui_timeline_timeline_config",
       "community": 0,
@@ -9250,7 +9250,7 @@
       "label": "_patch_model()",
       "file_type": "code",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L53",
+      "source_location": "L54",
       "_origin": "ast",
       "id": "tests_test_ui_timeline_patch_model",
       "community": 0,
@@ -9261,7 +9261,7 @@
       "label": "test_frame_round20_then_expected()",
       "file_type": "code",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L67",
+      "source_location": "L68",
       "_origin": "ast",
       "id": "tests_test_ui_timeline_test_frame_round20_then_expected",
       "community": 0,
@@ -9272,7 +9272,7 @@
       "label": "test_logged_round_replaces_expected()",
       "file_type": "code",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L77",
+      "source_location": "L79",
       "_origin": "ast",
       "id": "tests_test_ui_timeline_test_logged_round_replaces_expected",
       "community": 0,
@@ -9283,7 +9283,7 @@
       "label": "test_missing_team_is_skipped()",
       "file_type": "code",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L90",
+      "source_location": "L92",
       "_origin": "ast",
       "id": "tests_test_ui_timeline_test_missing_team_is_skipped",
       "community": 0,
@@ -9291,15 +9291,15 @@
       "norm_label": "test_missing_team_is_skipped()"
     },
     {
-      "label": "test_real_team_frame_uses_round20()",
+      "label": "test_real_team_frame_starts_at_last_scored_round()",
       "file_type": "code",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L97",
+      "source_location": "L99",
       "_origin": "ast",
-      "id": "tests_test_ui_timeline_test_real_team_frame_uses_round20",
+      "id": "tests_test_ui_timeline_test_real_team_frame_starts_at_last_scored_round",
       "community": 0,
       "community_name": "optimize",
-      "norm_label": "test_real_team_frame_uses_round20()"
+      "norm_label": "test_real_team_frame_starts_at_last_scored_round()"
     },
     {
       "label": "test_vault.py",
@@ -9572,8 +9572,8 @@
       "source_location": "L145",
       "_origin": "ast",
       "id": "tests_test_walkforward_test_report_prints_assumptions",
-      "community": 25,
-      "community_name": "dnf_probability",
+      "community": 24,
+      "community_name": "run_season",
       "norm_label": "test_report_prints_assumptions()"
     },
     {
@@ -9853,8 +9853,8 @@
     },
     {
       "label": "tempfile",
-      "community": 24,
-      "community_name": "run_season",
+      "community": 35,
+      "community_name": "test_community_pull.py",
       "external": true,
       "file_type": "concept",
       "norm_label": "tempfile",
@@ -9875,8 +9875,8 @@
     },
     {
       "label": "json",
-      "community": 24,
-      "community_name": "run_season",
+      "community": 35,
+      "community_name": "test_community_pull.py",
       "external": true,
       "file_type": "concept",
       "norm_label": "json",
@@ -9886,8 +9886,8 @@
     },
     {
       "label": "requests",
-      "community": 24,
-      "community_name": "run_season",
+      "community": 35,
+      "community_name": "test_community_pull.py",
       "external": true,
       "file_type": "concept",
       "norm_label": "requests",
@@ -9934,7 +9934,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L367",
+      "source_location": "L369",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app",
@@ -10011,7 +10011,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L322",
+      "source_location": "L324",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app",
@@ -10055,7 +10055,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L388",
+      "source_location": "L390",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app",
@@ -10797,7 +10797,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L376",
+      "source_location": "L378",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_best_tab",
@@ -10857,7 +10857,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L379",
+      "source_location": "L381",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_best_tab",
@@ -10940,7 +10940,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L292",
+      "source_location": "L294",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -10952,7 +10952,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L332",
+      "source_location": "L334",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_data_tab",
@@ -10988,7 +10988,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L395",
+      "source_location": "L397",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_main",
@@ -11012,7 +11012,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L369",
+      "source_location": "L371",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_best_tab",
@@ -11108,7 +11108,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L407",
+      "source_location": "L409",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_main",
@@ -11238,7 +11238,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L306",
+      "source_location": "L308",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -11261,7 +11261,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L295",
+      "source_location": "L297",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -11273,7 +11273,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L308",
+      "source_location": "L310",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -11297,7 +11297,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L296",
+      "source_location": "L298",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -11321,7 +11321,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L306",
+      "source_location": "L308",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -11380,7 +11380,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L312",
+      "source_location": "L314",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -11392,7 +11392,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L403",
+      "source_location": "L405",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_main",
@@ -11405,7 +11405,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L293",
+      "source_location": "L295",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -11441,7 +11441,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L300",
+      "source_location": "L302",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -11453,7 +11453,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L290",
+      "source_location": "L292",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -11489,7 +11489,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L314",
+      "source_location": "L316",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_team_row",
@@ -11524,7 +11524,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L342",
+      "source_location": "L344",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_data_tab",
@@ -11536,7 +11536,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L409",
+      "source_location": "L411",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_main",
@@ -11549,7 +11549,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L380",
+      "source_location": "L382",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_best_tab",
@@ -11561,7 +11561,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L380",
+      "source_location": "L382",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_best_tab",
@@ -11573,7 +11573,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L368",
+      "source_location": "L370",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_best_tab",
@@ -11584,7 +11584,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app.py",
-      "source_location": "L405",
+      "source_location": "L407",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_main",
@@ -16218,7 +16218,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L4",
+      "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_timeline",
@@ -16466,7 +16466,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L4",
+      "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_timeline",
@@ -16478,7 +16478,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L42",
+      "source_location": "L44",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_timeline_timeline_frame",
@@ -27141,7 +27141,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L5",
+      "source_location": "L7",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_timeline",
@@ -27381,7 +27381,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L54",
+      "source_location": "L55",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_timeline",
@@ -27609,7 +27609,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L54",
+      "source_location": "L55",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_timeline",
@@ -27621,7 +27621,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L61",
+      "source_location": "L62",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_timeline_patch_model",
@@ -27634,10 +27634,10 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L104",
+      "source_location": "L107",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "tests_test_ui_timeline_test_real_team_frame_uses_round20",
+      "source": "tests_test_ui_timeline_test_real_team_frame_starts_at_last_scored_round",
       "target": "src_optimize_ilp_teamstate"
     },
     {
@@ -27717,7 +27717,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L5",
+      "source_location": "L7",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_timeline",
@@ -27729,7 +27729,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L41",
+      "source_location": "L43",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_timeline_timeline_frame",
@@ -27765,7 +27765,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L54",
+      "source_location": "L55",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_timeline",
@@ -27777,7 +27777,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L62",
+      "source_location": "L63",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_timeline_patch_model",
@@ -27790,10 +27790,10 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L105",
+      "source_location": "L108",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "tests_test_ui_timeline_test_real_team_frame_uses_round20",
+      "source": "tests_test_ui_timeline_test_real_team_frame_starts_at_last_scored_round",
       "target": "src_optimize_ilp_decision"
     },
     {
@@ -29056,7 +29056,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L6",
+      "source_location": "L8",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_timeline",
@@ -29738,7 +29738,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L6",
+      "source_location": "L8",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_timeline",
@@ -29750,7 +29750,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L42",
+      "source_location": "L44",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_timeline_timeline_frame",
@@ -32158,6 +32158,18 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_timeline",
+      "target": "json",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/ui/timeline.py",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "src_ui_timeline",
       "target": "pandas",
       "confidence_score": 1.0
     },
@@ -32165,7 +32177,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L20",
+      "source_location": "L22",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_timeline",
@@ -32176,7 +32188,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L86",
+      "source_location": "L90",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_timeline",
@@ -32187,7 +32199,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L14",
+      "source_location": "L16",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_timeline",
@@ -32222,7 +32234,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L56",
+      "source_location": "L58",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_timeline_timeline_frame",
@@ -32233,10 +32245,10 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L21",
+      "source_location": "L23",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "src_ui_timeline_rationale_21",
+      "source": "src_ui_timeline_rationale_23",
       "target": "src_ui_timeline_timeline_frame",
       "confidence_score": 1.0
     },
@@ -32245,7 +32257,7 @@
       "context": "return_type",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L20",
+      "source_location": "L22",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_timeline_timeline_frame",
@@ -32269,7 +32281,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L70",
+      "source_location": "L71",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_timeline_test_frame_round20_then_expected",
@@ -32281,7 +32293,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L84",
+      "source_location": "L86",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_timeline_test_logged_round_replaces_expected",
@@ -32293,7 +32305,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L93",
+      "source_location": "L95",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_timeline_test_missing_team_is_skipped",
@@ -32306,10 +32318,10 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L108",
+      "source_location": "L111",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "tests_test_ui_timeline_test_real_team_frame_uses_round20",
+      "source": "tests_test_ui_timeline_test_real_team_frame_starts_at_last_scored_round",
       "target": "src_ui_timeline_timeline_frame"
     },
     {
@@ -32317,7 +32329,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L86",
+      "source_location": "L90",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_ui_timeline_timeline_spec",
@@ -32328,10 +32340,10 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "src/ui/timeline.py",
-      "source_location": "L87",
+      "source_location": "L91",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "src_ui_timeline_rationale_87",
+      "source": "src_ui_timeline_rationale_91",
       "target": "src_ui_timeline_timeline_spec",
       "confidence_score": 1.0
     },
@@ -40245,7 +40257,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L53",
+      "source_location": "L54",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_timeline",
@@ -40256,7 +40268,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L67",
+      "source_location": "L68",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_timeline",
@@ -40267,7 +40279,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L77",
+      "source_location": "L79",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_timeline",
@@ -40278,7 +40290,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L90",
+      "source_location": "L92",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_timeline",
@@ -40289,11 +40301,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L97",
+      "source_location": "L99",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_timeline",
-      "target": "tests_test_ui_timeline_test_real_team_frame_uses_round20",
+      "target": "tests_test_ui_timeline_test_real_team_frame_starts_at_last_scored_round",
       "confidence_score": 1.0
     },
     {
@@ -40311,7 +40323,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L42",
+      "source_location": "L43",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_timeline",
@@ -40323,7 +40335,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L68",
+      "source_location": "L69",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_timeline_test_frame_round20_then_expected",
@@ -40335,7 +40347,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L78",
+      "source_location": "L80",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_timeline_test_logged_round_replaces_expected",
@@ -40347,7 +40359,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L91",
+      "source_location": "L93",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_timeline_test_missing_team_is_skipped",
@@ -40359,7 +40371,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L69",
+      "source_location": "L70",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_timeline_test_frame_round20_then_expected",
@@ -40371,7 +40383,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L79",
+      "source_location": "L81",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_timeline_test_logged_round_replaces_expected",
@@ -40383,7 +40395,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_ui_timeline.py",
-      "source_location": "L92",
+      "source_location": "L94",
       "weight": 1.0,
       "_origin": "ast",
       "source": "tests_test_ui_timeline_test_missing_team_is_skipped",
@@ -41190,5 +41202,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "eff16d6c16068b1a914fbbd0a7efd2fb2cd4eec6"
+  "built_at_commit": "188a373cad1ec9b49062fea8a7d65689af20ccc2"
 }

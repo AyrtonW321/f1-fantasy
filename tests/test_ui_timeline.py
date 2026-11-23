@@ -25,6 +25,7 @@ def test_spec_dashes_expected_and_has_tooltip():
 
 def _fixture_tables():
     races = pd.DataFrame({"season": [2026] * 4, "round": [20, 21, 22, 23],
+                          "slug": ["sao-paulo-grand-prix", "las-vegas-grand-prix", "qatar-grand-prix", "abu-dhabi-grand-prix"],
                           "completed": [True, False, False, False]})
     prices = pd.DataFrame([(2026, r, a, k, 10.0 if k == "driver" else 20.0)
                            for r in range(20, 24)
@@ -69,6 +70,7 @@ def test_frame_round20_then_expected(timeline_config, monkeypatch):
     _patch_model(monkeypatch, timeline_config, t)
     f = timeline_frame([1], t)
     assert f["round"].tolist() == [20, 21, 22, 23]
+    assert f["race"].tolist() == ["Sao Paulo", "Las Vegas", "Qatar", "Abu Dhabi"]
     assert f["kind"].tolist() == ["actual", "expected", "expected", "expected"]
     assert f["cumulative"].tolist() == pytest.approx(f["points"].cumsum().tolist())
     assert f.loc[1, "transfers"] == "OUT D5 → IN D6"
@@ -94,10 +96,11 @@ def test_missing_team_is_skipped(timeline_config, monkeypatch):
 
 
 @pytest.mark.skipif(not PRICES.exists(), reason="real data not unpacked")
-def test_real_team_frame_uses_round20(monkeypatch, tmp_path):
+def test_real_team_frame_starts_at_last_scored_round(monkeypatch, tmp_path):
     from src.optimize.ilp import Decision, TeamState
     t = logic._tables()
-    assets = t["prices"].query("season == 2026 and round == 20")
+    start = int(t["fantasy_points"].query("season == 2026")["round"].max())
+    assets = t["prices"].query("season == 2026 and round == @start")
     drivers = assets.loc[assets["kind"] == "driver", "asset_id"].head(5).tolist()
     constructors = assets.loc[assets["kind"] == "constructor", "asset_id"].head(2).tolist()
     monkeypatch.setattr(logic, "load", lambda n: {"drivers": drivers, "constructors": constructors})
@@ -106,5 +109,5 @@ def test_real_team_frame_uses_round20(monkeypatch, tmp_path):
         tuple(drivers), tuple(constructors), drivers[0], (), 0, 70.0, 80.0, 80.0)])
     monkeypatch.setattr(logic, "history_path", lambda n: tmp_path / f"team_{n}.csv")
     frame = timeline_frame([1], t)
-    assert frame["round"].tolist() == [20, 21, 22, 23]
-    assert frame["kind"].tolist() == ["actual", "expected", "expected", "expected"]
+    assert frame["round"].tolist() == list(range(start, 24))
+    assert frame["kind"].tolist() == ["actual"] + ["expected"] * (23 - start)
