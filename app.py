@@ -16,7 +16,7 @@ from pipelines.weekly_update import stale_warning, unsealed
 from src.optimize.ilp import TeamState
 from src.sim.scoring import load_rules
 from src.ui.cards import CSS, HEADER, asset_card, chip_grid, header_row, swap_strip, team_card, team_row
-from src.ui.logic import (advised_chip, apply_transfers, asset_mu, load, next_round,
+from src.ui.logic import (advised_chip, apply_transfers, asset_mu, load, next_round, record_round,
                           round_chip, save_team, saved_xpts, swaps_log, team_path, team_state, top_teams,
                           validate)
 from src.ui.timeline import timeline_frame, timeline_spec
@@ -150,8 +150,8 @@ def _chip_select(n, team, season, round_):
 
 
 def _applied(n, season, round_):
-    """True once 'I made these transfers' logged this round (with or without a chip)."""
-    return any(r["season"] == season and r["round"] == round_ for r in swaps_log(n))
+    """True once 'I made these transfers' logged this round (with or without a chip); snapshots do not count."""
+    return any(r["season"] == season and r["round"] == round_ and r["source"] != "snapshot" for r in swaps_log(n))
 
 
 def _picks(n, team, state, chip):
@@ -211,7 +211,8 @@ def _choose_and_apply(n, choices, chip, choice_key, applied=False):
             st.error(str(exc))
 
 
-def _edit_form(n, team, prices):
+def _edit_form(n, team, prices, season, rounds, chip_names, default_boost=None):
+    """rounds: round numbers the saved lineup can be recorded as played in (next round first)."""
     ids = {k: prices.loc[prices["kind"] == k, "asset_id"].astype(str).tolist() if not prices.empty else team.get(f"{k}s", [])
            for k in ("driver", "constructor")}
     drivers, constructors = ids["driver"], ids["constructor"]
@@ -224,6 +225,12 @@ def _edit_form(n, team, prices):
         chips = [c for c in team.get("chips_left", []) if st.checkbox(c, value=True, key=f"edit_chip_{n}_{c}")]
         excluded = st.multiselect("Exclude from picks", sorted(set(drivers + constructors)),
                                   default=[x for x in team.get("exclude", []) if x in drivers + constructors])
+        st.caption("Played lineup (logged to history, shown in Timeline)")
+        played = st.selectbox("Record as played in round", rounds, key=f"edit_round_{n}") if rounds else None
+        boost = st.selectbox("x2 boost", drivers, index=drivers.index(default_boost) if default_boost in drivers else 0,
+                             key=f"edit_boost_{n}")
+        chip_played = st.selectbox("Chip played", ["", *chip_names], key=f"edit_chip_played_{n}")
+        boost3 = st.selectbox("x3 driver (x3_boost only)", ["", *drivers], key=f"edit_boost3_{n}")
         save = st.form_submit_button("Validate and save")
     edited = {"drivers": chosen_drivers, "constructors": chosen_constructors, "bank": bank,
               "free_transfers": free_transfers, "chips_left": chips, "exclude": excluded}
@@ -231,10 +238,18 @@ def _edit_form(n, team, prices):
         errors = validate(edited)
     except ValueError as exc:
         errors = [str(exc)]
+    if boost not in chosen_drivers:
+        errors.append("x2 boost: pick one of your drivers")
+    if chip_played == "x3_boost" and (boost3 not in chosen_drivers or boost3 == boost):
+        errors.append("x3 driver: pick one of your drivers other than the x2 boost")
+    elif chip_played != "x3_boost" and boost3:
+        errors.append("x3 driver: only with the x3_boost chip")
     for error in errors:
         st.error(error)
     if save and not errors:
         try:
+            if played is not None:
+                record_round(n, season, played, chosen_drivers, chosen_constructors, boost, chip_played, boost3)
             save_team(n, edited)
             st.success("Team saved.")
             st.rerun()
@@ -292,13 +307,15 @@ def _team_row(n, next_round, races):
         with st.expander("Chip advice"):
             _chip_advice(n)
         with st.expander("Edit team"):
-            _edit_form(n, team, prices)
+            done = races[(races["season"] == season) & races["completed"]]["round"].sort_values(ascending=False)
+            rounds = ([round_] if round_ is not None else []) + [int(r) for r in done]
+            _edit_form(n, team, prices, season, rounds, list(rules["chips"]), saved_xpts(team, mu, rules, None)[1])
         with st.expander("Past swaps"):
             log = swaps_log(n)
             if not log:
                 st.caption("No swaps logged yet.")
             for r in log:
-                chip_note = f" · {r['chip']}" if r["chip"] else ""
+                chip_note = (f" · {r['chip']}" if r["chip"] else "") + (" · auto snapshot" if r["source"] == "snapshot" else "")
                 st.text(f"R{r['round']}: OUT {', '.join(r['out']) or '—'} → IN {', '.join(r['in']) or '—'}{chip_note}")
 
 

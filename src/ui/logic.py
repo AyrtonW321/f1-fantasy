@@ -25,7 +25,7 @@ ROOT = Path(__file__).resolve().parents[2]
 CONFIG = ROOT / "config"
 DATA = ROOT / "data" / "processed"
 HISTORY_COLS = ["season", "round", "drivers", "constructors", "boost", "boost3", "chip",
-                "transfers_in", "penalty_transfers", "bank", "team_value"]
+                "transfers_in", "penalty_transfers", "bank", "team_value", "source"]  # source: app, edit, snapshot
 
 
 def _tables() -> dict[str, pd.DataFrame]:
@@ -155,8 +155,41 @@ def apply_transfers(n: int, decision: Decision, chip: str | None = None, tables=
              "constructors": "|".join(decision.constructors), "boost": decision.boost,
              "boost3": decision.boost3 or "", "chip": chip or "", "transfers_in": "|".join(decision.transfers_in),
              "penalty_transfers": penalty, "bank": round(decision.budget - decision.cost, 1),
-             "team_value": decision.cost})
+             "team_value": decision.cost, "source": "app"})
     return new
+
+
+def record_round(n: int, season: int, round_: int, drivers, constructors, boost: str, chip: str = "",
+                 boost3: str = "", source: str = "edit", tables=None) -> None:
+    """Log the lineup team n played in a round (replaces that round's row). Penalty unknown: logged 0.
+    transfers_in is the diff against the latest earlier logged round."""
+    t = tables or _tables()
+    prices = t["prices"][(t["prices"]["season"] == season) & (t["prices"]["round"] == round_)]
+    price = dict(zip(prices["asset_id"], prices["price"].astype(float)))
+    lineup = [*drivers, *constructors]
+    h = _history(n)
+    before = h[(h["si"] < season) | ((h["si"] == season) & (h["ri"] < round_))]
+    prev = [*before["drivers"].iloc[-1].split("|"), *before["constructors"].iloc[-1].split("|")] if len(before) else lineup
+    team = load(n)
+    _log(n, {"season": season, "round": round_, "drivers": "|".join(drivers), "constructors": "|".join(constructors),
+             "boost": boost, "boost3": boost3, "chip": chip,
+             "transfers_in": "|".join(a for a in lineup if a not in prev), "penalty_transfers": 0,
+             "bank": team.get("bank", ""), "team_value": round(sum(price.get(a, 0.0) for a in lineup), 1),
+             "source": source})
+
+
+def snapshot_next(n: int, tables=None) -> bool:
+    """Log team n's saved file as its lineup for the next round unless that round already has a row.
+    Boost on the best expected driver. True if a row was written."""
+    t = tables or _tables()
+    season, round_ = next_round(t)
+    h = _history(n)
+    if ((h["si"] == season) & (h["ri"] == round_)).any() or not team_path(n).exists():
+        return False
+    team = load(n)
+    _, boost = saved_xpts(team, asset_mu(season, round_, t), load_rules(season), None)
+    record_round(n, season, round_, team["drivers"], team["constructors"], boost or "", source="snapshot", tables=t)
+    return True
 
 
 def top_teams(state: TeamState | None, budget: float = 100.0, n: int = 5, exclude=(),
@@ -262,7 +295,8 @@ def swaps_log(n: int) -> list[dict]:
             gone, came = [], [a for a in r.transfers_in.split("|") if a]
         else:
             gone, came = [a for a in prev if a not in now], [a for a in now if a not in prev]
-        out.append({"season": r.si, "round": r.ri, "out": gone, "in": came, "chip": r.chip or None})
+        out.append({"season": r.si, "round": r.ri, "out": gone, "in": came, "chip": r.chip or None,
+                    "source": getattr(r, "source", "") or "app"})  # rows before the source column came from the app
         if not (r.chip and load_rules(r.si)["chips"].get(r.chip, {}).get("team_reverts_next_round")):
             prev = now  # a reverting chip (limitless) leaves the old team in place
     return out

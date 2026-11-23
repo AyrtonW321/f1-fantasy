@@ -25,6 +25,7 @@ from pipelines import build_data, pick_team, plan_chips  # noqa: E402
 from src.ingest.community_pull import pull_mzafram, pull_tracing_insights  # noqa: E402
 from src.ingest.fantasy_scrape import snapshot_official  # noqa: E402
 from src.ingest.jolpica_pull import pull_jolpica  # noqa: E402
+from src.ui import logic  # noqa: E402
 
 WINDOW = timedelta(hours=48)
 REPORTS = Path("reports")
@@ -109,6 +110,7 @@ def default_steps(season: int):
         n = team.stem.rsplit("_", 1)[1]
         steps.append((f"team {n} pick", lambda n=n: _capture(pick_team.main, ["--team", n])))
         steps.append((f"team {n} chips", lambda n=n: _capture(plan_chips.main, ["--team", n])))
+        steps.append((f"team {n} snapshot", lambda n=n: logic.snapshot_next(int(n)) and None))
     return steps
 
 

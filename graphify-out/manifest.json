@@ -25,8 +25,8 @@
     "semantic_hash": ""
   },
   "pipelines/build_data.py": {
-    "mtime": 1794456298.832504,
-    "ast_hash": "e06cbcf3ecd1725a5cec81d631a85e70",
+    "mtime": 1795411800.1554682,
+    "ast_hash": "192dd5f45d01be9160b17b38a1f6e26b",
     "semantic_hash": ""
   },
   "pyproject.toml": {
@@ -390,8 +390,8 @@
     "semantic_hash": ""
   },
   "pipelines/weekly_update.py": {
-    "mtime": 1794633261.7181644,
-    "ast_hash": "8b58354320c6a460fe8132ffa14d626f",
+    "mtime": 1795412335.0136054,
+    "ast_hash": "098628b040a7cbfaffe2fcb74c038176",
     "semantic_hash": ""
   },
   "tests/test_weekly_update.py": {
@@ -410,18 +410,18 @@
     "semantic_hash": ""
   },
   "src/ui/logic.py": {
-    "mtime": 1794727342.1042676,
-    "ast_hash": "32290351fc0ef28a253aa58acee899e0",
+    "mtime": 1795412335.0136054,
+    "ast_hash": "512dd08e1d9af96c9ea816ef711c7c24",
     "semantic_hash": ""
   },
   "tests/test_ui_logic.py": {
-    "mtime": 1794727342.1087804,
-    "ast_hash": "bb0ac1c8d1d88e2677753d35d96ac2ca",
+    "mtime": 1795412297.492632,
+    "ast_hash": "10d3432caa3f8f13a5f9a1a80dc66022",
     "semantic_hash": ""
   },
   "app.py": {
-    "mtime": 1794789492.6144714,
-    "ast_hash": "d35425133a5942e1cec711d1c8a091cf",
+    "mtime": 1795412536.638014,
+    "ast_hash": "2e5a99fece2d56d6f66cf58c33735288",
     "semantic_hash": ""
   },
   "src/ui/style.py": {

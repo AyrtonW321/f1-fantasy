@@ -155,3 +155,21 @@ def test_swaps_log_skips_reverting_chip(cfg):
         logic._log(1, r)
     log = logic.swaps_log(1)
     assert log[2]["out"] == ["E"] and log[2]["in"] == ["K"]  # diffed against R20, not the limitless team
+
+
+def test_snapshot_and_record_round(cfg):
+    t = tables()
+    # snapshot logs the team file for the next round (2), boost on best expected driver; once only
+    assert logic.snapshot_next(1, tables=t) is True and logic.snapshot_next(1, tables=t) is False
+    row = pd.read_csv(cfg / "history" / "team_1.csv", dtype=str, keep_default_na=False).iloc[0]
+    assert (row["round"], row["drivers"], row["source"]) == ("2", "|".join(DRIVERS[3:8]), "snapshot")
+    assert row["boost"] == "D4" and float(row["team_value"]) == 90.0
+    # recording a past round (1) with chip and boost: own row, scored, transfers vs nothing before
+    logic.record_round(1, 2026, 1, DRIVERS[:5], ["C1", "C2"], "D1", chip="x3_boost", boost3="D2", tables=t)
+    h = logic.history_points(1, tables=t)
+    assert h["round"].tolist() == [1, 2]
+    assert h["points"].iloc[0] == 8 + 7 + 6 + 5 + 4 + 10 + 5 + 8 + 2 * 7  # x2 D1 extra, x3 D2 extra
+    # record_round replaces the snapshot for the same round
+    logic.record_round(1, 2026, 2, DRIVERS[:5], ["C1", "C2"], "D1", tables=t)
+    hist = pd.read_csv(cfg / "history" / "team_1.csv", dtype=str, keep_default_na=False)
+    assert len(hist) == 2 and hist.iloc[-1]["source"] == "edit" and hist.iloc[-1]["transfers_in"] == ""
