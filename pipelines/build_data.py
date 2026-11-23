@@ -23,6 +23,8 @@ def build_bonus(raw_dir: Path, out_dir: Path) -> None:
         rules = load_rules(season)
         for race in races[(races["season"] == season) & races["completed"]].itertuples():
             path = raw_dir / "tracinginsights" / str(season) / race.slug / "race_all.json"
+            if not path.exists():  # TI publishes race_all.json days after race.json
+                continue
             for row in _load(path):
                 kind = row["type"]
                 rows.append({"season": season, "round": int(race.round), "kind": kind,
@@ -41,7 +43,10 @@ def build_overtakes(raw_dir: Path, out_dir: Path) -> None:
     points = pd.read_parquet(out_dir / "fantasy_points.parquet")
     rows = []
     for race in races[races["completed"]].itertuples():
-        for row in _load(raw_dir / "tracinginsights" / str(race.season) / race.slug / "race_all.json"):
+        path = raw_dir / "tracinginsights" / str(race.season) / race.slug / "race_all.json"
+        if not path.exists():
+            continue
+        for row in _load(path):
             if row["type"] == "driver":
                 rows.append({"season": race.season, "round": int(race.round), "asset_id": row["abbreviation"],
                              "overtakes": row["raceOvertakes"] or 0, "gained": row["racePositionsGained"] or 0})
