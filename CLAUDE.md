@@ -26,7 +26,7 @@ Use ponytail (full) on all coding tasks here: lazy senior dev, laziest solution 
 - No plaintext data in git: real data committed only as data/raw.tar.gz.enc. Never commit, log or print F1_DATA_KEY.
 - Before first commit run `git rev-parse --show-toplevel`; must print this project folder.
 - Pushes and repo changes need user's OK.
-- Parallel agents each work in their own git worktree (`git worktree add ../f1-fantasy-<task> -b <branch>`), never the same folder. Handoff prompts must say so and name the worktree path.
+- Parallel agents each work in their own git worktree inside the project (`git worktree add .worktrees/<task> -b <branch>`; `.worktrees/` is gitignored), never the same folder and never next to the project. Handoff prompts must say so and name the worktree path. After merging, remove it (`git worktree remove .worktrees/<task>`) and delete the merged branch.
 
 ## Folder map (planned unless it exists)
 

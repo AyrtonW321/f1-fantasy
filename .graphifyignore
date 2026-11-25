@@ -6,3 +6,4 @@ graphify-out/
 .pytest_cache/
 *.md
 uv.lock
+.worktrees/

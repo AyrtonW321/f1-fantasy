@@ -17,3 +17,4 @@ reports/round_*.md
 reports/weekly_update.log
 config/backup/
 config/history/
+.worktrees/
