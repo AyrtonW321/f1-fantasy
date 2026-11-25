@@ -173,3 +173,19 @@ def test_snapshot_and_record_round(cfg):
     logic.record_round(1, 2026, 2, DRIVERS[:5], ["C1", "C2"], "D1", tables=t)
     hist = pd.read_csv(cfg / "history" / "team_1.csv", dtype=str, keep_default_na=False)
     assert len(hist) == 2 and hist.iloc[-1]["source"] == "edit" and hist.iloc[-1]["transfers_in"] == ""
+
+
+def test_round_source_confirm_and_review(cfg):
+    t = tables()
+    assert logic.round_source(1, 2026, 1) is None
+    with pytest.raises(ValueError):
+        logic.confirm_round(1, 2026, 1)
+    logic.record_round(1, 2026, 1, DRIVERS[:5], ["C1", "C2"], "D1", source="snapshot", tables=t)
+    assert logic.round_source(1, 2026, 1) == "snapshot"
+    logic.confirm_round(1, 2026, 1)
+    assert logic.round_source(1, 2026, 1) == "edit"
+    r = logic.race_review(1, 2026, 1, tables=t)
+    assert r["points"] == 8 + 7 + 6 + 5 + 4 + 10 + 5 + 8  # x2 D1
+    # best under budget 90 (team value) + 10 (bank): every driver costs 10, constructors 20
+    assert r["best_points"] >= r["points"] and r["misses"][0][0] in DRIVERS + CONS
+    assert logic.race_review(1, 2026, 2, tables=t) is None  # no lineup/points

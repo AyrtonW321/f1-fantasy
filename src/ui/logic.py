@@ -302,6 +302,52 @@ def swaps_log(n: int) -> list[dict]:
     return out
 
 
+def round_source(n: int, season: int, round_: int) -> str | None:
+    """How that round's lineup was logged: app, edit or snapshot; None when nothing is logged."""
+    h = _history(n)
+    row = h[(h["si"] == season) & (h["ri"] == round_)]
+    return (row["source"].iloc[-1] if "source" in row and row["source"].iloc[-1] else "app") if len(row) else None
+
+
+def confirm_round(n: int, season: int, round_: int) -> None:
+    """Mark a snapshot row as confirmed by the user (source edit), lineup unchanged."""
+    h = _history(n)
+    row = h[(h["si"] == season) & (h["ri"] == round_)]
+    if not len(row):
+        raise ValueError(f"no lineup logged for round {round_}; record it with Edit team")
+    _log(n, {**row.iloc[-1][HISTORY_COLS[:-1]].to_dict(), "source": "edit"})
+
+
+def race_review(n: int, season: int, round_: int, tables=None) -> dict | None:
+    """Scored round review for team n: points, what the model expected for that lineup, the best
+    team in hindsight under the same budget (team value + bank, no transfer limits), and the model's
+    biggest misses. None when the round has no logged lineup or no points yet."""
+    t = tables or _tables()
+    hist = history_points(n, t)
+    row = hist[(hist["season"] == season) & (hist["round"] == round_)]
+    if row.empty or pd.isna(row["points"].iloc[0]):
+        return None
+    logged = _history(n)
+    logged = logged[(logged["si"] == season) & (logged["ri"] == round_)].iloc[-1]
+    rules = load_rules(season)
+    pool = assets(season, round_, (), t)
+    mu = {a.id: a.mu for a in pool}
+    pts = t["fantasy_points"]
+    actual = pts[(pts["season"] == season) & (pts["round"] == round_)].set_index("asset_id")["total"]
+    lineup = [*logged["drivers"].split("|"), *logged["constructors"].split("|")]
+    boost = _rule(rules, "team.boost_multiplier")
+    expected = sum(mu.get(a, 0.0) for a in lineup) + (boost - 1) * mu.get(logged["boost"], 0.0)
+    budget = float(logged["team_value"]) + float(logged["bank"] or 0)
+    hindsight = optimize([replace(a, mu=float(actual.get(a.id, 0.0))) for a in pool], None,
+                         {**rules, "team": {**rules["team"], "budget": budget}})
+    misses = sorted(((a.id, a.mu, float(actual.get(a.id, 0.0))) for a in pool),
+                    key=lambda m: abs(m[2] - m[1]), reverse=True)[:5]
+    return {"points": float(row["points"].iloc[0]), "expected": expected, "chip": row["chip"].iloc[0],
+            "best_points": hindsight.expected_points,
+            "best_lineup": f"{', '.join(hindsight.drivers)} | {', '.join(hindsight.constructors)} | x2 {hindsight.boost}",
+            "misses": misses}
+
+
 def round_chip(n: int, season: int, round_: int) -> str | None:
     """Chip logged for that round, if any."""
     h = _history(n)

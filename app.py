@@ -4,6 +4,7 @@ import io
 import re
 import subprocess
 import sys
+import traceback
 from pathlib import Path
 
 import pandas as pd
@@ -12,11 +13,12 @@ import streamlit as st
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
 
-from pipelines.weekly_update import stale_warning, unsealed
+from pipelines.weekly_update import lagging_sources, stale_warning, unsealed
 from src.optimize.ilp import TeamState
 from src.sim.scoring import load_rules
-from src.ui.cards import CSS, HEADER, asset_card, chip_grid, header_row, swap_strip, team_card, team_row
-from src.ui.logic import (advised_chip, apply_transfers, asset_mu, load, next_round, record_round,
+from src.ui.cards import (CSS, HEADER, asset_card, best_skeleton, load_error, team_skeleton, timeline_skeleton, chip_grid, header_row, swap_strip, team_card, team_row)
+from src.ui.logic import (advised_chip, apply_transfers, asset_mu, confirm_round, load, next_round, race_review,
+                          record_round, round_source,
                           round_chip, save_team, saved_xpts, swaps_log, team_path, team_state, top_teams,
                           validate)
 from src.ui.timeline import timeline_frame, timeline_spec
@@ -30,7 +32,7 @@ def _inputs_stamp():
     return tuple(sorted((p.name, p.stat().st_mtime_ns) for p in files if p.exists()))
 
 
-@st.cache_data(show_spinner="Solving teams...", max_entries=64)
+@st.cache_data(show_spinner=False, max_entries=64)  # skeletons show the wait
 def _top(owned, bank, free, budget, exclude, chip, n, stamp):
     """Cached top_teams: each ILP solve costs ~0.2 s, so only re-solve when the team, chip or input files change."""
     state = TeamState(dict(owned), bank, free) if owned is not None else None
@@ -46,6 +48,11 @@ def _cached_top(state, budget=100.0, exclude=(), chip=None, n=5):
 @st.cache_data(show_spinner=False)
 def _mu(season, round_, stamp):
     return asset_mu(season, round_)
+
+
+@st.cache_data(show_spinner=False, max_entries=16)
+def _review(n, season, round_, stamp, history_mtime):
+    return race_review(n, season, round_)
 
 
 def _cards(ids, season, round_):
@@ -124,7 +131,34 @@ def _decision_rows(decisions):
              "Expected points": d.expected_points} for d in decisions]
 
 
+def _guard(thing, key, body, *args):
+    """Run one data area; on failure show a message and Retry in its place (the spec's error state)."""
+    box = st.empty()
+    try:
+        with box.container():
+            body(*args)
+    except Exception:
+        traceback.print_exc()  # details go to the server log, not the page
+        with box.container():
+            st.html(load_error(thing))
+            st.columns([2, 1, 2])[1].button("Retry", key=key, type="primary", width="stretch")  # reruns this fragment
+
+
+def _area(first, skeleton):
+    """First run: a slot showing the skeleton until filled. Later runs: a plain container, so old content stays."""
+    if not first:
+        return st.container()
+    slot = st.empty()
+    slot.html(skeleton)
+    return slot.container
+
+
+@st.fragment
 def _timeline_tab(numbers):
+    _guard("the timeline", "retry_timeline", _timeline_body, numbers)
+
+
+def _timeline_body(numbers):
     frame = timeline_frame(numbers)
     if frame.empty:
         st.info("No scored round yet this season.")
@@ -259,6 +293,10 @@ def _edit_form(n, team, prices, season, rounds, chip_names, default_boost=None):
 
 @st.fragment  # a click inside one tab reruns only that tab
 def _team_row(n, next_round, races):
+    _guard(f"Team {n}", f"retry_team_{n}", _team_row_body, n, next_round, races)
+
+
+def _team_row_body(n, next_round, races):
     config_path = team_path(n)
     if not config_path.exists():
         st.warning(f"Missing {config_path.relative_to(ROOT)}. Add this team file to use its controls.")
@@ -273,6 +311,9 @@ def _team_row(n, next_round, races):
         state = None
         st.warning(str(exc))
     rules = load_rules(season)
+    done = races[(races["season"] == season) & races["completed"]]["round"].sort_values(ascending=False) \
+        if not races.empty else pd.Series(dtype=int)
+    last = int(done.iloc[0]) if len(done) else None
 
     left, mid, right = st.columns([5, 2, 4], gap="medium")
     with mid:
@@ -286,14 +327,15 @@ def _team_row(n, next_round, races):
     xpts, x2 = saved_xpts(team, mu, rules, chip)
     cost = sum(state.owned.values()) if state is not None else None
     with left:
-        race = races.loc[(races["season"] == season) & (races["round"] == round_), "slug"]
-        label = f" · Round {round_} · {race.iloc[0].replace('-', ' ').title()}" if len(race) else ""
+        label = f" · Round {round_} · {_race_name(races, season, round_)}" if round_ is not None else ""
         st.markdown(f"**Team {n}**{label}")
         st.html(team_card(constructors, x2, [d for d in drivers if d != x2], cost,
                           [f"bank {float(team.get('bank', 0.0)):.1f}", f"{int(team.get('free_transfers', 0))} FT"],
                           xpts, _cards([*drivers, *constructors], season, round_)))
         if round_ is not None and not races.empty and (warning := stale_warning(config_path, races, season, round_)):
             st.warning(warning)
+        if last is not None and round_source(n, season, last) in (None, "snapshot"):
+            _confirm_banner(n, season, last, _race_name(races, season, last))
         choices, choice_key = _picks(n, team, state, chip)
         _, selected = _selected(choices, choice_key)
         if selected is not None:
@@ -308,8 +350,10 @@ def _team_row(n, next_round, races):
             _choose_and_apply(n, choices, chip, choice_key, round_ is not None and _applied(n, season, round_))
         with st.expander("Chip advice"):
             _chip_advice(n)
+        if last is not None:
+            with st.expander(f"Last race · R{last} {_race_name(races, season, last)}"):
+                _last_race(n, season, last)
         with st.expander("Edit team"):
-            done = races[(races["season"] == season) & races["completed"]]["round"].sort_values(ascending=False)
             rounds = ([round_] if round_ is not None else []) + [int(r) for r in done]
             _edit_form(n, team, prices, season, rounds, list(rules["chips"]), saved_xpts(team, mu, rules, None)[1])
         with st.expander("Past swaps"):
@@ -319,6 +363,42 @@ def _team_row(n, next_round, races):
             for r in log:
                 chip_note = (f" · {r['chip']}" if r["chip"] else "") + (" · auto snapshot" if r["source"] == "snapshot" else "")
                 st.text(f"R{r['round']}: OUT {', '.join(r['out']) or '—'} → IN {', '.join(r['in']) or '—'}{chip_note}")
+
+
+def _race_name(races, season, round_):
+    slug = races.loc[(races["season"] == season) & (races["round"] == round_), "slug"]
+    return slug.iloc[0].removesuffix("-grand-prix").replace("-", " ").title() if len(slug) else f"Round {round_}"
+
+
+def _confirm_banner(n, season, round_, name):
+    """Ask the user to confirm the lineup logged for the last race (or record one if nothing is logged)."""
+    source = round_source(n, season, round_)
+    if source is None:
+        st.warning(f"No lineup recorded for R{round_} {name}. Use Edit team, set 'Record as played in round' "
+                   f"to {round_}, and save what you played.")
+        return
+    st.warning(f"R{round_} {name} lineup is an auto snapshot. Confirm it matches what you played, "
+               "or fix it in Edit team.")
+    if st.button("Confirm lineup", key=f"confirm_{n}_{round_}"):
+        confirm_round(n, season, round_)
+        st.rerun()
+
+
+def _last_race(n, season, round_):
+    hist = ROOT / "config" / "history" / f"team_{n}.csv"
+    review = _review(n, season, round_, _inputs_stamp(), hist.stat().st_mtime_ns if hist.exists() else 0)
+    if review is None:
+        st.caption("No points yet, or no lineup recorded for this round.")
+        return
+    a, b, c = st.columns(3)
+    a.metric("Scored", f"{review['points']:.0f}", f"{review['points'] - review['expected']:+.0f}",
+             help="Change versus expected")
+    b.metric("Expected", f"{review['expected']:.0f}")
+    c.metric("Best", f"{review['best_points']:.0f}", help="Best team in hindsight under the same budget")
+    if review["chip"]:
+        st.caption(f"Chip: {review['chip']}")
+    st.caption(f"Best team in hindsight (same budget, no transfer limits): {review['best_lineup']}")
+    st.caption("Biggest model misses: " + ", ".join(f"{a} {mu:.0f}→{got:.0f}" for a, mu, got in review["misses"]))
 
 
 def _data_tab(next_round, next_error):
@@ -344,6 +424,10 @@ def _data_tab(next_round, next_error):
         tiles[3].metric("Unsealed raw files", unsealed(ROOT / "data" / "raw", ROOT / "data" / "raw.tar.gz.enc"))
     except Exception as exc:
         st.warning(f"Could not read the unsealed-file count: {exc}")
+    if next_round is not None:
+        behind = lagging_sources(_table("races"), _table("fantasy_points"), next_round[0], ROOT / "data" / "raw")
+        for line in behind:
+            st.warning(f"Behind: {line}")
     if st.button("Update data", key="update_data"):
         log = st.empty()
         lines = []
@@ -367,6 +451,10 @@ def _data_tab(next_round, next_error):
 
 @st.fragment
 def _best_tab(next_round, team_numbers):
+    _guard("the best teams", "retry_best", _best_body, next_round, team_numbers)
+
+
+def _best_body(next_round, team_numbers):
     benched = sorted({a for n in team_numbers for a in (load(n) or {}).get("exclude") or []})
     prices = _prices(*next_round) if next_round is not None else pd.DataFrame()
     options = sorted(set(prices["asset_id"].astype(str)) | set(benched)) if not prices.empty else benched
@@ -394,22 +482,31 @@ def main():
     if "update_output" in st.session_state:
         st.success("Update finished.")
         st.code("\n".join(st.session_state.pop("update_output")))
-    next_round, races, next_error = _round_info()
+    first = not st.session_state.get("loaded")
     team_files = sorted((ROOT / "config").glob("my_team_[0-9].yaml"), key=lambda p: int(p.stem.rsplit("_", 1)[1]))
     numbers = [int(p.stem.rsplit("_", 1)[1]) for p in team_files]
     mine, best, timeline, update = st.tabs(["My Team", "Best Teams", "Timeline", "Update"])
-    with mine:
+    with mine:  # every skeleton goes out before any slow work starts
+        slots = []
         for i, n in enumerate(numbers):
             if i:
                 st.divider()
-            _team_row(n, next_round, races)
+            slots.append(_area(first, team_skeleton()))
     with best:
-        _best_tab(next_round, numbers)
+        best_slot = _area(first, best_skeleton())
     with timeline:
+        timeline_slot = _area(first, timeline_skeleton())
+    next_round, races, next_error = _round_info()
+    for n, slot in zip(numbers, slots):
+        with (slot() if first else slot):
+            _team_row(n, next_round, races)
+    with (best_slot() if first else best_slot):
+        _best_tab(next_round, numbers)
+    with (timeline_slot() if first else timeline_slot):
         _timeline_tab(numbers)
     with update:
         _data_tab(next_round, next_error)
-
+    st.session_state["loaded"] = True
 
 if __name__ == "__main__":
     main()

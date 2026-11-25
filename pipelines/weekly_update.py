@@ -32,6 +32,7 @@ REPORTS = Path("reports")
 RAW = Path("data/raw")
 TI_TAGS = "https://api.github.com/repos/TracingInsights/fantasy/tags?per_page=20"
 log = logging.getLogger("weekly_update")
+KEPT = "## Last good report (kept from before this failure)"
 
 
 def report_path(season: int, round_: int, reports: Path = REPORTS) -> Path:
@@ -62,6 +63,20 @@ def stale_warning(team_file: Path, races: pd.DataFrame, season: int, round_: int
         return None
     return (f"WARNING: {team_file.name} last edited {_local(edited)}, before the round {int(last['round'])} race. "
             "Update it if you made transfers, then rerun with --force.")
+
+
+def lagging_sources(races: pd.DataFrame, points: pd.DataFrame, season: int, raw: Path = RAW) -> list[str]:
+    """Completed rounds of the season still missing a source: official points or TI race_all.json."""
+    done = races[(races["season"] == season) & races["completed"]].sort_values("round")
+    scored = set(points.loc[points["season"] == season, "round"]) if len(points) else set()
+    out = []
+    for r in done.itertuples():
+        if int(r.round) not in scored:
+            out.append(f"round {int(r.round)} ({r.slug}): no fantasy points yet")
+        if not (raw / "tracinginsights" / str(season) / r.slug / "race_all.json").exists():
+            out.append(f"round {int(r.round)} ({r.slug}): TracingInsights race_all.json not published "
+                       "(bonus and overtakes wait; picks unaffected)")
+    return out
 
 
 def unsealed(raw: Path = RAW, archive: Path = Path("data/raw.tar.gz.enc")) -> int:
@@ -124,9 +139,12 @@ def execute(header: str, steps, path: Path) -> bool:
         except (Exception, SystemExit) as exc:  # pick_team raises SystemExit when prices are missing
             log.error("failed at %s\n%s", name, traceback.format_exc())
             last = (str(exc) or type(exc).__name__).strip().splitlines()[-1]
+            old = path.read_text(encoding="utf-8") if path.exists() else ""
+            if old.startswith("# FAILED"):  # keep the good report an earlier failure already preserved
+                old = old.split(KEPT, 1)[1].lstrip() if KEPT in old else ""
             path.write_text(f"# FAILED at {name}\n\n{header.splitlines()[0][2:]}\n\n`{last}`\n\n"
-                            f"Full trace: reports/weekly_update.log. The next daily run retries.\n",
-                            encoding="utf-8")
+                            f"Full trace: reports/weekly_update.log. The next daily run retries.\n"
+                            + (f"\n{KEPT}\n\n{old}" if old else ""), encoding="utf-8")
             return False
         if text:
             parts.append(f"### {name}\n\n```text\n{text}\n```")
@@ -162,6 +180,8 @@ def main(argv=None) -> int:
         latest = int(prices.loc[prices["season"] == season, "round"].max())
         notes = [stale_warning(t, races, season, round_) for t in sorted(Path("config").glob("my_team_[0-9].yaml"))]
         notes = [n for n in notes if n]
+        points = pd.read_parquet("data/processed/fantasy_points.parquet")
+        notes += [f"Behind: {x}" for x in lagging_sources(races, points, season)]
         if latest < round_:
             notes.append(f"WARNING: round {round_} prices not published yet (latest round {latest}).")
         notes.append(f"Unsealed raw files: {unsealed()}. Seal with `uv run python -m src.ingest.vault seal` "

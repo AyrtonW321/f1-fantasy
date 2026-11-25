@@ -390,13 +390,13 @@
     "semantic_hash": ""
   },
   "pipelines/weekly_update.py": {
-    "mtime": 1795412335.0136054,
-    "ast_hash": "098628b040a7cbfaffe2fcb74c038176",
+    "mtime": 1795587902.8085897,
+    "ast_hash": "f1e0171437994e23d35d75779a9c8fd8",
     "semantic_hash": ""
   },
   "tests/test_weekly_update.py": {
-    "mtime": 1794633261.7206848,
-    "ast_hash": "1841a050bba35be66dfafd69da597414",
+    "mtime": 1795587876.3555033,
+    "ast_hash": "d8d335ab6f1ea989d878e4d4b352acbb",
     "semantic_hash": ""
   },
   "scripts/install_task.ps1": {
@@ -410,18 +410,18 @@
     "semantic_hash": ""
   },
   "src/ui/logic.py": {
-    "mtime": 1795412335.0136054,
-    "ast_hash": "512dd08e1d9af96c9ea816ef711c7c24",
+    "mtime": 1795587927.706923,
+    "ast_hash": "53e2304f6b3ae4eb4b85ee375cd8ec19",
     "semantic_hash": ""
   },
   "tests/test_ui_logic.py": {
-    "mtime": 1795412297.492632,
-    "ast_hash": "10d3432caa3f8f13a5f9a1a80dc66022",
+    "mtime": 1795587980.049963,
+    "ast_hash": "f04fc0a21d8db093b5e62d33f3ddc827",
     "semantic_hash": ""
   },
   "app.py": {
-    "mtime": 1795415253.435627,
-    "ast_hash": "6819616babfb249c7c8e1d14d28989ad",
+    "mtime": 1795588060.9791334,
+    "ast_hash": "b66fa865878c02eeaddde7dfa88233c3",
     "semantic_hash": ""
   },
   "src/ui/style.py": {
@@ -440,13 +440,13 @@
     "semantic_hash": ""
   },
   "src/ui/cards.py": {
-    "mtime": 1794789492.633528,
-    "ast_hash": "3c0f2df7dae107c9053a7efd1920092d",
+    "mtime": 1795587943.1409001,
+    "ast_hash": "5a73555bbf3b394f6753e8cd48943efa",
     "semantic_hash": ""
   },
   "tests/test_ui_cards.py": {
-    "mtime": 1794789492.6350353,
-    "ast_hash": "baf00e091bfbf1cfdd651252ac53d33d",
+    "mtime": 1795587943.2570016,
+    "ast_hash": "463270a1fb7dd371ac294cae585cc094",
     "semantic_hash": ""
   },
   "src/ui/timeline.py": {
