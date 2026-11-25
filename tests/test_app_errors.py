@@ -18,3 +18,6 @@ def test_failed_team_shows_message_and_retry(monkeypatch):
     assert "Couldn't load Team 1." in page and "disk gone" not in page
     assert any(b.label == "Retry" for b in at.button)
     assert not at.exception
+    monkeypatch.undo()  # the cause goes away; Retry must bring the team back
+    at.button(key="retry_team_1").click().run()
+    assert "Couldn't load Team 1." not in " ".join(h.proto.body for h in at.get("html"))
