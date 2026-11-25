@@ -359,3 +359,36 @@ def advised_chip(advice: str | None, round_: int) -> str | None:
     """Chip the plan_chips advice recommends for round_ ('Round N: <chip>;'), None for none/missing."""
     match = re.search(rf"^Round {round_}: (\w+);", advice or "", re.M)
     return match.group(1) if match and match.group(1) != "none" else None
+
+
+def final_fix(n: int, results: pd.DataFrame | None = None, tables=None) -> dict | None:
+    """Final Fix swap for the next round: worst-qualified owned driver out (boosted drivers kept),
+    best-qualified affordable driver in. None until that round's qualifying results exist.
+    Rule backtest (2026 r1-21): +51 points over 18 swaps vs no swap; a quali-aware simulator swap lost (-14).
+    shortcut: drivers missing from qualifying count as last, upgrade if they turn out to be data gaps."""
+    t = tables or _tables()
+    season, round_ = next_round(t)
+    res = results if results is not None else pd.read_parquet(DATA / "results.parquet")
+    q = res[(res["season"] == season) & (res["round"] == round_) & (res["session"] == "qualifying")]
+    if q.empty:
+        return None
+    pos = dict(zip(q["driver_code"], q["position"].astype(int)))
+    team, state = load(n), team_state(n, t)
+    h = _history(n)
+    row = h[(h["si"] == season) & (h["ri"] == round_)]
+    boosted = {*row[["boost", "boost3"]].iloc[-1]} - {""} if len(row) else set()
+    now = t["prices"][(t["prices"]["season"] == season) & (t["prices"]["round"] == round_)
+                      & (t["prices"]["kind"] == "driver")]
+    price = dict(zip(now["asset_id"], now["price"].astype(float)))
+    last = len(price) + 1
+    outs = [d for d in team["drivers"] if d not in boosted]
+    out = max(outs, key=lambda d: (pos.get(d, last), d))
+    room = state.bank + state.owned[out]
+    ins = [d for d, p in price.items() if d not in team["drivers"] and d not in (team.get("exclude") or [])
+           and p <= room + 1e-9 and d in pos]
+    if not ins:
+        return {"round": round_, "out": out, "in": None, "quali": {d: pos.get(d) for d in team["drivers"]}}
+    best = min(ins, key=lambda d: (pos[d], d))
+    return {"round": round_, "out": out, "out_pos": pos.get(out), "in": best, "in_pos": pos[best],
+            "in_price": price[best], "room": room, "boosted": sorted(boosted),
+            "quali": {d: pos.get(d) for d in team["drivers"]}}

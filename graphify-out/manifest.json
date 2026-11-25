@@ -265,8 +265,8 @@
     "semantic_hash": ""
   },
   "src/sim/montecarlo.py": {
-    "mtime": 1794382586.6382887,
-    "ast_hash": "e8d28545dce6041f0354c345ef4fcee5",
+    "mtime": 1795645857.909183,
+    "ast_hash": "ed0872d1fe80694a4dd6a168761ce298",
     "semantic_hash": ""
   },
   "tests/test_bonus.py": {
@@ -410,18 +410,18 @@
     "semantic_hash": ""
   },
   "src/ui/logic.py": {
-    "mtime": 1795587927.706923,
-    "ast_hash": "53e2304f6b3ae4eb4b85ee375cd8ec19",
+    "mtime": 1795645892.680368,
+    "ast_hash": "233c652f610d276214406f66249f9d1e",
     "semantic_hash": ""
   },
   "tests/test_ui_logic.py": {
-    "mtime": 1795587980.049963,
-    "ast_hash": "f04fc0a21d8db093b5e62d33f3ddc827",
+    "mtime": 1795645892.728659,
+    "ast_hash": "7c03a012ec05026272476da4c36a5f74",
     "semantic_hash": ""
   },
   "app.py": {
-    "mtime": 1795588060.9791334,
-    "ast_hash": "b66fa865878c02eeaddde7dfa88233c3",
+    "mtime": 1795645957.8493192,
+    "ast_hash": "a3d0d9a9aea937c4a311d509f8a6798a",
     "semantic_hash": ""
   },
   "src/ui/style.py": {

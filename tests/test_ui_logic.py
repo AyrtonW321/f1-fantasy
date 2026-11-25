@@ -189,3 +189,16 @@ def test_round_source_confirm_and_review(cfg):
     # best under budget 90 (team value) + 10 (bank): every driver costs 10, constructors 20
     assert r["best_points"] >= r["points"] and r["misses"][0][0] in DRIVERS + CONS
     assert logic.race_review(1, 2026, 2, tables=t) is None  # no lineup/points
+
+
+def test_final_fix(cfg):
+    t = tables()
+    q = lambda order: pd.DataFrame({"season": 2026, "round": 2, "session": "qualifying",
+                                    "driver_code": order, "position": range(1, len(order) + 1)})
+    assert logic.final_fix(1, results=q([])[:0], tables=t) is None  # quali not in yet
+    # team D4-D8; D8 qualified last and D7 is boosted, so D8 out; best-qualified affordable non-owned in
+    logic.record_round(1, 2026, 2, DRIVERS[3:8], ["C2", "C3"], "D7", source="snapshot", tables=t)
+    ff = logic.final_fix(1, results=q(["D2", "D7", "D1", "D4", "D5", "D6", "D3", "D8"]), tables=t)
+    assert (ff["out"], ff["out_pos"], ff["in"], ff["in_pos"]) == ("D8", 8, "D2", 1)
+    ff = logic.final_fix(1, results=q(["D2", "D8", "D1", "D4", "D5", "D6", "D3", "D7"]), tables=t)
+    assert ff["out"] == "D6"  # D7 last but boosted

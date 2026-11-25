@@ -17,7 +17,7 @@ from pipelines.weekly_update import lagging_sources, stale_warning, unsealed
 from src.optimize.ilp import TeamState
 from src.sim.scoring import load_rules
 from src.ui.cards import (CSS, HEADER, asset_card, best_skeleton, load_error, team_skeleton, timeline_skeleton, chip_grid, header_row, swap_strip, team_card, team_row)
-from src.ui.logic import (advised_chip, apply_transfers, asset_mu, confirm_round, load, next_round, race_review,
+from src.ui.logic import (advised_chip, apply_transfers, asset_mu, confirm_round, final_fix, load, next_round, race_review,
                           record_round, round_source,
                           round_chip, save_team, saved_xpts, swaps_log, team_path, team_state, top_teams,
                           validate)
@@ -350,6 +350,9 @@ def _team_row_body(n, next_round, races):
             _choose_and_apply(n, choices, chip, choice_key, round_ is not None and _applied(n, season, round_))
         with st.expander("Chip advice"):
             _chip_advice(n)
+        if "final_fix" in (team.get("chips_left") or []):
+            with st.expander("Final Fix (after qualifying)"):
+                _final_fix(n)
         if last is not None:
             with st.expander(f"Last race · R{last} {_race_name(races, season, last)}"):
                 _last_race(n, season, last)
@@ -382,6 +385,29 @@ def _confirm_banner(n, season, round_, name):
     if st.button("Confirm lineup", key=f"confirm_{n}_{round_}"):
         confirm_round(n, season, round_)
         st.rerun()
+
+
+def _final_fix(n):
+    try:
+        ff = final_fix(n)
+    except (ValueError, FileNotFoundError) as exc:
+        st.caption(f"Final Fix unavailable: {exc}")
+        return
+    if ff is None:
+        st.caption("Qualifying results not in yet. After qualifying ends, open the Update tab and run it, then check here.")
+        return
+    st.caption("Qualifying: " + ", ".join(f"{d} P{p}" if p else f"{d} no time" for d, p in
+                                          sorted(ff["quali"].items(), key=lambda x: x[1] or 99)))
+    if ff["in"] is None:
+        st.caption(f"No affordable swap for {ff['out']}.")
+        return
+    pos = f"P{ff['out_pos']}" if ff["out_pos"] else "no time"
+    st.html(swap_strip([ff["out"]], [ff["in"]]))
+    st.markdown(f"Swap **{ff['out']}** ({pos}) for **{ff['in']}** (P{ff['in_pos']}, {ff['in_price']:.1f} of "
+                f"{ff['room']:.1f} available).")
+    st.caption("Rule: worst-qualified driver out (boosted drivers kept), best-qualified affordable driver in. "
+               "Backtest 2026: +51 pts over 18 races vs no swap, but noisy (single races ranged -35 to +28). "
+               "Play it when the gap is big, e.g. your driver starts from the back.")
 
 
 def _last_race(n, season, round_):

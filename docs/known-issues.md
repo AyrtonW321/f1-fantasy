@@ -51,4 +51,5 @@
 - Streamlit does not reload `src/ui/*` modules on save; restart the app after editing them.
 - App calls `load_rules(season)` unguarded per team row; it reads a CWD-relative path, so launching from outside the repo root fails (same as the solve path). Use `F1 Fantasy.bat` or run from the repo root.
 - TracingInsights posts `race_all.json` a few days after `race.json`; until then the latest round has no bonus or overtakes rows (picks unaffected).
-- History rows from Edit team and snapshots log penalty 0 and the current bank; a snapshot is only as right as the team file at the last weekly update before lock. Vegas x2 boosts (RUS, VER, HAD) are assumed, not confirmed.
+- History rows from Edit team and snapshots log penalty 0 and the current bank; a snapshot is only as right as the team file at the last weekly update before lock. Vegas chips and boosts (T1 NN x2 LAW; T2 x3 VER x2 LAW; T3 x3 ANT x2 COL) come from the plan, not confirmed by the user.
+- Final Fix helper is untested on a live weekend: needs Jolpica qualifying for the round (run Update after quali). Drivers missing from qualifying count as last; sprint weekends not handled differently. Boost owner read from the round's history row (snapshot or app), so it is wrong if the boost was changed in the game only.

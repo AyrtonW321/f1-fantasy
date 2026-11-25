@@ -28,6 +28,8 @@
   "26": "InfeasibleTeam",
   "27": "scoring.py",
   "28": "evaluate_overtakes.py",
+  "29": "confirm_round",
+  "30": "replay_gain",
   "41": "test_smoke.py",
   "42": "f1-fantasy"
 }
