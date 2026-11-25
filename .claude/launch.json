@@ -4,8 +4,32 @@
     {
       "name": "app",
       "runtimeExecutable": "uv",
-      "runtimeArgs": ["run", "streamlit", "run", "app.py", "--server.headless", "true", "--server.port", "8599"],
+      "runtimeArgs": [
+        "run",
+        "streamlit",
+        "run",
+        "app.py",
+        "--server.headless",
+        "true",
+        "--server.port",
+        "8599"
+      ],
       "port": 8599
+    },
+    {
+      "name": "app-check",
+      "runtimeExecutable": "uv",
+      "runtimeArgs": [
+        "run",
+        "streamlit",
+        "run",
+        "app.py",
+        "--server.headless",
+        "true",
+        "--server.port",
+        "8601"
+      ],
+      "port": 8601
     }
   ]
 }

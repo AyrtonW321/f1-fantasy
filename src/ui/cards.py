@@ -24,6 +24,15 @@ CSS = """<style>
 [data-testid="stTab"]:hover{background:#1B1F25;color:#F2F3F4;transform:translateY(-1px)}
 [data-testid="stTab"][aria-selected="true"]{background:#E10600;color:#FFF}
 [data-testid="stTab"][aria-selected="true"] p{color:#FFF}
+.sk-wrap{display:flex;flex-direction:column;gap:8px;margin:4px 0}.sk-team{display:grid;grid-template-columns:5fr 2fr 4fr;gap:16px;align-items:start}
+.sk-col{display:flex;flex-direction:column;gap:8px}.sk-chips{display:grid;grid-template-columns:repeat(3,52px);gap:6px;justify-content:center}
+.sk{background:#262B31;border-radius:8px;animation:sk-pulse 1.6s ease-in-out infinite}
+.sk-title{height:20px;width:70px;border-radius:4px}.sk-card{height:140px;border-radius:10px}.sk-select{height:40px}.sk-chip{width:52px;height:52px}
+.sk-bar{height:40px}.sk-row{height:128px}.sk-head{height:18px;width:60%;border-radius:4px}.sk-chart{height:300px;border-radius:10px}
+@keyframes sk-pulse{0%,100%{opacity:1}50%{opacity:.45}}
+@media(prefers-reduced-motion:reduce){.sk{animation:none}}
+.load-error{padding:16px;text-align:center;color:#F2F3F4;font:13px sans-serif}
+[data-stale="true"]{opacity:1!important}
 @media(max-width:850px){.row{grid-template-columns:40px 1fr 56px 1fr;}.row-money,.row-xpts,.chips{grid-row:2}}
 </style>"""
 
@@ -63,6 +72,37 @@ def chip_badges(all_chips: list[str], chips_left: list[str], selected: str | Non
 HEADER = '<div class="app-head"><div class="app-mark"></div><div class="app-title">F1 <span>Fantasy</span></div></div>'
 CHIP_LABELS = {"limitless": "LL", "wildcard": "WC", "x3_boost": "X3", "no_negative": "NN",
                "autopilot": "AP", "final_fix": "FF"}
+
+
+def _skeleton(inner: str, cls: str = "sk-wrap") -> str:
+    """Busy wrapper read once as "Loading"; the boxes inside are hidden from screen readers."""
+    return f'<div class="{cls}" role="status" aria-busy="true" aria-label="Loading">{inner}</div>'
+
+
+def _boxes(kind: str, n: int = 1) -> str:
+    return f'<div class="sk {kind}" aria-hidden="true"></div>' * n
+
+
+def team_skeleton() -> str:
+    """Placeholder for one My Team row: card | chip select + 3x2 chips | four expanders (5:2:4 like the real columns)."""
+    return _skeleton(f'<div class="sk-col">{_boxes("sk-title")}{_boxes("sk-card")}</div>'
+                     f'<div class="sk-col">{_boxes("sk-title")}{_boxes("sk-select")}'
+                     f'<div class="sk-chips">{_boxes("sk-chip", 6)}</div></div>'
+                     f'<div class="sk-col">{_boxes("sk-bar", 4)}</div>', "sk-team")
+
+
+def best_skeleton(rows: int = 8) -> str:
+    return _skeleton(_boxes("sk-head") + _boxes("sk-row", rows))
+
+
+def timeline_skeleton() -> str:
+    return _skeleton(_boxes("sk-head") + _boxes("sk-chart"))
+
+
+def load_error(thing: str) -> str:
+    """One-line failure message in place of a skeleton; the caller adds the Retry button."""
+    return (f"<div class='load-error' role='alert'>Couldn't load {html.escape(thing)}. "
+            "Is the data built? Try the Update tab.</div>")
 
 
 def chip_grid(all_chips: list[str], chips_left: list[str], selected: str | None, played_now: str | None) -> str:

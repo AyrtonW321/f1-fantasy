@@ -57,3 +57,18 @@ def test_team_card_has_every_asset_once():
                            207.1, {a: f"<i>{a}</i>" for a in ids})
     assert all(card.count(f"<i>{a}</i>") == 1 for a in ids)
     assert "112.7" in card and "207.1" in card and "2 FT" in card
+
+
+def test_skeletons_are_busy_and_hidden_boxes():
+    team = cards.team_skeleton()
+    assert 'aria-busy="true"' in team and 'role="status"' in team
+    assert team.count('class="sk sk-chip"') == 6 and team.count('class="sk sk-bar"') == 4
+    assert cards.best_skeleton().count('class="sk sk-row"') == 8
+    assert 'class="sk sk-chart"' in cards.timeline_skeleton()
+    assert all('aria-hidden="true"' in s for s in (team, cards.best_skeleton(), cards.timeline_skeleton()))
+    assert "prefers-reduced-motion" in cards.CSS and "1.6s" in cards.CSS
+
+
+def test_load_error_is_alert_without_details():
+    html = cards.load_error("Team 1")
+    assert "role='alert'" in html and "Couldn't load Team 1." in html
