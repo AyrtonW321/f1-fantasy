@@ -458,5 +458,10 @@
     "mtime": 1795415307.3483407,
     "ast_hash": "7e562740be4428584c702a62882f09d0",
     "semantic_hash": ""
+  },
+  "tests/test_app_errors.py": {
+    "mtime": 1795588185.4483504,
+    "ast_hash": "3f97e7b1f9cfa948d24b6796c845153a",
+    "semantic_hash": ""
   }
 }

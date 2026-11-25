@@ -10,8 +10,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "app.py"
     },
     {
@@ -21,8 +21,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "app_inputs_stamp",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 4,
+      "community_name": "walkforward.py",
       "norm_label": "_inputs_stamp()"
     },
     {
@@ -32,8 +32,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "app_top",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 4,
+      "community_name": "walkforward.py",
       "norm_label": "_top()"
     },
     {
@@ -43,8 +43,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "app_cached_top",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 4,
+      "community_name": "walkforward.py",
       "norm_label": "_cached_top()"
     },
     {
@@ -54,8 +54,8 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "app_mu",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 4,
+      "community_name": "walkforward.py",
       "norm_label": "_mu()"
     },
     {
@@ -65,8 +65,8 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "app_review",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 4,
+      "community_name": "walkforward.py",
       "norm_label": "_review()"
     },
     {
@@ -76,8 +76,8 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "app_cards",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 4,
+      "community_name": "walkforward.py",
       "norm_label": "_cards()"
     },
     {
@@ -87,8 +87,8 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "app_table",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 4,
+      "community_name": "walkforward.py",
       "norm_label": "_table()"
     },
     {
@@ -98,8 +98,8 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "app_round_info",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "_round_info()"
     },
     {
@@ -109,8 +109,8 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "app_prices",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 4,
+      "community_name": "walkforward.py",
       "norm_label": "_prices()"
     },
     {
@@ -120,8 +120,8 @@
       "source_location": "L107",
       "_origin": "ast",
       "id": "app_report_chip_advice",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "_report_chip_advice()"
     },
     {
@@ -131,8 +131,8 @@
       "source_location": "L117",
       "_origin": "ast",
       "id": "app_capture_chips",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "_capture_chips()"
     },
     {
@@ -142,8 +142,8 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "app_decision_rows",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "_decision_rows()"
     },
     {
@@ -153,8 +153,8 @@
       "source_location": "L134",
       "_origin": "ast",
       "id": "app_guard",
-      "community": 30,
-      "community_name": "_guard",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "_guard()"
     },
     {
@@ -164,8 +164,8 @@
       "source_location": "L147",
       "_origin": "ast",
       "id": "app_area",
-      "community": 7,
-      "community_name": "pandas",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "_area()"
     },
     {
@@ -175,8 +175,8 @@
       "source_location": "L157",
       "_origin": "ast",
       "id": "app_timeline_tab",
-      "community": 30,
-      "community_name": "_guard",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "_timeline_tab()"
     },
     {
@@ -186,8 +186,8 @@
       "source_location": "L161",
       "_origin": "ast",
       "id": "app_timeline_body",
-      "community": 30,
-      "community_name": "_guard",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "_timeline_body()"
     },
     {
@@ -197,8 +197,8 @@
       "source_location": "L170",
       "_origin": "ast",
       "id": "app_table_of",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "_table_of()"
     },
     {
@@ -208,8 +208,8 @@
       "source_location": "L174",
       "_origin": "ast",
       "id": "app_chip_select",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "_chip_select()"
     },
     {
@@ -219,8 +219,8 @@
       "source_location": "L186",
       "_origin": "ast",
       "id": "app_applied",
-      "community": 24,
-      "community_name": "walkforward.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "_applied()"
     },
     {
@@ -230,8 +230,8 @@
       "source_location": "L191",
       "_origin": "ast",
       "id": "app_picks",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 4,
+      "community_name": "walkforward.py",
       "norm_label": "_picks()"
     },
     {
@@ -241,8 +241,8 @@
       "source_location": "L204",
       "_origin": "ast",
       "id": "app_chip_advice",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "_chip_advice()"
     },
     {
@@ -252,8 +252,8 @@
       "source_location": "L218",
       "_origin": "ast",
       "id": "app_selected",
-      "community": 24,
-      "community_name": "walkforward.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "_selected()"
     },
     {
@@ -263,8 +263,8 @@
       "source_location": "L223",
       "_origin": "ast",
       "id": "app_choose_and_apply",
-      "community": 24,
-      "community_name": "walkforward.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "_choose_and_apply()"
     },
     {
@@ -285,8 +285,8 @@
       "source_location": "L295",
       "_origin": "ast",
       "id": "app_team_row",
-      "community": 30,
-      "community_name": "_guard",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "_team_row()"
     },
     {
@@ -296,7 +296,7 @@
       "source_location": "L299",
       "_origin": "ast",
       "id": "app_team_row_body",
-      "community": 24,
+      "community": 4,
       "community_name": "walkforward.py",
       "norm_label": "_team_row_body()"
     },
@@ -307,7 +307,7 @@
       "source_location": "L368",
       "_origin": "ast",
       "id": "app_race_name",
-      "community": 24,
+      "community": 4,
       "community_name": "walkforward.py",
       "norm_label": "_race_name()"
     },
@@ -318,7 +318,7 @@
       "source_location": "L373",
       "_origin": "ast",
       "id": "app_confirm_banner",
-      "community": 24,
+      "community": 4,
       "community_name": "walkforward.py",
       "norm_label": "_confirm_banner()"
     },
@@ -329,8 +329,8 @@
       "source_location": "L387",
       "_origin": "ast",
       "id": "app_last_race",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 4,
+      "community_name": "walkforward.py",
       "norm_label": "_last_race()"
     },
     {
@@ -340,8 +340,8 @@
       "source_location": "L404",
       "_origin": "ast",
       "id": "app_data_tab",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "_data_tab()"
     },
     {
@@ -351,8 +351,8 @@
       "source_location": "L453",
       "_origin": "ast",
       "id": "app_best_tab",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "_best_tab()"
     },
     {
@@ -362,8 +362,8 @@
       "source_location": "L457",
       "_origin": "ast",
       "id": "app_best_body",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 4,
+      "community_name": "walkforward.py",
       "norm_label": "_best_body()"
     },
     {
@@ -373,8 +373,8 @@
       "source_location": "L478",
       "_origin": "ast",
       "id": "app_main",
-      "community": 7,
-      "community_name": "pandas",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "main()"
     },
     {
@@ -384,8 +384,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_rationale_1",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "local streamlit dashboard for the f1 fantasy teams and weekly update."
     },
     {
@@ -395,8 +395,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "app_rationale_29",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 4,
+      "community_name": "walkforward.py",
       "norm_label": "modified times of everything top_teams reads besides its arguments: data, model"
     },
     {
@@ -406,8 +406,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "app_rationale_37",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 4,
+      "community_name": "walkforward.py",
       "norm_label": "cached top_teams: each ilp solve costs ~0.2 s, so only re-solve when the team, c"
     },
     {
@@ -417,8 +417,8 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "app_rationale_59",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 4,
+      "community_name": "walkforward.py",
       "norm_label": "asset_card html per id: team colour, current price and this round's xpts."
     },
     {
@@ -428,8 +428,8 @@
       "source_location": "L135",
       "_origin": "ast",
       "id": "app_rationale_135",
-      "community": 30,
-      "community_name": "_guard",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "run one data area; on failure show a message and retry in its place (the spec's"
     },
     {
@@ -439,8 +439,8 @@
       "source_location": "L148",
       "_origin": "ast",
       "id": "app_rationale_148",
-      "community": 7,
-      "community_name": "pandas",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "first run: a slot showing the skeleton until filled. later runs: a plain contain"
     },
     {
@@ -450,8 +450,8 @@
       "source_location": "L175",
       "_origin": "ast",
       "id": "app_rationale_175",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "per-team chip picker: defaults to the chip advice; locked to the logged chip onc"
     },
     {
@@ -461,8 +461,8 @@
       "source_location": "L187",
       "_origin": "ast",
       "id": "app_rationale_187",
-      "community": 24,
-      "community_name": "walkforward.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "true once 'i made these transfers' logged this round (with or without a chip); s"
     },
     {
@@ -472,8 +472,8 @@
       "source_location": "L192",
       "_origin": "ast",
       "id": "app_rationale_192",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 4,
+      "community_name": "walkforward.py",
       "norm_label": "top choices for the chip; returns (choices, session key of the chosen index)."
     },
     {
@@ -494,7 +494,7 @@
       "source_location": "L374",
       "_origin": "ast",
       "id": "app_rationale_374",
-      "community": 24,
+      "community": 4,
       "community_name": "walkforward.py",
       "norm_label": "ask the user to confirm the lineup logged for the last race (or record one if no"
     },
@@ -1000,8 +1000,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_pick_team",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "pick_team.py"
     },
     {
@@ -1033,8 +1033,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "pipelines_pick_team_exclude",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "exclude()"
     },
     {
@@ -1044,8 +1044,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "pipelines_pick_team_py_dataframe",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "dataframe"
     },
     {
@@ -1055,8 +1055,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "pipelines_pick_team_swaps",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "swaps()"
     },
     {
@@ -1077,8 +1077,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "pipelines_pick_team_rationale_1",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "pick the team for the next unlocked round from robust season form.  reads conf"
     },
     {
@@ -1088,8 +1088,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "pipelines_pick_team_rationale_34",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "benched or unavailable assets: expected points -1000, so the optimizer sells the"
     },
     {
@@ -1099,8 +1099,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "pipelines_pick_team_rationale_42",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "out -> in' for each transfer, drivers and constructors paired separately (counts"
     },
     {
@@ -1121,8 +1121,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "pipelines_plan_chips_main",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "main()"
     },
     {
@@ -1253,8 +1253,8 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "pipelines_weekly_update_unsealed",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "unsealed()"
     },
     {
@@ -1396,8 +1396,8 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "pipelines_weekly_update_rationale_83",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "raw files newer than the sealed archive (all of them when there is no archive)."
     },
     {
@@ -1718,8 +1718,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_overtakes",
-      "community": 28,
-      "community_name": "evaluate_overtakes.py",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "overtakes.py"
     },
     {
@@ -1729,8 +1729,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_features_overtakes_design",
-      "community": 28,
-      "community_name": "evaluate_overtakes.py",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "_design()"
     },
     {
@@ -1740,8 +1740,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_features_overtakes_py_dataframe",
-      "community": 28,
-      "community_name": "evaluate_overtakes.py",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "dataframe"
     },
     {
@@ -1751,8 +1751,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_features_overtakes_py_ndarray",
-      "community": 28,
-      "community_name": "evaluate_overtakes.py",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "ndarray"
     },
     {
@@ -1762,8 +1762,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_features_overtakes_expected",
-      "community": 28,
-      "community_name": "evaluate_overtakes.py",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "expected()"
     },
     {
@@ -1773,8 +1773,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "src_features_overtakes_overtakes_mu",
-      "community": 28,
-      "community_name": "evaluate_overtakes.py",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "overtakes_mu()"
     },
     {
@@ -1784,8 +1784,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_overtakes_rationale_1",
-      "community": 28,
-      "community_name": "evaluate_overtakes.py",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "phase 4.5: expected race overtakes (poisson) and positions gained (shrunk mean)"
     },
     {
@@ -1795,8 +1795,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "src_features_overtakes_rationale_25",
-      "community": 28,
-      "community_name": "evaluate_overtakes.py",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "expected overtakes and gained per driver for a race; none without earlier curren"
     },
     {
@@ -1806,8 +1806,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "src_features_overtakes_rationale_46",
-      "community": 28,
-      "community_name": "evaluate_overtakes.py",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "robust_mu of points minus actual overtake/gained points, plus expected overtake/"
     },
     {
@@ -1927,8 +1927,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_prices",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 2,
+      "community_name": "test_build_tables.py",
       "norm_label": "prices.py"
     },
     {
@@ -1938,8 +1938,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "src_features_prices_realized_price_changes",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 2,
+      "community_name": "test_build_tables.py",
       "norm_label": "realized_price_changes()"
     },
     {
@@ -1949,8 +1949,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_features_prices_py_dataframe",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 2,
+      "community_name": "test_build_tables.py",
       "norm_label": "dataframe"
     },
     {
@@ -1960,8 +1960,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_features_prices_rationale_1",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 2,
+      "community_name": "test_build_tables.py",
       "norm_label": "observed race-to-race fantasy price changes derived from official price snapshot"
     },
     {
@@ -1971,8 +1971,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "src_features_prices_rationale_13",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 2,
+      "community_name": "test_build_tables.py",
       "norm_label": "calculate observed price changes only between adjacent round snapshots.      the"
     },
     {
@@ -3401,8 +3401,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ingest_jolpica_pull",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 25,
+      "community_name": "dnf_probability",
       "norm_label": "jolpica_pull.py"
     },
     {
@@ -3467,8 +3467,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ingest_jolpica_pull_rationale_1",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 25,
+      "community_name": "dnf_probability",
       "norm_label": "snapshot jolpica (ergast-compatible) race data to {raw_dir}/jolpica/{season}/."
     },
     {
@@ -3500,8 +3500,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ingest_ti_lines",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "ti_lines.py"
     },
     {
@@ -3511,8 +3511,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_ingest_ti_lines_points",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "_points()"
     },
     {
@@ -3522,8 +3522,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "src_ingest_ti_lines_position",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "_position()"
     },
     {
@@ -3533,8 +3533,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_ingest_ti_lines_parse_pit",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "parse_pit()"
     },
     {
@@ -3544,8 +3544,8 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "src_ingest_ti_lines_parse_teamwork",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "parse_teamwork()"
     },
     {
@@ -3555,8 +3555,8 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "src_ingest_ti_lines_driver_line",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "driver_line()"
     },
     {
@@ -3566,8 +3566,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_ingest_ti_lines_py_session",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "session"
     },
     {
@@ -3577,8 +3577,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "src_ingest_ti_lines_weekend_entrants",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "weekend_entrants()"
     },
     {
@@ -3588,8 +3588,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_ingest_ti_lines_py_path",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "path"
     },
     {
@@ -3599,8 +3599,8 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "src_ingest_ti_lines_bonus_points",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "bonus_points()"
     },
     {
@@ -3610,8 +3610,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ingest_ti_lines_rationale_1",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "tracinginsights driver and constructor rows turned into scoring inputs (src/sim/"
     },
     {
@@ -3621,8 +3621,8 @@
       "source_location": "L89",
       "_origin": "ast",
       "id": "src_ingest_ti_lines_rationale_89",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "fastest-lap (race and sprint), driver of the day and pit-stop points in one ti r"
     },
     {
@@ -3885,8 +3885,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_dnf",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "dnf.py"
     },
     {
@@ -3896,8 +3896,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_models_dnf_dnf_probability",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "dnf_probability()"
     },
     {
@@ -3907,8 +3907,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_models_dnf_py_dataframe",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "dataframe"
     },
     {
@@ -3918,8 +3918,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_models_dnf_py_series",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "series"
     },
     {
@@ -3929,8 +3929,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_models_dnf_rationale_1",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "per-driver race dnf probability, shrunk toward the field rate of the history it"
     },
     {
@@ -3940,8 +3940,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_models_dnf_rationale_9",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "history: race result rows already cut to before the target lock. p = (dnfs + shr"
     },
     {
@@ -4358,8 +4358,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_optimize_chip_history",
-      "community": 29,
-      "community_name": "test_weekly_update.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "chip_history.py"
     },
     {
@@ -4369,8 +4369,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "src_optimize_chip_history_replay_gain",
-      "community": 29,
-      "community_name": "test_weekly_update.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "replay_gain()"
     },
     {
@@ -4380,8 +4380,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_optimize_chip_history_py_dataframe",
-      "community": 29,
-      "community_name": "test_weekly_update.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "dataframe"
     },
     {
@@ -4391,8 +4391,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "src_optimize_chip_history_historical_value",
-      "community": 29,
-      "community_name": "test_weekly_update.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "historical_value()"
     },
     {
@@ -4402,8 +4402,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_optimize_chip_history_rationale_1",
-      "community": 29,
-      "community_name": "test_weekly_update.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "replay-based chip values for chips that expected points cannot rank (autopilot,"
     },
     {
@@ -4413,8 +4413,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_optimize_chip_history_rationale_19",
-      "community": 29,
-      "community_name": "test_weekly_update.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "points the chip would have added in one past round (points and mu already cut to"
     },
     {
@@ -4424,8 +4424,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "src_optimize_chip_history_rationale_42",
-      "community": 29,
-      "community_name": "test_weekly_update.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "mean replay gain over earlier completed rounds, sprint weekends vs normal ones k"
     },
     {
@@ -4864,8 +4864,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_sim_scoring",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "scoring.py"
     },
     {
@@ -4875,8 +4875,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_sim_scoring_unknownruleerror",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "unknownruleerror"
     },
     {
@@ -4886,8 +4886,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_sim_scoring_py_exception",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "exception"
     },
     {
@@ -4897,8 +4897,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "src_sim_scoring_driverline",
-      "community": 28,
-      "community_name": "evaluate_overtakes.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "driverline"
     },
     {
@@ -4908,8 +4908,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "src_sim_scoring_pitresult",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "pitresult"
     },
     {
@@ -4941,8 +4941,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "src_sim_scoring_rule",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "_rule()"
     },
     {
@@ -4952,8 +4952,8 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "src_sim_scoring_driver_points",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "_driver_points()"
     },
     {
@@ -4963,8 +4963,8 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "src_sim_scoring_pit_points",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "_pit_points()"
     },
     {
@@ -4974,8 +4974,8 @@
       "source_location": "L99",
       "_origin": "ast",
       "id": "src_sim_scoring_score_driver",
-      "community": 28,
-      "community_name": "evaluate_overtakes.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "score_driver()"
     },
     {
@@ -4985,8 +4985,8 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "src_sim_scoring_score_constructor",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "score_constructor()"
     },
     {
@@ -4996,8 +4996,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_sim_scoring_rationale_1",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "official f1 fantasy scoring. game values come from config/rules_{season}.yaml, n"
     },
     {
@@ -5007,8 +5007,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_sim_scoring_rationale_11",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "a rule needed for this score is null (never observed) or not defined."
     },
     {
@@ -5117,8 +5117,8 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "src_ui_cards_load_error",
-      "community": 30,
-      "community_name": "_guard",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "load_error()"
     },
     {
@@ -5172,8 +5172,8 @@
       "source_location": "L152",
       "_origin": "ast",
       "id": "src_ui_cards_header_row",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 7,
+      "community_name": "pandas",
       "norm_label": "header_row()"
     },
     {
@@ -5216,8 +5216,8 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "src_ui_cards_rationale_103",
-      "community": 30,
-      "community_name": "_guard",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "one-line failure message in place of a skeleton; the caller adds the retry butto"
     },
     {
@@ -5249,8 +5249,8 @@
       "source_location": "L153",
       "_origin": "ast",
       "id": "src_ui_cards_rationale_153",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 7,
+      "community_name": "pandas",
       "norm_label": "column titles aligned with team_row."
     },
     {
@@ -5458,8 +5458,8 @@
       "source_location": "L260",
       "_origin": "ast",
       "id": "src_ui_logic_asset_mu",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "asset_mu()"
     },
     {
@@ -5469,8 +5469,8 @@
       "source_location": "L265",
       "_origin": "ast",
       "id": "src_ui_logic_saved_xpts",
-      "community": 24,
-      "community_name": "walkforward.py",
+      "community": 28,
+      "community_name": "evaluate_overtakes.py",
       "norm_label": "saved_xpts()"
     },
     {
@@ -5491,8 +5491,8 @@
       "source_location": "L289",
       "_origin": "ast",
       "id": "src_ui_logic_swaps_log",
-      "community": 24,
-      "community_name": "walkforward.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "swaps_log()"
     },
     {
@@ -5502,7 +5502,7 @@
       "source_location": "L305",
       "_origin": "ast",
       "id": "src_ui_logic_round_source",
-      "community": 24,
+      "community": 4,
       "community_name": "walkforward.py",
       "norm_label": "round_source()"
     },
@@ -5535,8 +5535,8 @@
       "source_location": "L351",
       "_origin": "ast",
       "id": "src_ui_logic_round_chip",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "round_chip()"
     },
     {
@@ -5546,8 +5546,8 @@
       "source_location": "L358",
       "_origin": "ast",
       "id": "src_ui_logic_advised_chip",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "advised_chip()"
     },
     {
@@ -5689,8 +5689,8 @@
       "source_location": "L261",
       "_origin": "ast",
       "id": "src_ui_logic_rationale_261",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "asset id to this round's expected points (no exclusions)."
     },
     {
@@ -5700,8 +5700,8 @@
       "source_location": "L266",
       "_origin": "ast",
       "id": "src_ui_logic_rationale_266",
-      "community": 24,
-      "community_name": "walkforward.py",
+      "community": 28,
+      "community_name": "evaluate_overtakes.py",
       "norm_label": "(expected points, x2 driver) for the saved team with no transfers; x2 on the bes"
     },
     {
@@ -5711,8 +5711,8 @@
       "source_location": "L290",
       "_origin": "ast",
       "id": "src_ui_logic_rationale_290",
-      "community": 24,
-      "community_name": "walkforward.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "per logged round: assets out and in versus the previous logged lineup (first row"
     },
     {
@@ -5722,7 +5722,7 @@
       "source_location": "L306",
       "_origin": "ast",
       "id": "src_ui_logic_rationale_306",
-      "community": 24,
+      "community": 4,
       "community_name": "walkforward.py",
       "norm_label": "how that round's lineup was logged: app, edit or snapshot; none when nothing is"
     },
@@ -5755,8 +5755,8 @@
       "source_location": "L352",
       "_origin": "ast",
       "id": "src_ui_logic_rationale_352",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 6,
+      "community_name": "test_jolpica_pull.py",
       "norm_label": "chip logged for that round, if any."
     },
     {
@@ -5766,8 +5766,8 @@
       "source_location": "L359",
       "_origin": "ast",
       "id": "src_ui_logic_rationale_359",
-      "community": 4,
-      "community_name": "walkforward.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "norm_label": "chip the plan_chips advice recommends for round_ ('round n: <chip>;'), none for"
     },
     {
@@ -5777,8 +5777,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ui_style",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 24,
+      "community_name": "walkforward.py",
       "norm_label": "style.py"
     },
     {
@@ -5788,8 +5788,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_ui_style_team_colors",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 24,
+      "community_name": "walkforward.py",
       "norm_label": "team_colors()"
     },
     {
@@ -5810,8 +5810,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "src_ui_style_driver_teams",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 24,
+      "community_name": "walkforward.py",
       "norm_label": "driver_teams()"
     },
     {
@@ -5821,8 +5821,8 @@
       "source_location": "",
       "_origin": "ast",
       "id": "src_ui_style_py_dataframe",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 24,
+      "community_name": "walkforward.py",
       "norm_label": "dataframe"
     },
     {
@@ -5832,8 +5832,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_ui_style_rationale_1",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 24,
+      "community_name": "walkforward.py",
       "norm_label": "team colours and readable text colour for the app's asset cards."
     },
     {
@@ -5854,8 +5854,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_ui_style_rationale_23",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 24,
+      "community_name": "walkforward.py",
       "norm_label": "driver code to constructor asset id, from each driver's latest result up to `sea"
     },
     {
@@ -5953,8 +5953,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_conftest",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "conftest.py"
     },
     {
@@ -5964,8 +5964,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "tests_conftest_raw_data",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "raw_data()"
     },
     {
@@ -5975,9 +5975,31 @@
       "source_location": "",
       "_origin": "ast",
       "id": "tests_conftest_py_path",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "path"
+    },
+    {
+      "label": "test_app_errors.py",
+      "file_type": "code",
+      "source_file": "tests/test_app_errors.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "tests_test_app_errors",
+      "community": 9,
+      "community_name": "snapshot_official",
+      "norm_label": "test_app_errors.py"
+    },
+    {
+      "label": "test_failed_team_shows_message_and_retry()",
+      "file_type": "code",
+      "source_file": "tests/test_app_errors.py",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "tests_test_app_errors_test_failed_team_shows_message_and_retry",
+      "community": 9,
+      "community_name": "snapshot_official",
+      "norm_label": "test_failed_team_shows_message_and_retry()"
     },
     {
       "label": "test_backtest_metrics.py",
@@ -6525,8 +6547,8 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "tests_test_chips_test_replay_autopilot_and_no_negative_use_actual_points",
-      "community": 29,
-      "community_name": "test_weekly_update.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_replay_autopilot_and_no_negative_use_actual_points()"
     },
     {
@@ -6734,8 +6756,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_dnf",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "test_dnf.py"
     },
     {
@@ -6745,8 +6767,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "tests_test_dnf_test_dnf_probability_shrinks_to_field_rate",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "test_dnf_probability_shrinks_to_field_rate()"
     },
     {
@@ -6756,8 +6778,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "tests_test_dnf_test_no_history_gives_zero",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "test_no_history_gives_zero()"
     },
     {
@@ -7746,8 +7768,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "tests_test_montecarlo_test_hand_built_draw_matches_scoring_engine",
-      "community": 28,
-      "community_name": "evaluate_overtakes.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_hand_built_draw_matches_scoring_engine()"
     },
     {
@@ -7823,8 +7845,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_overtakes",
-      "community": 28,
-      "community_name": "evaluate_overtakes.py",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "test_overtakes.py"
     },
     {
@@ -7834,8 +7856,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "tests_test_overtakes_test_poisson_fit_recovers_log_rate_and_shrunk_rate_limits",
-      "community": 28,
-      "community_name": "evaluate_overtakes.py",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "test_poisson_fit_recovers_log_rate_and_shrunk_rate_limits()"
     },
     {
@@ -7845,8 +7867,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "tests_test_overtakes_test_expected_uses_only_earlier_rounds_and_track_effect",
-      "community": 28,
-      "community_name": "evaluate_overtakes.py",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "test_expected_uses_only_earlier_rounds_and_track_effect()"
     },
     {
@@ -7955,8 +7977,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_pick_team",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "test_pick_team.py"
     },
     {
@@ -7966,8 +7988,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "tests_test_pick_team_test_load_team_reads_state_and_rejects_unknown_assets",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "test_load_team_reads_state_and_rejects_unknown_assets()"
     },
     {
@@ -7977,8 +7999,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "tests_test_pick_team_test_exclude_pushes_asset_below_everyone_and_rejects_unknown",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "test_exclude_pushes_asset_below_everyone_and_rejects_unknown()"
     },
     {
@@ -7988,8 +8010,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "tests_test_pick_team_test_swaps_pair_sold_with_bought_by_kind",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "test_swaps_pair_sold_with_bought_by_kind()"
     },
     {
@@ -8032,8 +8054,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_prices",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 2,
+      "community_name": "test_build_tables.py",
       "norm_label": "test_prices.py"
     },
     {
@@ -8043,8 +8065,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "tests_test_prices_test_realized_price_changes_compare_adjacent_round_snapshots_only",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 2,
+      "community_name": "test_build_tables.py",
       "norm_label": "test_realized_price_changes_compare_adjacent_round_snapshots_only()"
     },
     {
@@ -8054,8 +8076,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "tests_test_prices_test_realized_price_changes_reject_duplicate_snapshots",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 2,
+      "community_name": "test_build_tables.py",
       "norm_label": "test_realized_price_changes_reject_duplicate_snapshots()"
     },
     {
@@ -8263,8 +8285,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_scoring",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_scoring.py"
     },
     {
@@ -8274,8 +8296,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "tests_test_scoring_test_race_win_all_bonuses_2026",
-      "community": 28,
-      "community_name": "evaluate_overtakes.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_race_win_all_bonuses_2026()"
     },
     {
@@ -8285,8 +8307,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "tests_test_scoring_test_positions_lost_are_negative",
-      "community": 28,
-      "community_name": "evaluate_overtakes.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_positions_lost_are_negative()"
     },
     {
@@ -8296,8 +8318,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "tests_test_scoring_test_sprint_nc_changes_by_season",
-      "community": 28,
-      "community_name": "evaluate_overtakes.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_sprint_nc_changes_by_season()"
     },
     {
@@ -8307,8 +8329,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "tests_test_scoring_test_null_rule_raises",
-      "community": 28,
-      "community_name": "evaluate_overtakes.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_null_rule_raises()"
     },
     {
@@ -8318,8 +8340,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "tests_test_scoring_test_constructor_excludes_dotd",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_constructor_excludes_dotd()"
     },
     {
@@ -8329,8 +8351,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "tests_test_scoring_test_constructor_uses_own_dsq_value",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_constructor_uses_own_dsq_value()"
     },
     {
@@ -8340,8 +8362,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "tests_test_scoring_test_constructor_qualifying_mexico_2026_shape",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_constructor_qualifying_mexico_2026_shape()"
     },
     {
@@ -8351,8 +8373,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "tests_test_scoring_test_rank_pit_sums",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_rank_pit_sums()"
     },
     {
@@ -8362,8 +8384,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "tests_test_scoring_test_time_band_boundaries",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_time_band_boundaries()"
     },
     {
@@ -8373,8 +8395,8 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "tests_test_scoring_test_overall_fastest_stop_null_raises_in_2024",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_overall_fastest_stop_null_raises_in_2024()"
     },
     {
@@ -8384,8 +8406,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "tests_test_scoring_structure",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "_structure()"
     },
     {
@@ -8395,8 +8417,8 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "tests_test_scoring_test_all_seasons_load_with_same_keys",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_all_seasons_load_with_same_keys()"
     },
     {
@@ -8406,8 +8428,8 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "tests_test_scoring_test_pit_points_only_count_in_race_sessions",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_pit_points_only_count_in_race_sessions()"
     },
     {
@@ -8417,8 +8439,8 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "tests_test_scoring_test_null_pit_table_raises_unknown_rule_error",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_null_pit_table_raises_unknown_rule_error()"
     },
     {
@@ -8428,8 +8450,8 @@
       "source_location": "L110",
       "_origin": "ast",
       "id": "tests_test_scoring_test_season_values_match_spec",
-      "community": 9,
-      "community_name": "snapshot_official",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_season_values_match_spec()"
     },
     {
@@ -8923,8 +8945,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_ti_lines",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_ti_lines.py"
     },
     {
@@ -8934,8 +8956,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "tests_test_ti_lines_pit_row",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "pit_row()"
     },
     {
@@ -8945,8 +8967,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "tests_test_ti_lines_test_parse_pit_ranks",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_parse_pit_ranks()"
     },
     {
@@ -8956,8 +8978,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "tests_test_ti_lines_test_parse_pit_seconds",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_parse_pit_seconds()"
     },
     {
@@ -8967,8 +8989,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "tests_test_ti_lines_test_parse_pit_missing_breakdown_is_empty",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_parse_pit_missing_breakdown_is_empty()"
     },
     {
@@ -8978,8 +9000,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "tests_test_ti_lines_test_parse_pit_flags_and_world_record",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_parse_pit_flags_and_world_record()"
     },
     {
@@ -8989,8 +9011,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "tests_test_ti_lines_test_parse_teamwork_maps_known_text",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_parse_teamwork_maps_known_text()"
     },
     {
@@ -9000,8 +9022,8 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "tests_test_ti_lines_test_parse_teamwork_unknown_raises",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_parse_teamwork_unknown_raises()"
     },
     {
@@ -9011,8 +9033,8 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "tests_test_ti_lines_test_flags_come_from_breakdown_lines",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_flags_come_from_breakdown_lines()"
     },
     {
@@ -9022,8 +9044,8 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "tests_test_ti_lines_test_non_numeric_position_is_none",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_non_numeric_position_is_none()"
     },
     {
@@ -9033,8 +9055,8 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "tests_test_ti_lines_test_qualifying_line_has_no_race_fields",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_qualifying_line_has_no_race_fields()"
     },
     {
@@ -9044,8 +9066,8 @@
       "source_location": "L107",
       "_origin": "ast",
       "id": "tests_test_ti_lines_test_driver_line_real_shaped_race_row",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_driver_line_real_shaped_race_row()"
     },
     {
@@ -9055,8 +9077,8 @@
       "source_location": "L133",
       "_origin": "ast",
       "id": "tests_test_ti_lines_write_jolpica",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "write_jolpica()"
     },
     {
@@ -9066,8 +9088,8 @@
       "source_location": "L139",
       "_origin": "ast",
       "id": "tests_test_ti_lines_test_entrant_filter_drops_listed_non_participant",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_entrant_filter_drops_listed_non_participant()"
     },
     {
@@ -9077,8 +9099,8 @@
       "source_location": "L152",
       "_origin": "ast",
       "id": "tests_test_ti_lines_test_entrants_include_driver_only_in_race_results",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_entrants_include_driver_only_in_race_results()"
     },
     {
@@ -9088,8 +9110,8 @@
       "source_location": "L163",
       "_origin": "ast",
       "id": "tests_test_ti_lines_test_bonus_points_scores_fastest_lap_dotd_and_pit_via_engine",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "test_bonus_points_scores_fastest_lap_dotd_and_pit_via_engine()"
     },
     {
@@ -9099,8 +9121,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "tests_test_ti_lines_rationale_10",
-      "community": 1,
-      "community_name": "crosscheck.py",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "norm_label": "ti constructor race row. text=none means the fastestpitstoppoints key is absent."
     },
     {
@@ -9517,8 +9539,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_ui_style",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "test_ui_style.py"
     },
     {
@@ -9528,8 +9550,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "tests_test_ui_style_test_text_color_contrast",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "test_text_color_contrast()"
     },
     {
@@ -9539,8 +9561,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "tests_test_ui_style_test_team_colors_cover_every_2026_constructor",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "test_team_colors_cover_every_2026_constructor()"
     },
     {
@@ -9550,8 +9572,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "tests_test_ui_style_test_driver_teams_latest_row_and_missing",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 8,
+      "community_name": "test_community_pull.py",
       "norm_label": "test_driver_teams_latest_row_and_missing()"
     },
     {
@@ -9759,8 +9781,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_walkforward",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "test_walkforward.py"
     },
     {
@@ -9770,8 +9792,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "tests_test_walkforward_rules",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "rules()"
     },
     {
@@ -9781,8 +9803,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "tests_test_walkforward_kind",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "_kind()"
     },
     {
@@ -9792,8 +9814,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "tests_test_walkforward_prices",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "_prices()"
     },
     {
@@ -9803,8 +9825,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "tests_test_walkforward_mus",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "_mus()"
     },
     {
@@ -9814,8 +9836,8 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "tests_test_walkforward_total",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "_total()"
     },
     {
@@ -9825,8 +9847,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "tests_test_walkforward_frame",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "_frame()"
     },
     {
@@ -9836,8 +9858,8 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "tests_test_walkforward_tables",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "_tables()"
     },
     {
@@ -9847,8 +9869,8 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "tests_test_walkforward_spy",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "_spy()"
     },
     {
@@ -9858,8 +9880,8 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "tests_test_walkforward_test_actual_points_counts_boost_and_penalty",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "test_actual_points_counts_boost_and_penalty()"
     },
     {
@@ -9869,8 +9891,8 @@
       "source_location": "L100",
       "_origin": "ast",
       "id": "tests_test_walkforward_test_state_carries_between_rounds",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "test_state_carries_between_rounds()"
     },
     {
@@ -9880,8 +9902,8 @@
       "source_location": "L109",
       "_origin": "ast",
       "id": "tests_test_walkforward_test_predictor_gets_no_future_points",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "test_predictor_gets_no_future_points()"
     },
     {
@@ -9891,8 +9913,8 @@
       "source_location": "L115",
       "_origin": "ast",
       "id": "tests_test_walkforward_test_incomplete_rounds_skipped",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "test_incomplete_rounds_skipped()"
     },
     {
@@ -9902,8 +9924,8 @@
       "source_location": "L122",
       "_origin": "ast",
       "id": "tests_test_walkforward_test_asset_without_points_row_scores_zero",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "test_asset_without_points_row_scores_zero()"
     },
     {
@@ -9913,8 +9935,8 @@
       "source_location": "L136",
       "_origin": "ast",
       "id": "tests_test_walkforward_test_totals_overall_and_from_round_five",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "test_totals_overall_and_from_round_five()"
     },
     {
@@ -9935,8 +9957,8 @@
       "source_location": "L162",
       "_origin": "ast",
       "id": "tests_test_walkforward_lock",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "_lock()"
     },
     {
@@ -9946,8 +9968,8 @@
       "source_location": "L166",
       "_origin": "ast",
       "id": "tests_test_walkforward_full_tables",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "_full_tables()"
     },
     {
@@ -9957,8 +9979,8 @@
       "source_location": "L179",
       "_origin": "ast",
       "id": "tests_test_walkforward_test_earlier_decisions_ignore_later_data",
-      "community": 8,
-      "community_name": "test_community_pull.py",
+      "community": 9,
+      "community_name": "snapshot_official",
       "norm_label": "test_earlier_decisions_ignore_later_data()"
     },
     {
@@ -9968,8 +9990,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_weekly_update",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 22,
+      "community_name": "app.py",
       "norm_label": "test_weekly_update.py"
     },
     {
@@ -9979,8 +10001,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "tests_test_weekly_update_races",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 22,
+      "community_name": "app.py",
       "norm_label": "races()"
     },
     {
@@ -9990,8 +10012,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "tests_test_weekly_update_test_due_gate",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 22,
+      "community_name": "app.py",
       "norm_label": "test_due_gate()"
     },
     {
@@ -10001,8 +10023,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "tests_test_weekly_update_test_failing_step_writes_failed_report",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 22,
+      "community_name": "app.py",
       "norm_label": "test_failing_step_writes_failed_report()"
     },
     {
@@ -10012,8 +10034,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "tests_test_weekly_update_test_stale_team_warning",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 22,
+      "community_name": "app.py",
       "norm_label": "test_stale_team_warning()"
     },
     {
@@ -10023,8 +10045,8 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "tests_test_weekly_update_test_never_reads_data_key",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 22,
+      "community_name": "app.py",
       "norm_label": "test_never_reads_data_key()"
     },
     {
@@ -10034,8 +10056,8 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "tests_test_weekly_update_test_failure_keeps_last_good_report",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 22,
+      "community_name": "app.py",
       "norm_label": "test_failure_keeps_last_good_report()"
     },
     {
@@ -10045,8 +10067,8 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "tests_test_weekly_update_test_lagging_sources",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 22,
+      "community_name": "app.py",
       "norm_label": "test_lagging_sources()"
     },
     {
@@ -10062,8 +10084,8 @@
     },
     {
       "label": "pytest",
-      "community": 33,
-      "community_name": "dnf_probability",
+      "community": 9,
+      "community_name": "snapshot_official",
       "external": true,
       "file_type": "concept",
       "norm_label": "pytest",
@@ -10106,8 +10128,8 @@
     },
     {
       "label": "re",
-      "community": 22,
-      "community_name": "app.py",
+      "community": 1,
+      "community_name": "crosscheck.py",
       "external": true,
       "file_type": "concept",
       "norm_label": "re",
@@ -10117,8 +10139,8 @@
     },
     {
       "label": "unicodedata",
-      "community": 10,
-      "community_name": "fastf1_pull.py",
+      "community": 2,
+      "community_name": "test_build_tables.py",
       "external": true,
       "file_type": "concept",
       "norm_label": "unicodedata",
@@ -10139,8 +10161,8 @@
     },
     {
       "label": "collections_abc",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 20,
+      "community_name": "test_rolling.py",
       "external": true,
       "file_type": "concept",
       "norm_label": "collections_abc",
@@ -10172,7 +10194,7 @@
     },
     {
       "label": "os",
-      "community": 33,
+      "community": 25,
       "community_name": "dnf_probability",
       "external": true,
       "file_type": "concept",
@@ -10227,8 +10249,8 @@
     },
     {
       "label": "tempfile",
-      "community": 25,
-      "community_name": "dnf_probability",
+      "community": 5,
+      "community_name": "vault.py",
       "external": true,
       "file_type": "concept",
       "norm_label": "tempfile",
@@ -10249,8 +10271,8 @@
     },
     {
       "label": "json",
-      "community": 0,
-      "community_name": "optimize",
+      "community": 25,
+      "community_name": "dnf_probability",
       "external": true,
       "file_type": "concept",
       "norm_label": "json",
@@ -10260,8 +10282,8 @@
     },
     {
       "label": "requests",
-      "community": 12,
-      "community_name": "weekly_update.py",
+      "community": 25,
+      "community_name": "dnf_probability",
       "external": true,
       "file_type": "concept",
       "norm_label": "requests",
@@ -32496,6 +32518,18 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_app_errors.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_test_app_errors",
+      "target": "src_ui_logic",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
@@ -33721,6 +33755,41 @@
       "_origin": "ast",
       "source": "tests_conftest_raw_data",
       "target": "tests_conftest_py_path",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_app_errors.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_test_app_errors",
+      "target": "pathlib",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_app_errors.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_test_app_errors",
+      "target": "pytest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_app_errors.py",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "tests_test_app_errors",
+      "target": "tests_test_app_errors_test_failed_team_shows_message_and_retry",
       "confidence_score": 1.0
     },
     {
@@ -42562,5 +42631,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "4e8bdc62e122f031025d69432e27a99768048a60"
+  "built_at_commit": "457fb624eda37004967aaa47905b20e838929341"
 }
