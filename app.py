@@ -19,7 +19,7 @@ from src.sim.scoring import load_rules
 from src.ui.cards import (CSS, HEADER, asset_card, best_skeleton, load_error, team_skeleton, timeline_skeleton, chip_grid, header_row, swap_strip, team_card, team_row)
 from src.ui.logic import (advised_chip, apply_transfers, asset_mu, confirm_round, final_fix, load, next_round, race_review,
                           record_round, round_source,
-                          round_chip, save_team, saved_xpts, swaps_log, team_path, team_state, top_teams,
+                          round_chip, save_team, saved_xpts, swaps_log, taken_leads, team_path, team_state, top_teams,
                           validate)
 from src.ui.timeline import timeline_frame, timeline_spec
 from src.ui.style import driver_teams, team_colors
@@ -33,16 +33,27 @@ def _inputs_stamp():
 
 
 @st.cache_data(show_spinner=False, max_entries=64)  # skeletons show the wait
-def _top(owned, bank, free, budget, exclude, chip, n, stamp):
+def _top(owned, bank, free, budget, exclude, chip, n, stamp, leads=((), ())):
     """Cached top_teams: each ILP solve costs ~0.2 s, so only re-solve when the team, chip or input files change."""
     state = TeamState(dict(owned), bank, free) if owned is not None else None
-    return top_teams(state, budget, n=n, exclude=list(exclude), chip=chip)
+    return top_teams(state, budget, n=n, exclude=list(exclude), chip=chip, leads=leads)
 
 
-def _cached_top(state, budget=100.0, exclude=(), chip=None, n=5):
+def _cached_top(state, budget=100.0, exclude=(), chip=None, n=5, leads=((), ())):
     owned = tuple(sorted(state.owned.items())) if state is not None else None
     bank, free = (state.bank, state.free_transfers) if state is not None else (None, None)
-    return _top(owned, bank, free, budget, tuple(exclude), chip, n, _inputs_stamp())
+    return _top(owned, bank, free, budget, tuple(exclude), chip, n, _inputs_stamp(), leads)
+
+
+@st.cache_data(show_spinner=False, max_entries=16)
+def _leads(n, stamp, teams):
+    """Cached taken_leads; teams = mtimes of team and history files, so a saved or applied team re-solves."""
+    return taken_leads(n)
+
+
+def _team_stamp():
+    files = [*(ROOT / "config").glob("my_team_[0-9].yaml"), *(ROOT / "config" / "history").glob("team_*.csv")]
+    return tuple(sorted((p.name, p.stat().st_mtime_ns) for p in files))
 
 
 @st.cache_data(show_spinner=False)
@@ -193,7 +204,8 @@ def _picks(n, team, state, chip):
     choices = []
     if state is not None:
         try:
-            choices = _cached_top(state, exclude=team.get("exclude", []), chip=chip)
+            choices = _cached_top(state, exclude=team.get("exclude", []), chip=chip,
+                                  leads=_leads(n, _inputs_stamp(), _team_stamp()))
         except ValueError as exc:
             st.warning(str(exc))
     if not choices and state is not None:
@@ -265,6 +277,8 @@ def _edit_form(n, team, prices, season, rounds, chip_names, default_boost=None):
                              key=f"edit_boost_{n}")
         chip_played = st.selectbox("Chip played", ["", *chip_names], key=f"edit_chip_played_{n}")
         boost3 = st.selectbox("x3 driver (x3_boost only)", ["", *drivers], key=f"edit_boost3_{n}")
+        official = st.number_input("Official score from the game (blank = compute)", value=None, step=1.0,
+                                   format="%.0f", key=f"edit_official_{n}")
         save = st.form_submit_button("Validate and save")
     edited = {"drivers": chosen_drivers, "constructors": chosen_constructors, "bank": bank,
               "free_transfers": free_transfers, "chips_left": chips, "exclude": excluded}
@@ -283,7 +297,8 @@ def _edit_form(n, team, prices, season, rounds, chip_names, default_boost=None):
     if save and not errors:
         try:
             if played is not None:
-                record_round(n, season, played, chosen_drivers, chosen_constructors, boost, chip_played, boost3)
+                record_round(n, season, played, chosen_drivers, chosen_constructors, boost, chip_played, boost3,
+                             official_points=official)
             save_team(n, edited)
             st.success("Team saved.")
             st.rerun()

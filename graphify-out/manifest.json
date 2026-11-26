@@ -20,8 +20,8 @@
     "semantic_hash": ""
   },
   "config/rules_2026.yaml": {
-    "mtime": 1794467157.9770813,
-    "ast_hash": "1cbb27908b7cb2a06ae690dea5a67500",
+    "mtime": 1795649434.2293582,
+    "ast_hash": "5d8bb304c7e60510a656840b7a48c9ba",
     "semantic_hash": ""
   },
   "pipelines/build_data.py": {
@@ -90,8 +90,8 @@
     "semantic_hash": "1ef15c8c5d75012fdecedcee51ec3391"
   },
   "src/optimize/ilp.py": {
-    "mtime": 1794688475.7602632,
-    "ast_hash": "bf00197b78f2d68c14c5c93fc06d546c",
+    "mtime": 1795674080.8215492,
+    "ast_hash": "287d1f1662e21efadf55fed7ef4c906d",
     "semantic_hash": ""
   },
   "src/sim/scoring.py": {
@@ -130,9 +130,9 @@
     "semantic_hash": "e49b08ea40abb108786a536d288bc5b7"
   },
   "tests/test_ilp.py": {
-    "mtime": 1794272658.6995826,
-    "ast_hash": "2fd4333ed96f42c9b2b044a20521e714",
-    "semantic_hash": "2fd4333ed96f42c9b2b044a20521e714"
+    "mtime": 1795674139.5147116,
+    "ast_hash": "72eea8b4591ad9478e4bae4b3fa679b7",
+    "semantic_hash": ""
   },
   "tests/test_jolpica_pull.py": {
     "mtime": 1794270601.9135866,
@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   "pipelines/pick_team.py": {
-    "mtime": 1794467402.0473604,
-    "ast_hash": "75f0a00fcdec120edb6a61f5c79520d7",
+    "mtime": 1795674119.3187706,
+    "ast_hash": "e37eeac2bd1b80a922753f9465c835d2",
     "semantic_hash": ""
   },
   "pipelines/plan_chips.py": {
@@ -260,8 +260,8 @@
     "semantic_hash": ""
   },
   "src/optimize/chips.py": {
-    "mtime": 1794467470.5340698,
-    "ast_hash": "ba1cd41cebad67765906ba99c019c53b",
+    "mtime": 1795674080.822556,
+    "ast_hash": "7ece7df04c7a6c336a631db4d67fae96",
     "semantic_hash": ""
   },
   "src/sim/montecarlo.py": {
@@ -275,8 +275,8 @@
     "semantic_hash": ""
   },
   "tests/test_chips.py": {
-    "mtime": 1794467481.4267755,
-    "ast_hash": "0418a6b0a6ec8ab6494a0d70374e2a73",
+    "mtime": 1795649444.9751282,
+    "ast_hash": "9ceefb7e6e6233984de39c96dfb45066",
     "semantic_hash": ""
   },
   "tests/test_dnf.py": {
@@ -410,18 +410,18 @@
     "semantic_hash": ""
   },
   "src/ui/logic.py": {
-    "mtime": 1795645892.680368,
-    "ast_hash": "233c652f610d276214406f66249f9d1e",
+    "mtime": 1795674227.5798159,
+    "ast_hash": "2db74a4ca791a6114bf8175dd0ce02e2",
     "semantic_hash": ""
   },
   "tests/test_ui_logic.py": {
-    "mtime": 1795645892.728659,
-    "ast_hash": "7c03a012ec05026272476da4c36a5f74",
+    "mtime": 1795647451.6729524,
+    "ast_hash": "d25c61a1091717adab4c12628bf8895e",
     "semantic_hash": ""
   },
   "app.py": {
-    "mtime": 1795645957.8493192,
-    "ast_hash": "a3d0d9a9aea937c4a311d509f8a6798a",
+    "mtime": 1795674119.1595905,
+    "ast_hash": "3e4f0a2b9c9308716089134af0d2a286",
     "semantic_hash": ""
   },
   "src/ui/style.py": {
@@ -440,8 +440,8 @@
     "semantic_hash": ""
   },
   "src/ui/cards.py": {
-    "mtime": 1795587943.1409001,
-    "ast_hash": "5a73555bbf3b394f6753e8cd48943efa",
+    "mtime": 1795647422.3658617,
+    "ast_hash": "ef8366b8ff2ed8d1cc42ba3a33cc3a45",
     "semantic_hash": ""
   },
   "tests/test_ui_cards.py": {
@@ -462,6 +462,11 @@
   "tests/test_app_errors.py": {
     "mtime": 1795588185.4483504,
     "ast_hash": "3f97e7b1f9cfa948d24b6796c845153a",
+    "semantic_hash": ""
+  },
+  "pipelines/evaluate_chips.py": {
+    "mtime": 1795674290.3284845,
+    "ast_hash": "23bb496ec4a31ecbd2b12c206d4f9b3e",
     "semantic_hash": ""
   }
 }

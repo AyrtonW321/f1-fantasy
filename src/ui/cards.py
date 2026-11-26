@@ -12,7 +12,7 @@ CSS = """<style>
 .row-label{font-weight:700}.row.head{background:none;border:none;padding:0 10px;margin:8px 0 0;color:#858B93;font-size:11px;font-weight:700}.row-money,.row-xpts{font:11px/16px ui-monospace,monospace}.row-xpts{font-size:14px;font-weight:700}.chips{display:flex;flex-wrap:wrap;gap:4px;align-content:center}.chip{font-size:10px;font-weight:700;white-space:nowrap;padding:3px 6px;border-radius:4px;background:#F2F3F4;color:#000}.chip.used{background:#2EB86A;color:#000}.chip.gone{background:#4A4F56;color:#B5BAC1}
 .swap-strip{padding:5px 9px;margin:3px 0 8px;background:#171B20;border-left:2px solid #E10600;border-radius:3px;color:#F2F3F4;font:12px ui-monospace,monospace}
 .tcard{display:grid;grid-template-columns:auto auto auto 1fr;gap:8px;align-items:center;padding:10px;background:#111418;border:1px solid #2A2F36;border-radius:10px;color:#F2F3F4;font:12px sans-serif}
-.tcol{display:flex;flex-direction:column;gap:4px}.tstat{display:flex;flex-direction:column;gap:4px;align-items:stretch}
+.tcol{display:flex;flex-direction:column;gap:4px}.x2col{align-items:center}.x2col .card{outline:2px solid #E10600;outline-offset:2px}.x2-tag{margin-top:2px;padding:1px 6px;border-radius:3px;background:#E10600;color:#FFF;font:700 10px sans-serif}.tstat{display:flex;flex-direction:column;gap:4px;align-items:stretch}
 .tbox{background:#1B1F25;border:1px solid #2A2F36;border-radius:6px;padding:6px 8px;text-align:center;font:12px/16px ui-monospace,monospace;color:#C9CDD2}.tbox.big{font-size:15px;font-weight:700;color:#F2F3F4}
 .chip-grid{display:grid;grid-template-columns:repeat(3,52px);gap:6px;justify-content:center}
 .chip-tile{box-sizing:border-box;width:52px;height:52px;border-radius:8px;display:flex;align-items:center;justify-content:center;font:700 14px sans-serif;background:#F2F3F4;color:#000;border:1px solid #F2F3F4;transition:transform .15s}
@@ -122,7 +122,7 @@ def team_card(constructors: list[str], x2: str | None, drivers: list[str], cost:
     col = lambda ids: "".join(cards[a] for a in ids if a in cards)
     money = "".join(f'<div class="tbox">{html.escape(x)}</div>' for x in money_lines)
     return (f'<div class="tcard"><div class="tcol">{col(constructors)}</div>'
-            f'<div class="tcol">{col([x2] if x2 else [])}</div><div class="asset-grid">{col(drivers)}</div>'
+            f'<div class="tcol x2col">{col([x2] if x2 else [])}{'<span class="x2-tag">x2</span>' if x2 else ''}</div><div class="asset-grid">{col(drivers)}</div>'
             f'<div class="tstat"><div class="tbox">$ {_number(cost)}</div>{money}'
             f'<div class="tbox big">{_number(xpts)} xPts</div></div></div>')
 

@@ -22,10 +22,13 @@ def _state(team: Mapping, prices: Mapping[str, float]) -> TeamState:
 
 
 def estimate_chip(assets: Sequence[Asset], team: Mapping, rules: dict, chip: str,
-                  baseline: Decision | None = None) -> tuple[float | None, Decision | None, str | None]:
-    """Return (gain, resulting team, unsupported reason); rules are read via scoring._rule."""
+                  baseline: Decision | None = None, no_boost=(), not_priciest=()
+                  ) -> tuple[float | None, Decision | None, str | None]:
+    """Return (gain, resulting team, unsupported reason); rules are read via scoring._rule.
+    no_boost / not_priciest: other teams' lead drivers (see optimize); no_boost also bars the 3x."""
     chip_rules = _rule(rules, f"chips.{chip}")
-    baseline = baseline or optimize(assets, _state(team, {a.id: a.price for a in assets}), rules)
+    lead = {"no_boost": no_boost, "not_priciest": not_priciest}
+    baseline = baseline or optimize(assets, _state(team, {a.id: a.price for a in assets}), rules, **lead)
     if chip == "limitless":
         if _rule(rules, f"chips.{chip}.budget_cap") is not False:
             return None, None, "configured budget behavior is not unlimited"
@@ -36,7 +39,7 @@ def estimate_chip(assets: Sequence[Asset], team: Mapping, rules: dict, chip: str
         capless = deepcopy(rules)
         capless["team"]["budget"] = sum(a.price for a in chip_assets)
         # State-less optimizer only applies configured budget; preserve team objective without transfer penalties.
-        candidate = optimize(chip_assets, None, capless)
+        candidate = optimize(chip_assets, None, capless, **lead)
     elif chip == "wildcard":
         if _rule(rules, f"chips.{chip}.budget_cap") is not True:
             return None, None, "configured budget behavior is not capped"
@@ -45,15 +48,16 @@ def estimate_chip(assets: Sequence[Asset], team: Mapping, rules: dict, chip: str
         _rule(rules, f"chips.{chip}.team_reverts_next_round")
         free = deepcopy(rules)
         free["transfers"]["penalty"] = 0
-        candidate = optimize(assets, _state(team, {a.id: a.price for a in assets}), free)
+        candidate = optimize(assets, _state(team, {a.id: a.price for a in assets}), free, **lead)
     elif chip == "x3_boost":
         multiplier = _rule(rules, f"chips.{chip}.extra_multiplier")
         # One driver counts 3x, another keeps the normal boost. For each 3x driver: give it mu * multiplier,
         # forbid the normal boost on it, and let optimize choose the team and the other boosted driver.
         candidates = []
-        for three in (a for a in assets if a.kind == "driver"):
+        for three in (a for a in assets if a.kind == "driver" and a.id not in no_boost):
             altered = [Asset(a.id, a.kind, a.price, a.mu * multiplier if a.id == three.id else a.mu) for a in assets]
-            d = optimize(altered, _state(team, {a.id: a.price for a in altered}), rules, no_boost=[three.id])
+            d = optimize(altered, _state(team, {a.id: a.price for a in altered}), rules, no_boost=[three.id, *no_boost],
+                         not_priciest=not_priciest)
             if three.id in d.drivers:
                 candidates.append((d.expected_points, replace(d, boost3=three.id)))
         if not candidates:
@@ -89,6 +93,10 @@ def plan_chips(predictor: Callable[[int, int], pd.DataFrame], team: Mapping, rul
         state = _state(team, {a.id: a.price for a in assets})
         base = optimize(assets, state, rules)
         for chip in chips:
+            # shortcut: from_race counts season rounds, assumes the team started at round 1
+            if round_ < (start := rules["chips"].get(chip, {}).get("from_race", 1)):
+                values[(round_, chip)], decisions[(round_, chip)] = None, (None, f"unlocks from race {start}")
+                continue
             gain, decision, unsupported = estimate_chip(assets, team, rules, chip, base)
             if gain is None and replay is not None and (hist := replay(chip, base, round_)) is not None:
                 gain, decision, unsupported = max(0.0, hist), base, None

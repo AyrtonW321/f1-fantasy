@@ -25,7 +25,8 @@ ROOT = Path(__file__).resolve().parents[2]
 CONFIG = ROOT / "config"
 DATA = ROOT / "data" / "processed"
 HISTORY_COLS = ["season", "round", "drivers", "constructors", "boost", "boost3", "chip",
-                "transfers_in", "penalty_transfers", "bank", "team_value", "source"]  # source: app, edit, snapshot
+                "transfers_in", "penalty_transfers", "bank", "team_value", "source", "official_points"]
+# source: app, edit, snapshot. official_points: the game's score for the round, overrides the computed one
 
 
 def _tables() -> dict[str, pd.DataFrame]:
@@ -123,7 +124,8 @@ def _log(n: int, row: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     old = pd.read_csv(path, dtype=str) if path.exists() else pd.DataFrame(columns=HISTORY_COLS)
     keep = old[~((old["season"] == str(row["season"])) & (old["round"] == str(row["round"])))]
-    out = pd.concat([keep, pd.DataFrame([{k: row.get(k, "") for k in HISTORY_COLS}]).astype(str)])
+    new = {k: "" if pd.isna(v := row.get(k, "")) else v for k in HISTORY_COLS}
+    out = pd.concat([keep, pd.DataFrame([new]).astype(str)])
     out.to_csv(path, index=False, quoting=csv.QUOTE_MINIMAL)
 
 
@@ -160,7 +162,7 @@ def apply_transfers(n: int, decision: Decision, chip: str | None = None, tables=
 
 
 def record_round(n: int, season: int, round_: int, drivers, constructors, boost: str, chip: str = "",
-                 boost3: str = "", source: str = "edit", tables=None) -> None:
+                 boost3: str = "", source: str = "edit", tables=None, official_points: float | None = None) -> None:
     """Log the lineup team n played in a round (replaces that round's row). Penalty unknown: logged 0.
     transfers_in is the diff against the latest earlier logged round."""
     t = tables or _tables()
@@ -175,7 +177,7 @@ def record_round(n: int, season: int, round_: int, drivers, constructors, boost:
              "boost": boost, "boost3": boost3, "chip": chip,
              "transfers_in": "|".join(a for a in lineup if a not in prev), "penalty_transfers": 0,
              "bank": team.get("bank", ""), "team_value": round(sum(price.get(a, 0.0) for a in lineup), 1),
-             "source": source})
+             "source": source, "official_points": "" if official_points is None else official_points})
 
 
 def snapshot_next(n: int, tables=None) -> bool:
@@ -194,11 +196,12 @@ def snapshot_next(n: int, tables=None) -> bool:
 
 def top_teams(state: TeamState | None, budget: float = 100.0, n: int = 5, exclude=(),
               season: int | None = None, round_: int | None = None, tables=None,
-              chip: str | None = None) -> list[Decision]:
+              chip: str | None = None, leads=((), ())) -> list[Decision]:
     """Best n distinct teams for the next round, best first. state=None: overall best under `budget`
     (no transfer limits); otherwise teams reachable from state (its own budget, transfer penalties).
     chip (with a state): the one best team for that chip (limitless, wildcard, x3_boost with boost3 set);
-    a chip that does not change the team (autopilot, no_negative, final_fix) gives the normal list."""
+    a chip that does not change the team (autopilot, no_negative, final_fix) gives the normal list.
+    leads: (boosted ids, priciest ids) of other teams (taken_leads); neither may lead this team."""
     t = tables or _tables()
     if season is None or round_ is None:
         season, round_ = next_round(t)
@@ -209,16 +212,44 @@ def top_teams(state: TeamState | None, budget: float = 100.0, n: int = 5, exclud
     if chip and state is not None:
         team = {"drivers": list(state.owned), "constructors": [], "bank": state.bank,
                 "free_transfers": state.free_transfers}
-        _, d, _ = estimate_chip(pool, team, rules, chip)
+        _, d, _ = estimate_chip(pool, team, rules, chip, no_boost=leads[0], not_priciest=leads[1])
         if d is not None:  # shortcut: one team per chip, not top n; add forbid loops if alternatives are wanted
             return [replace(d, transfers_in=tuple(a for a in (*d.drivers, *d.constructors) if a not in state.owned))]
     found: list[Decision] = []
     for _ in range(n):
         try:
-            found.append(optimize(pool, state, rules, forbid=[[*d.drivers, *d.constructors] for d in found]))
+            found.append(optimize(pool, state, rules, forbid=[[*d.drivers, *d.constructors] for d in found],
+                                  no_boost=leads[0], not_priciest=leads[1]))
         except InfeasibleTeam:
             break
     return found
+
+
+def taken_leads(n: int, tables=None) -> tuple[tuple[str, ...], tuple[str, ...]]:
+    """(boosted drivers, priciest drivers) other teams take next round, so team n leads with someone else.
+    A team that logged this round (not a snapshot) counts with that lineup; an unlogged team counts only when
+    numbered below n (its own best pick), so lower numbers choose first."""
+    t = tables or _tables()
+    season, round_ = next_round(t)
+    now = t["prices"][(t["prices"]["season"] == season) & (t["prices"]["round"] == round_)]
+    price = dict(zip(now["asset_id"], now["price"].astype(float)))
+    boosts, priciest = [], []
+    for m in range(1, 10):
+        if m == n or not team_path(m).exists():
+            continue
+        h = _history(m)
+        row = h[(h["si"] == season) & (h["ri"] == round_)]
+        if len(row) and (row["source"].iloc[-1] or "app") != "snapshot":
+            drivers, boosted = row["drivers"].iloc[-1].split("|"), [row["boost"].iloc[-1], row["boost3"].iloc[-1]]
+        elif m > n:
+            continue
+        else:  # shortcut: plans the other team without its chip; logged lineups (chip included) win once applied
+            d = top_teams(team_state(m, t), n=1, exclude=load(m).get("exclude") or [], tables=t,
+                          leads=taken_leads(m, t))[0]
+            drivers, boosted = d.drivers, [d.boost]
+        boosts += [b for b in boosted if b]
+        priciest.append(max(drivers, key=lambda a: price.get(a, 0.0)))
+    return tuple(boosts), tuple(priciest)
 
 
 def history_points(n: int, tables=None) -> pd.DataFrame:
@@ -249,6 +280,8 @@ def history_points(n: int, tables=None) -> pd.DataFrame:
                 score += (_rule(rules, "team.boost_multiplier") - 1) * (max(drv) - float(total.get((d.boost, "driver"), 0.0)))
             elif r.chip == "no_negative":
                 score += replay_gain("no_negative", rules, d.drivers, d.constructors, d.boost, got, pd.DataFrame())
+        if getattr(r, "official_points", ""):
+            score = float(r.official_points)
         rows.append({"season": season, "round": round_, "points": score, "team_value": float(r.team_value),
                      "transfers": r.transfers_in.replace("|", ", "), "chip": r.chip,
                      "lineup": f"{', '.join(d.drivers)} | {', '.join(d.constructors)} | boost {d.boost}"})
@@ -315,7 +348,7 @@ def confirm_round(n: int, season: int, round_: int) -> None:
     row = h[(h["si"] == season) & (h["ri"] == round_)]
     if not len(row):
         raise ValueError(f"no lineup logged for round {round_}; record it with Edit team")
-    _log(n, {**row.iloc[-1][HISTORY_COLS[:-1]].to_dict(), "source": "edit"})
+    _log(n, {**row.iloc[-1].to_dict(), "source": "edit"})
 
 
 def race_review(n: int, season: int, round_: int, tables=None) -> dict | None:

@@ -202,3 +202,12 @@ def test_final_fix(cfg):
     assert (ff["out"], ff["out_pos"], ff["in"], ff["in_pos"]) == ("D8", 8, "D2", 1)
     ff = logic.final_fix(1, results=q(["D2", "D8", "D1", "D4", "D5", "D6", "D3", "D7"]), tables=t)
     assert ff["out"] == "D6"  # D7 last but boosted
+
+
+def test_official_points_override(cfg):
+    t = tables()
+    logic.record_round(1, 2026, 1, DRIVERS[:5], ["C1", "C2"], "D1", source="snapshot", tables=t)
+    logic.confirm_round(1, 2026, 1)  # old rows without the column still work
+    assert logic.history_points(1, tables=t)["points"].iloc[0] == 8 + 7 + 6 + 5 + 4 + 10 + 5 + 8
+    logic.record_round(1, 2026, 1, DRIVERS[:5], ["C1", "C2"], "D1", official_points=250, tables=t)
+    assert logic.history_points(1, tables=t)["points"].iloc[0] == 250

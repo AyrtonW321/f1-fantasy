@@ -91,3 +91,16 @@ def test_x3_boost_puts_3x_on_best_driver_and_2x_on_the_next():
     gain, d, why = estimate_chip(assets, team, rules, "x3_boost", base)
     assert why is None and d.boost3 == "A" and d.boost == "B"
     assert gain == 2 * 30 + 20 - 30  # 3x A (+60) and 2x B (+20), instead of 2x A (+30)
+
+
+def test_limitless_and_wildcard_locked_in_race_1():
+    assets = field()
+    t = team(assets, ["limitless", "wildcard"])
+
+    def predictor(season, round_):
+        return pd.DataFrame([{"season": season, "round": round_, "asset_id": a.id, "kind": a.kind,
+                              "price": a.price, "mu": a.mu, "known_at": pd.Timestamp("2026-01-01", tz="UTC")}
+                             for a in assets])
+
+    result = plan_chips(predictor, t, load_rules(2026), [1, 2])
+    assert result[0]["chip"] is None and "limitless" in result[0]["unsupported"]

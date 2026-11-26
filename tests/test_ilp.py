@@ -196,3 +196,10 @@ def test_results_repeatable():
     first_tied = optimize(tied, None, rules)
     assert optimize(tied, None, rules) == first_tied
     assert optimize(list(reversed(tied)), None, rules) == first_tied
+
+
+def test_other_team_lead_barred():
+    # D04 (10.0) is the dearest driver price in the field, so as not_priciest it cannot be owned at all;
+    # D00 may be owned but not boosted.
+    d = optimize(make_field(), None, load_rules(2026), no_boost=["D00"], not_priciest=["D04"])
+    assert "D04" not in d.drivers and "D00" in d.drivers and d.boost == "D01"

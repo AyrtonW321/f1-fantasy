@@ -70,7 +70,11 @@ def main(argv=None):
         mu = exclude(mu, yaml.safe_load(team_file.read_text(encoding="utf-8")).get("exclude", []))
     assets = [Asset(id=r.asset_id, kind=r.kind, price=float(r.price), mu=float(r.mu)) for r in mu.itertuples()]
     state = load_team(team_file, {a.id: a.price for a in assets}) if team_file.exists() else None
-    d = optimize(assets, state, load_rules(args.season))
+    no_boost, not_priciest = (), ()
+    if args.team and state:  # other teams' leads are barred so the teams differ (src.ui.logic.taken_leads)
+        from src.ui.logic import taken_leads  # local: logic imports this module
+        no_boost, not_priciest = taken_leads(args.team, tables)
+    d = optimize(assets, state, load_rules(args.season), no_boost=no_boost, not_priciest=not_priciest)
 
     slug = season_races.loc[season_races["round"] == round_, "slug"].iloc[0]
     by_id = mu.set_index("asset_id")

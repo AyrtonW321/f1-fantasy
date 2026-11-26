@@ -52,8 +52,10 @@ def _tenths(value: float) -> int:
 
 
 def optimize(assets: Sequence[Asset], state: TeamState | None, rules: dict,
-             no_boost: Sequence[str] = (), forbid: Sequence[Sequence[str]] = ()) -> Decision:
+             no_boost: Sequence[str] = (), forbid: Sequence[Sequence[str]] = (),
+             not_priciest: Sequence[str] = ()) -> Decision:
     """no_boost: driver ids that may not take the normal boost (used when a chip already boosts them).
+    not_priciest: driver ids that may be owned only beside a strictly pricier driver (another team's lead).
     forbid: teams (asset id lists) that may not be picked again, for ranking the next-best teams."""
     assets = sorted(assets, key=lambda a: a.id)  # fixed order: repeatable results
     n_drivers = _rule(rules, "team.drivers")
@@ -81,6 +83,8 @@ def optimize(assets: Sequence[Asset], state: TeamState | None, rules: dict,
         prob += boost[i] <= pick[i]
         if assets[i].id in no_boost:
             prob += boost[i] == 0
+        if assets[i].id in not_priciest:
+            prob += pick[i] <= pulp.lpSum(pick[j] for j in drv if assets[j].price > assets[i].price)
     prob += pulp.lpSum(_tenths(a.price) * pick[i] for i, a in enumerate(assets)) <= _tenths(budget)
     index = {a.id: i for i, a in enumerate(assets)}
     for team in forbid:  # no-good cut: at least one asset of each found team must change

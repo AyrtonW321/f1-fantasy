@@ -23,13 +23,16 @@
   "21": "poisson.py",
   "22": "app.py",
   "23": "evaluate_seasons.py",
-  "24": "walkforward.py",
   "25": "dnf_probability",
   "26": "InfeasibleTeam",
   "27": "scoring.py",
   "28": "evaluate_overtakes.py",
-  "29": "confirm_round",
   "30": "replay_gain",
+  "31": "Path",
+  "33": "main",
+  "34": "_chip_select",
+  "35": "DriverLine",
+  "36": "driver_code",
   "41": "test_smoke.py",
   "42": "f1-fantasy"
 }
